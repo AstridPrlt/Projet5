@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Support\Facades\Schema; //ajouté pour corriger le bug SQL
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(191); //ajouté pour corriger le bug SQL
     }
 }
