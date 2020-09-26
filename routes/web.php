@@ -17,6 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::view('details', 'details');
+Route::view('events', 'events');
+Route::view('coweerkers', 'coweerkers');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
