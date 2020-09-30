@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,10 @@ Route::get('/', function () {
 });
 
 Route::view('details', 'details');
-Route::view('events', 'events');
+
+Route::get('events', 'EventController@index');
+
+
 Route::view('coweerkers', 'coweerkers');
 
 Auth::routes();
