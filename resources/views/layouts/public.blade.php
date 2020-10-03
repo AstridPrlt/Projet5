@@ -17,7 +17,7 @@
     </head>
 
     <body>
-        <div id="app">
+        <div id="app" class="container-fluid 100vw">
             <nav class="navbar px-3 fixed-top navbar-light bg-white shadow" style="height: 80px;">
                 <a href="/Projet5/public/"><img src="./../public/images/logo2.png" alt=""></a>
 
