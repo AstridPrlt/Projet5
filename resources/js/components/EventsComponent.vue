@@ -6,8 +6,8 @@
                 <h5 class="card-title font-weight-bold">{{ event.title }}</h5>
             </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Le {{ event.event_date }}</li>
-                    <li class="list-group-item">De {{ event.begin_time }} à {{ event.end_time }}</li>
+                    <li class="list-group-item">Le {{ formatedDate(event.event_date) }}</li>
+                    <li class="list-group-item">De {{ formatedTime(event.begin_time) }} à {{ formatedTime(event.end_time) }}</li>
                     <li class="list-group-item">{{ event.price }} €</li>
                 </ul>
             <div class="card-body">
@@ -40,15 +40,27 @@
 </template>
 
 <script>
-export default {
-
-    props: ['events'],
-
+  import moment from 'moment';
+  moment.locale('fr');
 
 
-    mounted() {
-        console.log('Component mounted.')
+    export default {
+
+        props: ['events'],
+
+        methods: {
+            formatedDate (date) {
+                return moment(date).format('ll');
+            },
+            formatedTime (time) {
+                return moment(time, "HH:mm").format('LT');
+            }
+        },
+
+        mounted() {
+            console.log(this.events)
     }
+
 }
 </script>
 
