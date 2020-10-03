@@ -59123,14 +59123,18 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "d-flex" },
+    { staticClass: "d-flex flex-wrap" },
     _vm._l(_vm.events, function(event) {
       return _c(
         "div",
         {
           key: event.id,
           staticClass: "card",
-          staticStyle: { width: "22%", margin: "1.5%" }
+          staticStyle: {
+            "min-width": "280px",
+            width: "22%",
+            margin: "20px auto"
+          }
         },
         [
           _c("img", {
@@ -59277,14 +59281,7 @@ var render = function() {
             _vm._v(" "),
             _c(
               "button",
-              {
-                staticClass: "btn btn-perso",
-                attrs: {
-                  type: "button",
-                  "data-toggle": "modal",
-                  "data-target": "#eventModal" + event.id
-                }
-              },
+              { staticClass: "btn btn-perso", attrs: { type: "button" } },
               [_vm._v("Je m'inscris !")]
             )
           ]),

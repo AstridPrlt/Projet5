@@ -1,6 +1,6 @@
 <template>
-    <div class="d-flex">
-        <div v-for="event in events" :key="event.id" class="card" style="width: 22%; margin: 1.5%;">
+    <div class="d-flex flex-wrap">
+        <div v-for="event in events" :key="event.id" class="card" style="min-width: 280px; width: 22%; margin: 20px auto;">
             <img :src="`./../public/images/events/${ event.event_picture }`" class="card-img-top" :alt="`${ event.title }`">
             <div class="card-body">
                 <h5 class="card-title font-weight-bold">{{ event.title }}</h5>
@@ -21,7 +21,7 @@
                 </ul>
             <div class="card-body">
                 <button type="button" class="btn btn-perso2" data-toggle="modal" :data-target="`#eventModal${ event.id }`">Détails</button>
-                <button type="button" class="btn btn-perso" data-toggle="modal" :data-target="`#eventModal${ event.id }`">Je m'inscris !</button>
+                <button type="button" class="btn btn-perso">Je m'inscris !</button>
             </div>
 
 
