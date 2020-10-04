@@ -6,7 +6,7 @@
 
 @section('public_content')
 
-    <div class="container-fluid vw-100">
+    <div class="container-fluid w-100">
         <div class="row bg-dark">
             <div class="col-5 bg-dark text-light align-self-center">
                 <h2 class="text-uppercase">Un café pas comme les autres</h2>
