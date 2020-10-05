@@ -55,7 +55,19 @@
 
     export default {
 
-        props: ['events'],
+        // props: ['events'],
+
+        data() {
+            return {
+                events: {}
+            }
+        },
+
+        created() {
+            axios.get('http://localhost/Projet5/public/eventsList')
+            .then(response => this.events = response.data)
+            .catch(error => console.log(error));
+        },
 
         methods: {
             formatedDate (date) {

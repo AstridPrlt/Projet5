@@ -15,15 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.public');
 });
 
-Route::view('details', 'details');
+// Route::view('details', 'details');
 
-Route::get('events', 'EventController@index');
+Route::get('eventsList', 'EventController@index');
 
 
-Route::view('coweerkers', 'coweerkers');
+// Route::view('coweerkers', 'coweerkers');
 
 Auth::routes();
 

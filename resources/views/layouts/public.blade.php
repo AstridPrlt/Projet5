@@ -20,21 +20,27 @@
 
         <div id="app">
             <nav class="navbar navbar-expand-lg px-3 fixed-top navbar-light bg-white shadow" style="height: 80px;">
-                <a href="/Projet5/public/"><img src="./../public/images/logo2.png" alt=""></a>
+                <router-link to='/'><img src="./../public/images/logo2.png" alt=""></router-link>
+                {{-- <a href="/Projet5/public/"><img src="./../public/images/logo2.png" alt=""></a> --}}
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse h-lg-100 pt-4 pt-lg-0 bg-white" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse h-100 pt-4 pt-lg-0 bg-white" id="navbarSupportedContent">
                     <div class="d-flex w-100 h-100">
                     <ul class="navbar-nav w-100 h-100 align-items-center flex-column flex-lg-row justify-content-end">
                         <div class="d-flex h-100 align-items-center mr-3 flex-column flex-lg-row">
                             <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'details' ? 'active-page' : '' }}">
-                                <a href="details" class="text-uppercase mx-3">Le lieu</a></div>
+                                <router-link to='/details' class="text-uppercase mx-3">Le lieu</router-link>
+                                {{-- <a href="details" class="text-uppercase mx-3">Le lieu</a> --}}
+                            </div>
                             <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'events' ? 'active-page' : '' }}">
-                                <a href="events" class="text-uppercase mx-3">Les évènements</a></div>
+                                <router-link to='/events' class="text-uppercase mx-3">Les évènements</router-link>
+                                {{-- <a href="events" class="text-uppercase mx-3">Les évènements</a> --}}
+                            </div>
                             <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'coweerkers' ? 'active-page' : '' }}">
-                                <a href="coweerkers" class="text-uppercase mx-3">Les coweerkers</a></div>
+                                <router-link to='/coweerkers' class="text-uppercase mx-3">Les coweerkers</router-link>
+                                {{-- <a href="coweerkers" class="text-uppercase mx-3">Les coweerkers</a></div> --}}
                         </div>
 
                         <div>
@@ -56,8 +62,11 @@
                 </div>
             </nav>
 
+
             <div style="padding-top: 80px;">
-            @yield('public_content')
+                <router-view>
+                    {{-- @yield('public_content') --}}
+                </router-view>
             </div>
 
         </div>

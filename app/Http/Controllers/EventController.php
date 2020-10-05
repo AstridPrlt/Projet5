@@ -16,7 +16,8 @@ class EventController extends Controller
     {
         $events = Event::orderBy('event_date', 'asc')->get();
 
-        return view('events', ['events' => $events]);
+        return response()->json($events);
+        // return view('events', ['events' => $events]);
         // return response()->json($events);
     }
 
