@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -18,7 +19,6 @@ class EventController extends Controller
 
         return response()->json($events);
         // return view('events', ['events' => $events]);
-        // return response()->json($events);
     }
 
     /**

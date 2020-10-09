@@ -25,6 +25,7 @@ import PublicHome from './components/PublicHome.vue';
 import Details from './components/DetailsComponent.vue';
 import Events from './components/EventsComponent.vue';
 import Comm from './components/CommComponent.vue';
+import Booking from './components/BookingComponent.vue';
 
 const routes = [
     {
@@ -42,12 +43,16 @@ const routes = [
     {
         path: '/coweerkers',
         component: Comm
+    },
+    {
+        path: '/inscription/:id',
+        name: 'inscription',
+        component: Booking,
     }
 ];
 
 const router = new VueRouter({routes});
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 // Vue.component('events-component', require('./components/EventsComponent.vue').default);
 
 /**

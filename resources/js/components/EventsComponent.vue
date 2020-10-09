@@ -21,13 +21,13 @@
                 </ul>
             <div class="card-body">
                 <button type="button" class="btn btn-perso2" data-toggle="modal" :data-target="`#eventModal${ event.id }`">Détails</button>
-                <button type="button" class="btn btn-perso">Je m'inscris !</button>
+                <button type="button" class="btn btn-perso" @click="$router.push({name: 'inscription', params: {id: `${event.id}` }})">Je m'inscris !</button>
             </div>
 
 
             <div class="modal fade" :id="`eventModal${ event.id }`" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
+                <div class="modal-dialog modal-dialog-centered h-75">
+                    <div class="modal-content h-75">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">{{ event.title }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -37,14 +37,12 @@
                         <div class="modal-body">{{ event.event_description }}</div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                            <button type="button" class="btn btn-perso">Je m'inscris !</button>
+                            <button type="button" class="btn btn-perso" @click="$router.push({path: 'booking'})">Je m'inscris !</button>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </template>
 
@@ -54,8 +52,6 @@
 
 
     export default {
-
-        // props: ['events'],
 
         data() {
             return {
@@ -79,7 +75,7 @@
         },
 
         mounted() {
-            console.log(this.events)
+            console.log('Event mounted')
     }
 
 }
