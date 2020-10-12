@@ -21,7 +21,8 @@
                 </ul>
             <div class="card-body">
                 <button type="button" class="btn btn-perso2" data-toggle="modal" :data-target="`#eventModal${ event.id }`">Détails</button>
-                <button type="button" class="btn btn-perso" @click="$router.push({name: 'inscription', params: {id: `${event.id}` }})">Je m'inscris !</button>
+                <!-- <button type="button" class="btn btn-perso" @click="$router.push({name: 'inscription', params: {id: `${event.id}` }})">Je m'inscris !</button> -->
+                <a type="button" class="btn btn-perso" :href="`inscription/${event.id}`">Je m'inscris !</a>
             </div>
 
 
@@ -37,7 +38,7 @@
                         <div class="modal-body">{{ event.event_description }}</div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                            <button type="button" class="btn btn-perso" @click="$router.push({path: 'booking'})">Je m'inscris !</button>
+                            <!-- <button type="button" class="btn btn-perso" @click="$router.push({path: 'booking'})">Je m'inscris !</button> -->
                         </div>
                     </div>
                 </div>
@@ -53,17 +54,19 @@
 
     export default {
 
-        data() {
-            return {
-                events: {}
-            }
-        },
+        // data() {
+        //     return {
+        //         events: {}
+        //     }
+        // },
 
-        created() {
-            axios.get('http://localhost/Projet5/public/eventsList')
-            .then(response => this.events = response.data)
-            .catch(error => console.log(error));
-        },
+        props: ['events'],
+
+        // created() {
+        //     axios.get('http://localhost/Projet5/public/eventsList')
+        //     .then(response => this.events = response.data)
+        //     .catch(error => console.log(error));
+        // },
 
         methods: {
             formatedDate (date) {

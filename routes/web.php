@@ -15,12 +15,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layouts.public');
+    // return view('layouts.public');
+    return view('welcome');
 });
 
 // Route::view('details', 'details');
 
-Route::get('eventsList', 'EventController@index');
+Route::get('events','EventController@index');
+// Route::get('eventsList', 'EventController@index');
+
+Route::get('inscription/{eventId}', 'EventController@show')->middleware('auth');
 Route::post('eventBooking', 'EventController@booking');
 
 // Route::view('coweerkers', 'coweerkers');

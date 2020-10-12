@@ -7,8 +7,8 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
+// import VueRouter from 'vue-router';
+// Vue.use(VueRouter);
 
 /**
  * The following block of code may be used to automatically register your
@@ -21,39 +21,40 @@ Vue.use(VueRouter);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-import PublicHome from './components/PublicHome.vue';
-import Details from './components/DetailsComponent.vue';
-import Events from './components/EventsComponent.vue';
-import Comm from './components/CommComponent.vue';
-import Booking from './components/BookingComponent.vue';
+// import PublicHome from './components/PublicHome.vue';
+// import Details from './components/DetailsComponent.vue';
+// import Events from './components/EventsComponent.vue';
+// import Comm from './components/CommComponent.vue';
+// import Booking from './components/BookingComponent.vue';
 
-const routes = [
-    {
-        path: '/',
-        component: PublicHome,
-    },
-    {
-        path: '/details',
-        component: Details
-    },
-    {
-        path: '/events',
-        component: Events
-    },
-    {
-        path: '/coweerkers',
-        component: Comm
-    },
-    {
-        path: '/inscription/:id',
-        name: 'inscription',
-        component: Booking,
-    }
-];
+// const routes = [
+//     {
+//         path: '/',
+//         component: PublicHome,
+//     },
+//     {
+//         path: '/details',
+//         component: Details
+//     },
+//     {
+//         path: '/events',
+//         component: Events
+//     },
+//     {
+//         path: '/coweerkers',
+//         component: Comm
+//     },
+//     {
+//         path: '/inscription/:id',
+//         name: 'inscription',
+//         component: Booking,
+//     }
+// ];
 
-const router = new VueRouter({routes});
+// const router = new VueRouter({routes});
 
-// Vue.component('events-component', require('./components/EventsComponent.vue').default);
+Vue.component('events-component', require('./components/EventsComponent.vue').default);
+Vue.component('booking-component', require('./components/BookingComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -63,5 +64,5 @@ const router = new VueRouter({routes});
 
 const app = new Vue({
     el: '#app',
-    router: router
+    // router: router
 });

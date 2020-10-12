@@ -17,21 +17,36 @@ class EventController extends Controller
      */
     public function index()
     {
+        // if (Auth::user()) {
+        //     $bookedAll = Auth::user()->events->all();
+        //     $events = Event::orderBy('event_date', 'asc')->get();
+        //     return view('events', ['events' => $events, 'bookedAll' => $bookedAll]);
+        // } else {
         $events = Event::orderBy('event_date', 'asc')->get();
+        return view('events', ['events' => $events]);
+        // }
+        // return response()->json($events);
+    }
 
-        return response()->json($events);
-        // return view('events', ['events' => $events]);
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Event  $event
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Event $event, $eventId)
+    {
+        $booked = Auth::user()->events->contains($eventId) ? 1 : 0;
+        $eventSelected = Event::find($eventId);
+
+        return view('booking', ['eventSelected' => $eventSelected, 'booked' => $booked]);
     }
 
     public function booking(Request $request)
     {
-        if (!Auth::user()) {
-            return redirect('/');
-        } else {
         $user = Auth::user();
-        $user->events()->attach($request->event_id);
-        return "Le user est ".$user."et l'event est ".$request->event_id;
-        }
+        $user->events()->attach($request->eventId);
+        return "Vous êtes inscrit";
     }
 
     /**
@@ -51,17 +66,6 @@ class EventController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Event $event)
     {
         //
     }
