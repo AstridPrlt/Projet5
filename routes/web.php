@@ -21,7 +21,7 @@ Route::get('/', function () {
 // Route::view('details', 'details');
 
 Route::get('eventsList', 'EventController@index');
-
+Route::post('eventBooking', 'EventController@booking');
 
 // Route::view('coweerkers', 'coweerkers');
 

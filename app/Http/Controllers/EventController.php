@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\User;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
@@ -19,6 +21,17 @@ class EventController extends Controller
 
         return response()->json($events);
         // return view('events', ['events' => $events]);
+    }
+
+    public function booking(Request $request)
+    {
+        if (!Auth::user()) {
+            return redirect('/');
+        } else {
+        $user = Auth::user();
+        $user->events()->attach($request->event_id);
+        return "Le user est ".$user."et l'event est ".$request->event_id;
+        }
     }
 
     /**

@@ -11,7 +11,7 @@
             </div>
 
             <p class="w-100 my-5">{{ event.event_description }}</p>
-            <button type="button" class="btn btn-perso">Confirmer</button>
+            <button type="button" class="btn btn-perso" @click="eventBooking()">Confirmer</button>
         </div>
 
     </div>
@@ -43,6 +43,13 @@ export default {
             },
             formatedTime (time) {
                 return moment(time, "HH:mm").format('LT');
+            },
+
+            eventBooking() {
+                axios.post('http://localhost/Projet5/public/eventBooking', {
+                    event_id: this.$route.params.id })
+                .then(function (response) {console.log(response);})
+                .catch(function (error) {console.log(error);});
             }
         },
 

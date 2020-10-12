@@ -26,7 +26,7 @@
 
 
             <div class="modal fade" :id="`eventModal${ event.id }`" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered h-75">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered h-75">
                     <div class="modal-content h-75">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">{{ event.title }}</h5>

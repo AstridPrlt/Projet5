@@ -1954,6 +1954,15 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
     },
     formatedTime: function formatedTime(time) {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(time, "HH:mm").format('LT');
+    },
+    eventBooking: function eventBooking() {
+      axios.post('http://localhost/Projet5/public/eventBooking', {
+        event_id: this.$route.params.id
+      }).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
   created: function created() {
@@ -59258,7 +59267,15 @@ var render = function() {
           _vm._v(" "),
           _c(
             "button",
-            { staticClass: "btn btn-perso", attrs: { type: "button" } },
+            {
+              staticClass: "btn btn-perso",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.eventBooking()
+                }
+              }
+            },
             [_vm._v("Confirmer")]
           )
         ]
@@ -59479,7 +59496,10 @@ var render = function() {
             [
               _c(
                 "div",
-                { staticClass: "modal-dialog modal-dialog-centered h-75" },
+                {
+                  staticClass:
+                    "modal-dialog modal-dialog-scrollable modal-dialog-centered h-75"
+                },
                 [
                   _c("div", { staticClass: "modal-content h-75" }, [
                     _c("div", { staticClass: "modal-header" }, [

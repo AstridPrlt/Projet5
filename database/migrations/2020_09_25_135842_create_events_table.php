@@ -23,7 +23,7 @@ class CreateEventsTable extends Migration
             $table->time('end_time');
             $table->tinyInteger('seats')->unsigned();
             $table->smallInteger('price')->unsigned();
-            $table->foreignId('category_id')->constrained();
+            $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();
         });
     }
