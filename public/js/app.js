@@ -2064,6 +2064,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -59480,6 +59483,16 @@ var render = function() {
                 "\n                    Prix : " +
                   _vm._s(event.price) +
                   " €\n                "
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "list-group-item" }, [
+              _vm._v(
+                "\n                    Places restantes : " +
+                  _vm._s(event.seats - event.seats_booked) +
+                  " / " +
+                  _vm._s(event.seats) +
+                  "\n                "
               )
             ])
           ]),

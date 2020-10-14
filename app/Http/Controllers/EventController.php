@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\User;
+use \Illuminate\Support\Facades\DB;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +23,9 @@ class EventController extends Controller
         //     $events = Event::orderBy('event_date', 'asc')->get();
         //     return view('events', ['events' => $events, 'bookedAll' => $bookedAll]);
         // } else {
-        $events = Event::orderBy('event_date', 'asc')->get();
+        $booked = DB::table('event_user')->select('event_id', DB::raw('count(*) as seats_booked'))->groupBy('event_id');
+        $events = DB::table('events')->leftJoinSub($booked, 'booked', function ($join) {$join->on('events.id', '=', 'booked.event_id');})->get();
+        // $events = Event::orderBy('event_date', 'asc')->get();
         return view('events', ['events' => $events]);
         // }
         // return response()->json($events);
