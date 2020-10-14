@@ -29,6 +29,8 @@ Route::post('eventBooking', 'EventController@booking');
 
 // Route::view('coweerkers', 'coweerkers');
 
+Route::get('myEvents','EventController@showMyEvents');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

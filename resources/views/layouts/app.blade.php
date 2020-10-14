@@ -20,7 +20,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
+    <div class="appVue">
         {{-- <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name', 'Laravel') }}</a>
@@ -28,7 +28,7 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent"> --}}
                     <!-- Left Side Of Navbar -->
-                    {{-- <ul class="navbar-nav mr-auto"></ul> --}}
+                    {{-- <ul class="navbar-nav mr-auto"></ul></div></div></nav> --}}
 
         <nav class="navbar navbar-expand-lg px-3 fixed-top navbar-light bg-white shadow" style="height: 80px;">
             <a class="navbar-brand" href="{{ url('/') }}"><img src="./../public/images/logo2.png" alt=""></a>
@@ -36,29 +36,29 @@
 
             <div class="collapse navbar-collapse h-100 pt-4 pt-lg-0 bg-white" id="navbarSupportedContent">
                 <div class="d-flex w-100 h-100">
-                <ul class="navbar-nav w-100 h-100 align-items-center flex-column flex-lg-row justify-content-end">
-                    <div class="d-flex h-100 align-items-center mr-3 flex-column flex-lg-row">
-                        <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'details' ? 'active-page' : '' }}">
-                            <router-link to='/details' class="text-uppercase mx-3">Le lieu</router-link>
-                            {{-- <a href="details" class="text-uppercase mx-3">Le lieu</a> --}}
-                        </div>
-                        <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'events' ? 'active-page' : '' }}">
-                            <router-link to='/events' class="text-uppercase mx-3">Les évènements</router-link>
-                            {{-- <a href="events" class="text-uppercase mx-3">Les évènements</a> --}}
-                        </div>
-                        <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'coweerkers' ? 'active-page' : '' }}">
-                            <router-link to='/coweerkers' class="text-uppercase mx-3">Les coweerkers</router-link>
-                            {{-- <a href="coweerkers" class="text-uppercase mx-3">Les coweerkers</a></div> --}}
-                        </div>
+                    <ul class="navbar-nav w-100 h-100 align-items-center flex-column flex-lg-row justify-content-end">
+                        <div class="d-flex h-100 align-items-center mr-3 flex-column flex-lg-row">
+                            <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'details' ? 'active-page' : '' }}">
+                                {{-- <router-link to='/details' class="text-uppercase mx-3">Le lieu</router-link> --}}
+                                <a href="details" class="text-uppercase mx-3">Le lieu</a>
+                            </div>
+                            <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'events' ? 'active-page' : '' }}">
+                                {{-- <router-link to='/events' class="text-uppercase mx-3">Les évènements</router-link> --}}
+                                <a href="events" class="text-uppercase mx-3">Les évènements</a>
+                            </div>
+                            <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'coweerkers' ? 'active-page' : '' }}">
+                                {{-- <router-link to='/coweerkers' class="text-uppercase mx-3">Les coweerkers</router-link> --}}
+                                <a href="coweerkers" class="text-uppercase mx-3">Les coweerkers</a>
+                            </div>
 
-                        <!-- Right Side Of Navbar -->
-                        {{-- <ul class="navbar-nav ml-auto"> --}}
-                        <div>
-                            <!-- Authentication Links -->
-                            @guest
-                                {{-- <li class="nav-item"> --}}
+                            <!-- Right Side Of Navbar -->
+                            {{-- <ul class="navbar-nav ml-auto"> --}}
+                            <div>
+                                <!-- Authentication Links -->
+                                @guest
+                                    {{-- <li class="nav-item"> --}}
                                     <a class="btn btn-outline-perso" href="{{ route('login') }}">Connexion</a>
-                                {{-- </li> --}}
+                                    {{-- </li> --}}
                                 @if (Route::has('register'))
                                     {{-- <li class="nav-item"> --}}
                                         <a class="btn-perso btn" href="{{ route('register') }}">Inscription</a>
@@ -78,11 +78,10 @@
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
                                         </div>
                                     </li>
-                            @endguest
-                        {{-- </ul> --}}
+                                @endguest
+                            </div>
                         </div>
-                    </div>
-                </ul>
+                    </ul>
                 </div>
             </div>
         </nav>

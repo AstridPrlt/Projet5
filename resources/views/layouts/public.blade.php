@@ -18,7 +18,7 @@
 
     <body>
 
-        <div id="app">
+        <div class="appVue">
             <nav class="navbar navbar-expand-lg px-3 fixed-top navbar-light bg-white shadow" style="height: 80px;">
                 {{-- <router-link to='/'><img src="./../public/images/logo2.png" alt=""></router-link> --}}
                 <a href="{{ url('/') }}"><img src="http://localhost/Projet5/public/images/logo2.png" alt=""></a>

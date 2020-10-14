@@ -35,7 +35,10 @@
 
                         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Voici mon profil</div>
 
-                        <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="contact-tab">Voici mes évènements</div>
+                        <div class="tab-pane fade" id="events" role="tabpanel" aria-labelledby="contact-tab">
+                            <h3>Voici mes évènements</h3>
+                            <my-events-component></my-events-component>
+                        </div>
 
                         <div class="tab-pane fade" id="friends" role="tabpanel" aria-labelledby="contact-tab">Voici mes amis</div>
                       </div>

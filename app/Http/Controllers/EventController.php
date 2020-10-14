@@ -49,6 +49,13 @@ class EventController extends Controller
         return "Vous êtes inscrit";
     }
 
+    public function showMyEvents()
+    {
+        $myEvents = Auth::user()->events->all();
+
+        return response()->json($myEvents);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
