@@ -1,7 +1,8 @@
 <template>
     <div>
-        <div v-for="myEvent in myEvents" :key="myEvent.id">
+        <div v-for="myEvent in myEvents" :key="myEvent.id" class="d-flex justify-content-between py-1">
             <h5>{{ myEvent.title }}</h5>
+            <a type="button" class="btn btn-perso py-1" :href="`inscription/${myEvent.id}`">Détails</a>
         </div>
     </div>
 

@@ -24,7 +24,7 @@ class EventController extends Controller
         //     return view('events', ['events' => $events, 'bookedAll' => $bookedAll]);
         // } else {
         $booked = DB::table('event_user')->select('event_id', DB::raw('count(*) as seats_booked'))->groupBy('event_id');
-        $events = DB::table('events')->leftJoinSub($booked, 'booked', function ($join) {$join->on('events.id', '=', 'booked.event_id');})->get();
+        $events = DB::table('events')->leftJoinSub($booked, 'booked', function ($join) {$join->on('events.id', '=', 'booked.event_id');})->orderBy('event_date', 'asc')->get();
         // $events = Event::orderBy('event_date', 'asc')->get();
         return view('events', ['events' => $events]);
         // }

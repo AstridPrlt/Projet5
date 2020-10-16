@@ -56,6 +56,7 @@ window.Vue = require('vue');
 Vue.component('events-component', require('./components/EventsComponent.vue').default);
 Vue.component('booking-component', require('./components/BookingComponent.vue').default);
 Vue.component('my-events-component', require('./components/MyEventsComponent.vue').default);
+Vue.component('my-profile-component', require('./components/MyProfileComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
