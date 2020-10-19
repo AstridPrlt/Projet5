@@ -22,7 +22,6 @@ Route::get('/', function () {
 Route::view('details', 'details');
 
 Route::get('events','EventController@index');
-// Route::get('eventsList', 'EventController@index');
 
 Route::get('inscription/{eventId}', 'EventController@show')->middleware('auth');
 Route::post('eventBooking', 'EventController@booking');
@@ -31,6 +30,10 @@ Route::view('coweerkers', 'coweerkers');
 
 Route::get('myProfile', 'UserController@showAuth');
 Route::get('myEvents','EventController@showMyEvents');
+
+Route::post('eventCreation', 'EventController@store');
+Route::get('futureEventsList', 'EventController@indexFuture');
+Route::get('pastEventsList', 'EventController@indexPast');
 
 Auth::routes();
 

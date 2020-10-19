@@ -58,6 +58,9 @@ Vue.component('booking-component', require('./components/BookingComponent.vue').
 Vue.component('my-events-component', require('./components/MyEventsComponent.vue').default);
 Vue.component('my-profile-component', require('./components/MyProfileComponent.vue').default);
 
+Vue.component('future-events-component', require('./components/admin/FutureEventsComponent.vue').default);
+Vue.component('past-events-component', require('./components/admin/PastEventsComponent.vue').default);
+Vue.component('create-event-component', require('./components/admin/CreateEventComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

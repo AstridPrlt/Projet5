@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class EventController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the events with the number of available seats.
      *
      * @return \Illuminate\Http\Response
      */
@@ -59,6 +59,31 @@ class EventController extends Controller
         return response()->json($myEvents);
     }
 
+
+    /**
+     * Display a listing of all the past events for admin management.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function indexPast()
+    {
+        $pastEvents = Event::where('event_date','<', NOW())->orderBy('event_date', 'desc')->get();
+        return response()->json($pastEvents);
+    }
+
+    /**
+     * Display a listing of all the future events for admin management.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function indexFuture()
+    {
+        $futureEvents = Event::where('event_date','>', NOW())->orderBy('event_date', 'asc')->get();
+        return response()->json($futureEvents);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -77,7 +102,7 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Event::create($request->all());
     }
 
     /**
