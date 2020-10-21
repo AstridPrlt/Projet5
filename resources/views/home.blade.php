@@ -34,7 +34,7 @@
         </div> --}}
         <div class="h-100 w-100">
 
-            <button type="button" class="btn btn-perso w-75 mt-4" style="margin-left: 12.5%;" data-toggle="modal" data-target="#eventModal">
+            <button type="button" class="btn btn-perso w-75 mt-4 shadow" style="margin-left: 12.5%;" data-toggle="modal" data-target="#eventModal">
                 Créer un nouvel évènement
             </button>
             <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
@@ -53,14 +53,14 @@
                 </div>
               </div>
 
-            <div class="card w-75 mx-auto mt-4" style="height: 35%">
+            <div class="card w-75 mx-auto mt-4 shadow" style="height: 35%">
                 <h5 class="card-header">Les évènements à venir</h5>
                 <div class="card-body overflow-auto">
                     <future-events-component></future-events-component>
                 </div>
             </div>
 
-            <div class="card w-75 mx-auto mt-4" style="height: 35%">
+            <div class="card w-75 mx-auto mt-4 shadow" style="height: 35%">
                 <h5 class="card-header">Les évènements passés</h5>
                 <div class="card-body overflow-auto">
                     <past-events-component></past-events-component>

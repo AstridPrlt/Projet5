@@ -2268,7 +2268,9 @@ __webpack_require__.r(__webpack_exports__);
     submitEvent: function submitEvent() {
       var _this = this;
 
-      this.spinner = true;
+      // if(this.title && this.event_date) {
+      this.spinner = true; // };
+
       axios.post('http://localhost/Projet5/public/eventCreation', {
         title: this.title,
         event_date: this.event_date,
@@ -2279,6 +2281,7 @@ __webpack_require__.r(__webpack_exports__);
         price: this.price
       }).then(function (response) {
         console.log(response);
+        _this.category = '', _this.title = '', _this.event_date = '', _this.begin_time = '', _this.end_time = '', _this.event_description = '', _this.seats = '', _this.price = '', _this.picture = '', _this.spinner = false;
 
         _this.$refs.eventForm.reset();
       })["catch"](function (error) {
@@ -60026,322 +60029,331 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("form", { ref: "eventForm" }, [
-      _c("div", { staticClass: "form-group row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-sm-2 col-form-label",
-            attrs: { for: "category" }
-          },
-          [_vm._v("Catégorie")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-10" }, [
+    _c(
+      "form",
+      {
+        ref: "eventForm",
+        attrs: { method: "post" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.submitEvent($event)
+          }
+        }
+      },
+      [
+        _c("div", { staticClass: "form-group row" }, [
           _c(
-            "select",
+            "label",
             {
+              staticClass: "col-sm-3 col-form-label",
+              attrs: { for: "category" }
+            },
+            [_vm._v("Catégorie")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-9" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.category,
+                    expression: "category"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { id: "category" },
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.category = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", [_vm._v("Réseau")]),
+                _vm._v(" "),
+                _c("option", [_vm._v("Compétences")]),
+                _vm._v(" "),
+                _c("option", [_vm._v("Business")]),
+                _vm._v(" "),
+                _c("option", [_vm._v("Détente")])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-sm-3 col-form-label",
+              attrs: { for: "category" }
+            },
+            [_vm._v("Titre")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-9" }, [
+            _c("input", {
               directives: [
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.category,
-                  expression: "category"
+                  value: _vm.title,
+                  expression: "title"
                 }
               ],
               staticClass: "form-control",
-              attrs: { id: "category" },
+              attrs: { type: "text", id: "title", required: "" },
+              domProps: { value: _vm.title },
               on: {
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.category = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.title = $event.target.value
                 }
               }
-            },
-            [
-              _c("option", [_vm._v("Réseau")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Compétences")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Business")]),
-              _vm._v(" "),
-              _c("option", [_vm._v("Détente")])
-            ]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-sm-2 col-form-label",
-            attrs: { for: "category" }
-          },
-          [_vm._v("Titre")]
-        ),
+            })
+          ])
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-sm-10" }, [
-          _c("input", {
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-sm-3 col-form-label",
+              attrs: { for: "eventDate" }
+            },
+            [_vm._v("Date")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-9" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.event_date,
+                  expression: "event_date"
+                }
+              ],
+              staticClass: "form-control w-auto",
+              attrs: {
+                type: "date",
+                id: "eventDate",
+                name: "EventDate",
+                required: ""
+              },
+              domProps: { value: _vm.event_date },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.event_date = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-sm-3 col-form-label",
+              attrs: { for: "eventDate" }
+            },
+            [_vm._v("Heure")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-9 d-flex" }, [
+            _c("label", { attrs: { for: "begin" } }),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.begin_time,
+                  expression: "begin_time"
+                }
+              ],
+              staticClass: "form-control w-auto",
+              attrs: { type: "time", id: "begin", name: "begin", required: "" },
+              domProps: { value: _vm.begin_time },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.begin_time = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", { staticClass: "mx-3", attrs: { for: "end" } }, [
+              _vm._v(" à ")
+            ]),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.end_time,
+                  expression: "end_time"
+                }
+              ],
+              staticClass: "form-control w-auto",
+              attrs: { type: "time", id: "end", name: "end", required: "" },
+              domProps: { value: _vm.end_time },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.end_time = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("textarea", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.title,
-                expression: "title"
+                value: _vm.event_description,
+                expression: "event_description"
               }
             ],
             staticClass: "form-control",
-            attrs: { type: "text", id: "title", required: "" },
-            domProps: { value: _vm.title },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.title = $event.target.value
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-sm-2 col-form-label",
-            attrs: { for: "eventDate" }
-          },
-          [_vm._v("Date")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-10" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.event_date,
-                expression: "event_date"
-              }
-            ],
-            staticClass: "form-control w-auto",
             attrs: {
-              type: "date",
-              id: "eventDate",
-              name: "EventDate",
+              id: "description",
+              rows: "8",
+              placeholder: "Description...",
               required: ""
             },
-            domProps: { value: _vm.event_date },
+            domProps: { value: _vm.event_description },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.event_date = $event.target.value
+                _vm.event_description = $event.target.value
               }
             }
           })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-sm-2 col-form-label",
-            attrs: { for: "eventDate" }
-          },
-          [_vm._v("Heure")]
-        ),
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col-sm-10 d-flex" }, [
-          _c("label", { attrs: { for: "begin" } }),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.begin_time,
-                expression: "begin_time"
-              }
-            ],
-            staticClass: "form-control w-auto",
-            attrs: { type: "time", id: "begin", name: "begin", required: "" },
-            domProps: { value: _vm.begin_time },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.begin_time = $event.target.value
-              }
-            }
-          }),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            { staticClass: "col-sm-3 col-form-label", attrs: { for: "seats" } },
+            [_vm._v("Nombre de places ")]
+          ),
           _vm._v(" "),
-          _c("label", { staticClass: "mx-3", attrs: { for: "end" } }, [
-            _vm._v(" à ")
-          ]),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.end_time,
-                expression: "end_time"
-              }
-            ],
-            staticClass: "form-control w-auto",
-            attrs: { type: "time", id: "end", name: "end", required: "" },
-            domProps: { value: _vm.end_time },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+          _c("div", { staticClass: "col-sm-9" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.seats,
+                  expression: "seats"
                 }
-                _vm.end_time = $event.target.value
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("textarea", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.event_description,
-              expression: "event_description"
-            }
-          ],
-          staticClass: "form-control",
-          attrs: {
-            id: "description",
-            rows: "8",
-            placeholder: "Description...",
-            required: ""
-          },
-          domProps: { value: _vm.event_description },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.event_description = $event.target.value
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c(
-          "label",
-          { staticClass: "col-sm-2 col-form-label", attrs: { for: "seats" } },
-          [_vm._v("Nombre de places ")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-10" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.seats,
-                expression: "seats"
-              }
-            ],
-            staticClass: "form-control w-auto",
-            attrs: { type: "number", id: "seats", max: "200", required: "" },
-            domProps: { value: _vm.seats },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+              ],
+              staticClass: "form-control w-auto",
+              attrs: { type: "number", id: "seats", max: "200", required: "" },
+              domProps: { value: _vm.seats },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.seats = $event.target.value
                 }
-                _vm.seats = $event.target.value
               }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c(
-          "label",
-          { staticClass: "col-sm-2 col-form-label", attrs: { for: "price" } },
-          [_vm._v("Prix ")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-10" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.price,
-                expression: "price"
-              }
-            ],
-            staticClass: "form-control w-auto",
-            attrs: { type: "number", id: "price", max: "2000", required: "" },
-            domProps: { value: _vm.price },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.price = $event.target.value
-              }
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-perso my-3",
-          attrs: { type: "submit" },
-          on: { click: _vm.submitEvent }
-        },
-        [_vm._v("Créer")]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.spinner,
-              expression: "spinner"
-            }
-          ],
-          staticClass: "spinner-border text-secondary",
-          attrs: { role: "status" }
-        },
-        [
-          _c("span", { staticClass: "sr-only" }, [
-            _vm._v("Création en cours...")
+            })
           ])
-        ]
-      )
-    ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group row" }, [
+          _c(
+            "label",
+            { staticClass: "col-sm-3 col-form-label", attrs: { for: "price" } },
+            [_vm._v("Prix ")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-9" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.price,
+                  expression: "price"
+                }
+              ],
+              staticClass: "form-control w-auto",
+              attrs: { type: "number", id: "price", max: "2000", required: "" },
+              domProps: { value: _vm.price },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.price = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-perso my-3", attrs: { type: "submit" } },
+          [_vm._v("Créer")]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.spinner,
+                expression: "spinner"
+              }
+            ],
+            staticClass: "spinner-border text-secondary",
+            attrs: { role: "status" }
+          },
+          [
+            _c("span", { staticClass: "sr-only" }, [
+              _vm._v("Création en cours...")
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -60365,7 +60377,7 @@ var staticRenderFns = [
               "aria-describedby": "inputGroupFileAddon02"
             }
           },
-          [_vm._v("Choisir une photo... Dimensions conseillées : 300 x 200")]
+          [_vm._v("Choisir une photo... Dimensions : 300 x 200")]
         )
       ]),
       _vm._v(" "),

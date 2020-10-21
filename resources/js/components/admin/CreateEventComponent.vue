@@ -1,9 +1,9 @@
 <template>
     <div>
-        <form ref="eventForm">
+        <form ref="eventForm" method="post" @submit.prevent="submitEvent">
             <div class="form-group row">
-                <label for="category" class="col-sm-2 col-form-label">Catégorie</label>
-                <div class="col-sm-10">
+                <label for="category" class="col-sm-3 col-form-label">Catégorie</label>
+                <div class="col-sm-9">
                     <select class="form-control" id="category" v-model="category">
                         <option>Réseau</option>
                         <option>Compétences</option>
@@ -13,16 +13,16 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="category" class="col-sm-2 col-form-label">Titre</label>
-                <div class="col-sm-10"><input type="text" class="form-control" id="title" v-model="title" required></div>
+                <label for="category" class="col-sm-3 col-form-label">Titre</label>
+                <div class="col-sm-9"><input type="text" class="form-control" id="title" v-model="title" required></div>
             </div>
             <div class="form-group row">
-                <label for="eventDate" class="col-sm-2 col-form-label">Date</label>
-                <div class="col-sm-10"><input type="date" id="eventDate" name="EventDate" class="form-control w-auto" v-model="event_date" required></div>
+                <label for="eventDate" class="col-sm-3 col-form-label">Date</label>
+                <div class="col-sm-9"><input type="date" id="eventDate" name="EventDate" class="form-control w-auto" v-model="event_date" required></div>
             </div>
             <div class="form-group row">
-                <label for="eventDate" class="col-sm-2 col-form-label">Heure</label>
-                <div class="col-sm-10 d-flex">
+                <label for="eventDate" class="col-sm-3 col-form-label">Heure</label>
+                <div class="col-sm-9 d-flex">
                     <label for="begin"></label><input type="time" id="begin" name="begin" class="form-control w-auto" v-model="begin_time" required>
                     <label for="end" class="mx-3"> à </label><input type="time" id="end" name="end" class="form-control w-auto" v-model="end_time" required>
                 </div>
@@ -31,24 +31,24 @@
                 <textarea class="form-control" id="description" rows="8" placeholder="Description..." v-model="event_description" required></textarea>
             </div>
             <div class="form-group row">
-                <label for="seats" class="col-sm-2 col-form-label">Nombre de places </label>
-                <div class="col-sm-10"><input type="number" class="form-control w-auto" id="seats" max="200" v-model="seats" required></div>
+                <label for="seats" class="col-sm-3 col-form-label">Nombre de places </label>
+                <div class="col-sm-9"><input type="number" class="form-control w-auto" id="seats" max="200" v-model="seats" required></div>
             </div>
             <div class="form-group row">
-                <label for="price" class="col-sm-2 col-form-label">Prix </label>
-                <div class="col-sm-10"><input type="number" class="form-control w-auto" id="price" max="2000" v-model="price" required></div>
+                <label for="price" class="col-sm-3 col-form-label">Prix </label>
+                <div class="col-sm-9"><input type="number" class="form-control w-auto" id="price" max="2000" v-model="price" required></div>
             </div>
             <div class="input-group">
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" id="inputGroupFile02">
-                    <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choisir une photo... Dimensions conseillées : 300 x 200</label>
+                    <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">Choisir une photo... Dimensions : 300 x 200</label>
                 </div>
                 <div class="input-group-append">
                     <span class="input-group-text" id="inputGroupFileAddon02">Upload</span>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-perso my-3" @click="submitEvent">Créer</button>
+            <button type="submit" class="btn btn-perso my-3">Créer</button>
             <div v-show="spinner" class="spinner-border text-secondary" role="status">
                 <span class="sr-only">Création en cours...</span>
             </div>
@@ -76,7 +76,9 @@ export default {
 
     methods: {
         submitEvent() {
+            // if(this.title && this.event_date) {
             this.spinner = true;
+            // };
             axios.post('http://localhost/Projet5/public/eventCreation', {
                 title: this.title,
                 event_date: this.event_date,
@@ -88,6 +90,16 @@ export default {
             })
             .then((response) => {
                 console.log(response);
+                this.category = '',
+                this.title = '',
+                this.event_date = '',
+                this.begin_time = '',
+                this.end_time = '',
+                this.event_description = '',
+                this.seats = '',
+                this.price = '',
+                this.picture = '',
+                this.spinner = false;
                 this.$refs.eventForm.reset();
             })
             .catch(error => console.log(error));
