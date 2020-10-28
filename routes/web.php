@@ -29,6 +29,8 @@ Route::post('eventBooking', 'EventController@booking');
 Route::view('coweerkers', 'coweerkers');
 
 Route::get('myProfile', 'UserController@showAuth');
+Route::patch('myProfile/{userId}', 'UserController@update');
+Route::post('myProfile/avatar/{userId}', 'UserController@storeAvatar');
 Route::get('myEvents','EventController@showMyEvents');
 
 Route::post('eventCreation', 'EventController@store');

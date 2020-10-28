@@ -40,6 +40,26 @@ class UserController extends Controller
     }
 
     /**
+     * Store the user avatar in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAvatar(Request $request, $id)
+    {
+        // $this->validate($request, [
+        //     'avatar' => 'required|image|mimes:png,jpg,jpeg,gif,svg',
+        // ]);
+
+        $authUser = User::find(Auth::user()->id);
+
+        $avatar = $request->file('avatar')->store('avatars', 'public');
+
+        $authUser->update(['avatar' => $avatar]);
+
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -82,7 +102,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $authUser = User::find(Auth::user()->id);
+
+        $authUser->name = request('name');
+        $authUser->email = request('email');
+        $authUser->job = request('job');
+        $authUser->user_description = request('user_description');
+        $authUser->save();
     }
 
     /**

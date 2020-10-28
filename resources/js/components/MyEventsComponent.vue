@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-for="myEvent in myEvents" :key="myEvent.id" class="d-flex justify-content-between py-1">
-            <h5>{{ myEvent.title }}</h5>
+            <h5>Le {{ formatedDate(myEvent.event_date) }} : {{ myEvent.title }}</h5>
             <a type="button" class="btn btn-perso py-1" :href="`inscription/${myEvent.id}`">Détails</a>
         </div>
     </div>
@@ -9,12 +9,22 @@
 </template>
 
 <script>
+  import moment from 'moment';
+  moment.locale('fr');
+
 export default {
+
     data() {
         return {
             myEvents: {}
         }
     },
+
+    methods: {
+        formatedDate (date) {
+            return moment(date).format('ll');
+        },
+        },
 
     created() {
         axios.get('http://localhost/Projet5/public/myEvents')
