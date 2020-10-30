@@ -86,7 +86,7 @@
             </div>
         </nav>
 
-        <main class="vh-100" style="padding-top: 80px; background: center bottom no-repeat url('./../public/images/background.png'); background-size: cover;">
+        <main style="min-height: 100vh; padding-top: 80px; background: center bottom no-repeat url('./../public/images/background.png'); background-size: cover;">
             @yield('content')
         </main>
     </div>

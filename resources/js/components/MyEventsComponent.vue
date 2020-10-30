@@ -1,8 +1,18 @@
 <template>
     <div>
-        <div v-for="myEvent in myEvents" :key="myEvent.id" class="d-flex justify-content-between py-1">
-            <h5>Le {{ formatedDate(myEvent.event_date) }} : {{ myEvent.title }}</h5>
-            <a type="button" class="btn btn-perso py-1" :href="`inscription/${myEvent.id}`">Détails</a>
+        <div class="my-3">
+            <h4>Les évènements à venir</h4>
+            <div v-for="myFutureEvent in myFutureEvents" :key="myFutureEvent.id" class="d-flex justify-content-between py-1">
+                <h5>Le {{ formatedDate(myFutureEvent.event_date) }} : {{ myFutureEvent.title }}</h5>
+                <a type="button" class="btn btn-perso py-1" :href="`inscription/${myFutureEvent.id}`">Détails</a>
+            </div>
+        </div>
+        <div class="my-3">
+            <h4>Les évènements passés</h4>
+            <div v-for="myPastEvent in myPastEvents" :key="myPastEvent.id" class="d-flex justify-content-between py-1">
+                <h5>Le {{ formatedDate(myPastEvent.event_date) }} : {{ myPastEvent.title }}</h5>
+                <a type="button" class="btn btn-perso py-1" :href="`inscription/${myPastEvent.id}`">Détails</a>
+            </div>
         </div>
     </div>
 
@@ -16,7 +26,18 @@ export default {
 
     data() {
         return {
-            myEvents: {}
+            myEvents: []
+        }
+    },
+
+    computed: {
+        myPastEvents: function () {
+            let pastEvents = this.myEvents.filter(myEvent => new Date(myEvent.event_date) < new Date());
+            return pastEvents;
+        },
+        myFutureEvents: function () {
+            let futureEvents = this.myEvents.filter(myEvent => new Date(myEvent.event_date) >= new Date());
+            return futureEvents;
         }
     },
 

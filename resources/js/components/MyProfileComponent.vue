@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <form enctype="multipart/form-data" class="d-flex m-3 p-2">
+    <div class="d-lg-flex">
+        <form enctype="multipart/form-data" class="m-auto" style="width: 20%;">
             <!-- <img :src="`./../public/images/avatar.png`" alt="..." class="img-thumbnail rounded-circle" style="width: 175px;"> -->
-            <div>
-                <img v-show="!showAvatarPreview" :src="`./../public/storage/${authUser.avatar}`" alt="..." class="img-thumbnail rounded-circle" style="width: 175px; height: 175px; min-width: 175px; min-height: 175px;">
-                <img v-show="showAvatarPreview" :src="avatarPreview" class="img-thumbnail rounded-circle" style="width: 175px; height: 175px; min-width: 175px; min-height: 175px;">
+            <div class="text-center">
+                <img v-show="!showAvatarPreview" :src="`./../public/storage/${authUser.avatar}`" alt="..." class="img-thumbnail rounded-circle" style="width: 175px; height: 175px; min-width: 175px; min-height: 175px; position: relative; left: 50%; transform: translateX(-50%); object-fit: cover;">
+                <img v-show="showAvatarPreview" :src="avatarPreview" class="img-thumbnail rounded-circle" style="width: 175px; height: 175px; min-width: 175px; min-height: 175px; position: relative; left: 50%; transform: translateX(-50%); object-fit: cover;">
             </div>
-            <div class="w-100 align-self-center ml-3">
+            <div class="w-100 text-center">
                 <a v-show="readOnlyAvatar" type="button" style="color: teal;" @click="makeUpdateAvatar">Modifier ma photo</a>
                 <div v-show="!readOnlyAvatar" class="custom-file">
                     <div class="custom-file">
@@ -21,56 +21,63 @@
             </div>
         </form>
 
-        <form class="border rounded m-3 p-2" style="border-color: lightgray;">
-            <h5>Mes informations</h5>
-            <div  class="form-group row">
-                <label for="staticName" class="col-sm-2 col-form-label">Nom</label>
-                <div class="col-sm-10">
-                    <input type="text" v-show="readOnlyInfo" readonly class="form-control-plaintext" id="staticName" v-model="authUser.name">
-                <!-- <input type="text" v-show="readOnly" readonly class="form-control-plaintext" id="staticName" :value="`${authUser.name}`"> -->
-                <input type="text" v-show="!readOnlyInfo" class="form-control" id="staticName" v-model="authUser.name">
+        <div class="w-100">
+            <form class="border rounded m-3 p-2" style="border-color: lightgray;">
+                <div  class="form-group row mb-1">
+                    <label for="staticName" class="col-sm-2 col-form-label">Nom</label>
+                    <div class="col-sm-10">
+                        <input type="text" v-show="readOnlyInfo" readonly class="form-control-plaintext" id="staticName" v-model="authUser.name">
+                    <!-- <input type="text" v-show="readOnly" readonly class="form-control-plaintext" id="staticName" :value="`${authUser.name}`"> -->
+                    <input type="text" v-show="!readOnlyInfo" class="form-control" id="staticName" v-model="authUser.name">
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label for="staticJob" class="col-sm-2 col-form-label">Spécialité</label>
-                <div class="col-sm-10">
-                <input type="text" v-show="readOnlyInfo" readonly class="form-control-plaintext" id="staticJob" v-model="authUser.job">
-                <input type="text" v-show="!readOnlyInfo" class="form-control" id="staticJob" v-model="authUser.job">
+                <div class="form-group row mb-1">
+                    <label for="staticJob" class="col-sm-2 col-form-label">Spécialité</label>
+                    <div class="col-sm-10">
+                    <input type="text" v-show="readOnlyInfo" readonly class="form-control-plaintext" id="staticJob" v-model="authUser.job">
+                    <input type="text" v-show="!readOnlyInfo" class="form-control" id="staticJob" v-model="authUser.job">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="staticDesc" class="col-sm-2 col-form-label">Description</label>
-                <div class="col-sm-10">
-                <textarea type="text" v-show="readOnlyInfo" readonly class="form-control-plaintext" id="staticDesc" v-model="authUser.user_description"></textarea>
-                <textarea type="text" v-show="!readOnlyInfo" class="form-control" rows="5" id="staticDesc" v-model="authUser.user_description"></textarea>
+                <div class="form-group row mb-1">
+                    <label for="staticDesc" class="col-sm-2 col-form-label">Description</label>
+                    <div class="col-sm-10">
+                    <textarea type="text" v-show="readOnlyInfo" readonly class="form-control-plaintext" id="staticDesc" v-model="authUser.user_description"></textarea>
+                    <textarea type="text" v-show="!readOnlyInfo" class="form-control" rows="5" id="staticDesc" v-model="authUser.user_description"></textarea>
+                    </div>
                 </div>
-            </div>
 
-            <button v-show="readOnlyInfo" type="button" class="btn btn-perso w-100 my-1" @click="makeUpdateInfo">Modifier les infos</button>
-            <button v-show="!readOnlyInfo" type="button" class="btn btn-perso w-100 my-1" @click="updateProfile">Enregistrer</button>
-        </form>
+                <button v-show="readOnlyInfo" type="button" class="btn btn-perso w-100 my-1" @click="makeUpdateInfo">Modifier mes infos</button>
+                <button v-show="!readOnlyInfo" type="button" class="btn btn-perso w-100 my-1" @click="updateProfile">Enregistrer</button>
+            </form>
 
-        <form class="border rounded m-3 p-2" style="border-color: lightgray;">
-            <h5>Mes identifiants</h5>
-            <div class="form-group row">
-                <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-                <div class="col-sm-10">
-                <input type="text" v-show="readOnlyIds" readonly class="form-control-plaintext" id="staticEmail" v-model="authUser.email">
-                <input type="text" v-show="!readOnlyIds" class="form-control" id="staticEmail" v-model="authUser.email">
+            <form class="border rounded m-3 p-2" style="border-color: lightgray;">
+                <div class="form-group row mb-1">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                    <input type="text" v-show="readOnlyIds" readonly class="form-control-plaintext" id="staticEmail" v-model="authUser.email">
+                    <input type="text" v-show="!readOnlyIds" class="form-control" id="staticEmail" v-model="authUser.email">
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
-                <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword">
+                <div class="form-group row mb-1">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Mot de passe</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPassword">
+                    </div>
                 </div>
-            </div>
 
-            <button v-show="readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="makeUpdateIds">Modifier les identifiants</button>
-            <button v-show="!readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="updateProfile">Enregistrer</button>
-        </form>
+                <div class="form-group row mb-1">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Mot de passe (confirmation)</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPassword">
+                    </div>
+                </div>
+
+                <button v-show="readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="makeUpdateIds">Modifier les identifiants</button>
+                <button v-show="!readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="updateProfile">Enregistrer</button>
+            </form>
+        </div>
     </div>
 </template>
 

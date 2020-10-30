@@ -2107,13 +2107,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      myEvents: {}
+      myEvents: []
     };
+  },
+  computed: {
+    myPastEvents: function myPastEvents() {
+      var pastEvents = this.myEvents.filter(function (myEvent) {
+        return new Date(myEvent.event_date) < new Date();
+      });
+      return pastEvents;
+    },
+    myFutureEvents: function myFutureEvents() {
+      var futureEvents = this.myEvents.filter(function (myEvent) {
+        return new Date(myEvent.event_date) >= new Date();
+      });
+      return futureEvents;
+    }
   },
   methods: {
     formatedDate: function formatedDate(date) {
@@ -2142,6 +2166,13 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -60053,35 +60084,89 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    _vm._l(_vm.myEvents, function(myEvent) {
-      return _c(
-        "div",
-        { key: myEvent.id, staticClass: "d-flex justify-content-between py-1" },
-        [
-          _c("h5", [
-            _vm._v(
-              "Le " +
-                _vm._s(_vm.formatedDate(myEvent.event_date)) +
-                " : " +
-                _vm._s(myEvent.title)
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "a",
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "my-3" },
+      [
+        _c("h4", [_vm._v("Les évènements à venir")]),
+        _vm._v(" "),
+        _vm._l(_vm.myFutureEvents, function(myFutureEvent) {
+          return _c(
+            "div",
             {
-              staticClass: "btn btn-perso py-1",
-              attrs: { type: "button", href: "inscription/" + myEvent.id }
+              key: myFutureEvent.id,
+              staticClass: "d-flex justify-content-between py-1"
             },
-            [_vm._v("Détails")]
+            [
+              _c("h5", [
+                _vm._v(
+                  "Le " +
+                    _vm._s(_vm.formatedDate(myFutureEvent.event_date)) +
+                    " : " +
+                    _vm._s(myFutureEvent.title)
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-perso py-1",
+                  attrs: {
+                    type: "button",
+                    href: "inscription/" + myFutureEvent.id
+                  }
+                },
+                [_vm._v("Détails")]
+              )
+            ]
           )
-        ]
-      )
-    }),
-    0
-  )
+        })
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "my-3" },
+      [
+        _c("h4", [_vm._v("Les évènements passés")]),
+        _vm._v(" "),
+        _vm._l(_vm.myPastEvents, function(myPastEvent) {
+          return _c(
+            "div",
+            {
+              key: myPastEvent.id,
+              staticClass: "d-flex justify-content-between py-1"
+            },
+            [
+              _c("h5", [
+                _vm._v(
+                  "Le " +
+                    _vm._s(_vm.formatedDate(myPastEvent.event_date)) +
+                    " : " +
+                    _vm._s(myPastEvent.title)
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-perso py-1",
+                  attrs: {
+                    type: "button",
+                    href: "inscription/" + myPastEvent.id
+                  }
+                },
+                [_vm._v("Détails")]
+              )
+            ]
+          )
+        })
+      ],
+      2
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -60105,15 +60190,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "d-lg-flex" }, [
     _c(
       "form",
       {
-        staticClass: "d-flex m-3 p-2",
+        staticClass: "m-auto",
+        staticStyle: { width: "20%" },
         attrs: { enctype: "multipart/form-data" }
       },
       [
-        _c("div", [
+        _c("div", { staticClass: "text-center" }, [
           _c("img", {
             directives: [
               {
@@ -60128,7 +60214,11 @@ var render = function() {
               width: "175px",
               height: "175px",
               "min-width": "175px",
-              "min-height": "175px"
+              "min-height": "175px",
+              position: "relative",
+              left: "50%",
+              transform: "translateX(-50%)",
+              "object-fit": "cover"
             },
             attrs: {
               src: "./../public/storage/" + _vm.authUser.avatar,
@@ -60150,13 +60240,17 @@ var render = function() {
               width: "175px",
               height: "175px",
               "min-width": "175px",
-              "min-height": "175px"
+              "min-height": "175px",
+              position: "relative",
+              left: "50%",
+              transform: "translateX(-50%)",
+              "object-fit": "cover"
             },
             attrs: { src: _vm.avatarPreview }
           })
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "w-100 align-self-center ml-3" }, [
+        _c("div", { staticClass: "w-100 text-center" }, [
           _c(
             "a",
             {
@@ -60237,385 +60331,385 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c(
-      "form",
-      {
-        staticClass: "border rounded m-3 p-2",
-        staticStyle: { "border-color": "lightgray" }
-      },
-      [
-        _c("h5", [_vm._v("Mes informations")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group row" }, [
-          _c(
-            "label",
-            {
-              staticClass: "col-sm-2 col-form-label",
-              attrs: { for: "staticName" }
-            },
-            [_vm._v("Nom")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-sm-10" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.readOnlyInfo,
-                  expression: "readOnlyInfo"
-                },
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.authUser.name,
-                  expression: "authUser.name"
-                }
-              ],
-              staticClass: "form-control-plaintext",
-              attrs: { type: "text", readonly: "", id: "staticName" },
-              domProps: { value: _vm.authUser.name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.authUser, "name", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: !_vm.readOnlyInfo,
-                  expression: "!readOnlyInfo"
-                },
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.authUser.name,
-                  expression: "authUser.name"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "staticName" },
-              domProps: { value: _vm.authUser.name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.authUser, "name", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group row" }, [
-          _c(
-            "label",
-            {
-              staticClass: "col-sm-2 col-form-label",
-              attrs: { for: "staticJob" }
-            },
-            [_vm._v("Spécialité")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-sm-10" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.readOnlyInfo,
-                  expression: "readOnlyInfo"
-                },
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.authUser.job,
-                  expression: "authUser.job"
-                }
-              ],
-              staticClass: "form-control-plaintext",
-              attrs: { type: "text", readonly: "", id: "staticJob" },
-              domProps: { value: _vm.authUser.job },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.authUser, "job", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: !_vm.readOnlyInfo,
-                  expression: "!readOnlyInfo"
-                },
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.authUser.job,
-                  expression: "authUser.job"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "staticJob" },
-              domProps: { value: _vm.authUser.job },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.authUser, "job", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group row" }, [
-          _c(
-            "label",
-            {
-              staticClass: "col-sm-2 col-form-label",
-              attrs: { for: "staticDesc" }
-            },
-            [_vm._v("Description")]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-sm-10" }, [
-            _c("textarea", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.readOnlyInfo,
-                  expression: "readOnlyInfo"
-                },
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.authUser.user_description,
-                  expression: "authUser.user_description"
-                }
-              ],
-              staticClass: "form-control-plaintext",
-              attrs: { type: "text", readonly: "", id: "staticDesc" },
-              domProps: { value: _vm.authUser.user_description },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(
-                    _vm.authUser,
-                    "user_description",
-                    $event.target.value
-                  )
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("textarea", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: !_vm.readOnlyInfo,
-                  expression: "!readOnlyInfo"
-                },
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.authUser.user_description,
-                  expression: "authUser.user_description"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: { type: "text", rows: "5", id: "staticDesc" },
-              domProps: { value: _vm.authUser.user_description },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(
-                    _vm.authUser,
-                    "user_description",
-                    $event.target.value
-                  )
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            directives: [
+    _c("div", { staticClass: "w-100" }, [
+      _c(
+        "form",
+        {
+          staticClass: "border rounded m-3 p-2",
+          staticStyle: { "border-color": "lightgray" }
+        },
+        [
+          _c("div", { staticClass: "form-group row mb-1" }, [
+            _c(
+              "label",
               {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.readOnlyInfo,
-                expression: "readOnlyInfo"
-              }
-            ],
-            staticClass: "btn btn-perso w-100 my-1",
-            attrs: { type: "button" },
-            on: { click: _vm.makeUpdateInfo }
-          },
-          [_vm._v("Modifier les infos")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            directives: [
+                staticClass: "col-sm-2 col-form-label",
+                attrs: { for: "staticName" }
+              },
+              [_vm._v("Nom")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-10" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.readOnlyInfo,
+                    expression: "readOnlyInfo"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.authUser.name,
+                    expression: "authUser.name"
+                  }
+                ],
+                staticClass: "form-control-plaintext",
+                attrs: { type: "text", readonly: "", id: "staticName" },
+                domProps: { value: _vm.authUser.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.authUser, "name", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.readOnlyInfo,
+                    expression: "!readOnlyInfo"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.authUser.name,
+                    expression: "authUser.name"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", id: "staticName" },
+                domProps: { value: _vm.authUser.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.authUser, "name", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row mb-1" }, [
+            _c(
+              "label",
               {
-                name: "show",
-                rawName: "v-show",
-                value: !_vm.readOnlyInfo,
-                expression: "!readOnlyInfo"
-              }
-            ],
-            staticClass: "btn btn-perso w-100 my-1",
-            attrs: { type: "button" },
-            on: { click: _vm.updateProfile }
-          },
-          [_vm._v("Enregistrer")]
-        )
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        staticClass: "border rounded m-3 p-2",
-        staticStyle: { "border-color": "lightgray" }
-      },
-      [
-        _c("h5", [_vm._v("Mes identifiants")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-group row" }, [
+                staticClass: "col-sm-2 col-form-label",
+                attrs: { for: "staticJob" }
+              },
+              [_vm._v("Spécialité")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-10" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.readOnlyInfo,
+                    expression: "readOnlyInfo"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.authUser.job,
+                    expression: "authUser.job"
+                  }
+                ],
+                staticClass: "form-control-plaintext",
+                attrs: { type: "text", readonly: "", id: "staticJob" },
+                domProps: { value: _vm.authUser.job },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.authUser, "job", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.readOnlyInfo,
+                    expression: "!readOnlyInfo"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.authUser.job,
+                    expression: "authUser.job"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", id: "staticJob" },
+                domProps: { value: _vm.authUser.job },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.authUser, "job", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group row mb-1" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-sm-2 col-form-label",
+                attrs: { for: "staticDesc" }
+              },
+              [_vm._v("Description")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-10" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.readOnlyInfo,
+                    expression: "readOnlyInfo"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.authUser.user_description,
+                    expression: "authUser.user_description"
+                  }
+                ],
+                staticClass: "form-control-plaintext",
+                attrs: { type: "text", readonly: "", id: "staticDesc" },
+                domProps: { value: _vm.authUser.user_description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.authUser,
+                      "user_description",
+                      $event.target.value
+                    )
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.readOnlyInfo,
+                    expression: "!readOnlyInfo"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.authUser.user_description,
+                    expression: "authUser.user_description"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", rows: "5", id: "staticDesc" },
+                domProps: { value: _vm.authUser.user_description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.authUser,
+                      "user_description",
+                      $event.target.value
+                    )
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
           _c(
-            "label",
+            "button",
             {
-              staticClass: "col-sm-2 col-form-label",
-              attrs: { for: "staticEmail" }
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.readOnlyInfo,
+                  expression: "readOnlyInfo"
+                }
+              ],
+              staticClass: "btn btn-perso w-100 my-1",
+              attrs: { type: "button" },
+              on: { click: _vm.makeUpdateInfo }
             },
-            [_vm._v("Email")]
+            [_vm._v("Modifier mes infos")]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "col-sm-10" }, [
-            _c("input", {
+          _c(
+            "button",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.readOnlyInfo,
+                  expression: "!readOnlyInfo"
+                }
+              ],
+              staticClass: "btn btn-perso w-100 my-1",
+              attrs: { type: "button" },
+              on: { click: _vm.updateProfile }
+            },
+            [_vm._v("Enregistrer")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          staticClass: "border rounded m-3 p-2",
+          staticStyle: { "border-color": "lightgray" }
+        },
+        [
+          _c("div", { staticClass: "form-group row mb-1" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-sm-2 col-form-label",
+                attrs: { for: "staticEmail" }
+              },
+              [_vm._v("Email")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-sm-10" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.readOnlyIds,
+                    expression: "readOnlyIds"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.authUser.email,
+                    expression: "authUser.email"
+                  }
+                ],
+                staticClass: "form-control-plaintext",
+                attrs: { type: "text", readonly: "", id: "staticEmail" },
+                domProps: { value: _vm.authUser.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.authUser, "email", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.readOnlyIds,
+                    expression: "!readOnlyIds"
+                  },
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.authUser.email,
+                    expression: "authUser.email"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: { type: "text", id: "staticEmail" },
+                domProps: { value: _vm.authUser.email },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.authUser, "email", $event.target.value)
+                  }
+                }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
               directives: [
                 {
                   name: "show",
                   rawName: "v-show",
                   value: _vm.readOnlyIds,
                   expression: "readOnlyIds"
-                },
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.authUser.email,
-                  expression: "authUser.email"
                 }
               ],
-              staticClass: "form-control-plaintext",
-              attrs: { type: "text", readonly: "", id: "staticEmail" },
-              domProps: { value: _vm.authUser.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.authUser, "email", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("input", {
+              staticClass: "btn btn-perso w-100 my-1",
+              attrs: { type: "button" },
+              on: { click: _vm.makeUpdateIds }
+            },
+            [_vm._v("Modifier les identifiants")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
               directives: [
                 {
                   name: "show",
                   rawName: "v-show",
                   value: !_vm.readOnlyIds,
                   expression: "!readOnlyIds"
-                },
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.authUser.email,
-                  expression: "authUser.email"
                 }
               ],
-              staticClass: "form-control",
-              attrs: { type: "text", id: "staticEmail" },
-              domProps: { value: _vm.authUser.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.authUser, "email", $event.target.value)
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.readOnlyIds,
-                expression: "readOnlyIds"
-              }
-            ],
-            staticClass: "btn btn-perso w-100 my-1",
-            attrs: { type: "button" },
-            on: { click: _vm.makeUpdateIds }
-          },
-          [_vm._v("Modifier les identifiants")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: !_vm.readOnlyIds,
-                expression: "!readOnlyIds"
-              }
-            ],
-            staticClass: "btn btn-perso w-100 my-1",
-            attrs: { type: "button" },
-            on: { click: _vm.updateProfile }
-          },
-          [_vm._v("Enregistrer")]
-        )
-      ]
-    )
+              staticClass: "btn btn-perso w-100 my-1",
+              attrs: { type: "button" },
+              on: { click: _vm.updateProfile }
+            },
+            [_vm._v("Enregistrer")]
+          )
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -60623,14 +60717,36 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group row" }, [
+    return _c("div", { staticClass: "form-group row mb-1" }, [
       _c(
         "label",
         {
           staticClass: "col-sm-2 col-form-label",
           attrs: { for: "inputPassword" }
         },
-        [_vm._v("Password")]
+        [_vm._v("Mot de passe")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-sm-10" }, [
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "password", id: "inputPassword" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group row mb-1" }, [
+      _c(
+        "label",
+        {
+          staticClass: "col-sm-2 col-form-label",
+          attrs: { for: "inputPassword" }
+        },
+        [_vm._v("Mot de passe (confirmation)")]
       ),
       _vm._v(" "),
       _c("div", { staticClass: "col-sm-10" }, [

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="mw-100 h-100">
+<div class="mw-100 h-100 pt-5 pb-3">
     {{-- <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             @if (session('status'))
@@ -67,8 +67,35 @@
                 </div>
             </div>
         </div>
+
     @else
-        <div class="d-flex h-100 w-100">
+
+    <div class="bg-light rounded m-auto" style="width: 90%; height: 90%">
+        <ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-home" aria-selected="true">Mon profil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-events-tab" data-toggle="pill" href="#pills-events" role="tab" aria-controls="pills-events" aria-selected="false">Mes évènements</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="true">Mes contacts</a>
+            </li>
+        </ul>
+
+        <div class="tab-content m-3" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                <my-profile-component></my-profile-component>
+            </div>
+            <div class="tab-pane fade" id="pills-events" role="tabpanel" aria-labelledby="pills-events-tab">
+                <my-events-component></my-events-component>
+            </div>
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+        </div>
+    </div>
+
+
+        {{-- <div class="d-flex h-100 w-100">
 
             <div class="bg-white m-auto px-4 py-2 shadow" style="width:45%; height: 95%; border-radius: 3rem;">
                 <h3 class="border-bottom">Mon profil</h3>
@@ -86,7 +113,7 @@
                 </div>
             </div>
 
-        </div>
+        </div> --}}
 
     @endif
 </div>

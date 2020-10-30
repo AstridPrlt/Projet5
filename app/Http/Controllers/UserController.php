@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Image;
 
 class UserController extends Controller
 {
@@ -47,15 +49,16 @@ class UserController extends Controller
      */
     public function storeAvatar(Request $request, $id)
     {
-        // $this->validate($request, [
-        //     'avatar' => 'required|image|mimes:png,jpg,jpeg,gif,svg',
-        // ]);
+        $this->validate($request, [
+            'avatar' => 'required|image|mimes:png,jpg,jpeg,gif,svg',
+        ]);
 
         $authUser = User::find(Auth::user()->id);
 
-        $avatar = $request->file('avatar')->store('avatars', 'public');
+        Storage::disk('local')->delete('public/'.$authUser->avatar); //delete the old picture
+        $avatar = $request->file('avatar')->store('avatars', 'public');//store the new picture
 
-        $authUser->update(['avatar' => $avatar]);
+        $authUser->update(['avatar' => $avatar]); //update the db
 
     }
 
