@@ -18,7 +18,7 @@
 
     <div>
         <div class="w-75 mx-auto mt-4 d-flex flex-wrap">
-            <img :src="`./../images/events/${ eventSelected.event_picture }`" class="w-25" :alt="`${ eventSelected.title }`">
+            <img :src="`./../storage/${eventSelected.event_picture}`" class="w-25" :alt="`${ eventSelected.title }`">
 
             <div class="w-75 text-center">
                 <h2>{{ eventSelected.title }}</h2>
@@ -27,7 +27,7 @@
                 <p>Prix : {{ eventSelected.price }} €</p>
             </div>
 
-            <p class="w-100 my-5">{{ eventSelected.event_description }}</p>
+            <p class="w-100 my-5" v-html="eventSelected.event_description"></p>
             <button v-show="!isBooked" type="submit" class="btn btn-perso" @click="eventBooking">Confirmer</button>
             <p v-show="isBooked" class="text-bold" style="color: teal; font-size: 1.5rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !</p>
         </div>

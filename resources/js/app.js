@@ -57,6 +57,7 @@ Vue.component('events-component', require('./components/EventsComponent.vue').de
 Vue.component('booking-component', require('./components/BookingComponent.vue').default);
 Vue.component('my-events-component', require('./components/MyEventsComponent.vue').default);
 Vue.component('my-profile-component', require('./components/MyProfileComponent.vue').default);
+Vue.component('my-contacts-component', require('./components/MyContactsComponent.vue').default);
 
 Vue.component('future-events-component', require('./components/admin/FutureEventsComponent.vue').default);
 Vue.component('past-events-component', require('./components/admin/PastEventsComponent.vue').default);

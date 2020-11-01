@@ -15,7 +15,7 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('event_picture')->default('logoEvent.jpg');
+            $table->string('event_picture')->default('eventsPictures/logoEvent.jpg');
             $table->string('title');
             $table->text('event_description');
             $table->date('event_date');
@@ -23,7 +23,7 @@ class CreateEventsTable extends Migration
             $table->time('end_time');
             $table->tinyInteger('seats')->unsigned();
             $table->smallInteger('price')->unsigned();
-            $table->foreignId('category_id')->constrained('categories');
+            $table->string('category');
             $table->timestamps();
         });
     }
