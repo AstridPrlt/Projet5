@@ -60,7 +60,7 @@
 
                             <button type="button" class="btn btn-outline-perso mx-2" data-dismiss="modal" aria-label="Close" @click="cancelCreationEvent">Annuler</button>
                             <button type="submit" class="btn btn-perso my-3">Créer</button>
-                            <div v-show="spinner" class="spinner-border text-secondary" role="status">
+                            <div v-show="spinner" class="spinner-border text-secondary align-middle" role="status">
                                 <span class="sr-only">Création en cours...</span>
                             </div>
                         </form>

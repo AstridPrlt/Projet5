@@ -26,7 +26,7 @@
 
             <div class="card w-75 mx-auto mt-4 shadow" style="height: 35%">
                 <h5 class="card-header">Les évènements à venir</h5>
-                <div class="card-body overflow-auto">
+                <div class="card-body overflow-auto position-relative">
                     <future-events-component></future-events-component>
                 </div>
             </div>

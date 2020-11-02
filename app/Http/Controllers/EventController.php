@@ -150,8 +150,14 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy(Event $event, $eventId)
     {
-        //
+        $eventToDelete = Event::find($eventId);
+
+        if($eventToDelete -> delete()) {
+            return $this->indexFuture();
+        } else {
+            return response()->json(['error' => "L'évènement n'a pas pu être supprimé"]);
+        }
     }
 }

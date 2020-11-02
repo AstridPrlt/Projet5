@@ -35,6 +35,7 @@ Route::get('myEvents','EventController@showMyEvents');
 
 Route::post('eventCreation', 'EventController@store');
 Route::get('futureEventsList', 'EventController@indexFuture');
+Route::delete('futureEventsList/{eventId}', 'EventController@destroy');
 Route::get('pastEventsList', 'EventController@indexPast');
 
 Auth::routes();

@@ -2568,12 +2568,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      futureEvents: {}
+      futureEvents: {},
+      showDeleteSpinner: false
     };
   },
   created: function created() {
@@ -2588,6 +2594,19 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
   methods: {
     formatedDate: function formatedDate(date) {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('ll');
+    },
+    deleteEvent: function deleteEvent(id) {
+      var _this2 = this;
+
+      if (confirm("Etes vous sûr de vouloir supprimer cet évènement ?")) {
+        this.showDeleteSpinner = true;
+        axios["delete"]('http://localhost/Projet5/public/futureEventsList/' + id).then(function (response) {
+          _this2.futureEvents = response.data;
+          _this2.showDeleteSpinner = false;
+        })["catch"](function (error) {
+          return console.log(error);
+        });
+      }
     }
   }
 });
@@ -59914,14 +59933,14 @@ var render = function() {
           staticClass: "card",
           staticStyle: {
             "min-width": "280px",
-            width: "23%",
+            width: "22%",
             margin: "20px auto"
           }
         },
         [
           _c("img", {
             staticClass: "card-img-top",
-            staticStyle: { height: "200px" },
+            staticStyle: { height: "200px", "object-fit": "cover" },
             attrs: {
               src: "./../public/storage/" + showFutureEvent.event_picture,
               alt: "" + showFutureEvent.title
@@ -61483,7 +61502,7 @@ var render = function() {
                           expression: "spinner"
                         }
                       ],
-                      staticClass: "spinner-border text-secondary",
+                      staticClass: "spinner-border text-secondary align-middle",
                       attrs: { role: "status" }
                     },
                     [
@@ -61525,46 +61544,96 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.futureEvents, function(futureEvent) {
-      return _c(
+    [
+      _vm._l(_vm.futureEvents, function(futureEvent) {
+        return _c(
+          "div",
+          {
+            key: futureEvent.id,
+            staticClass: "d-flex justify-content-between py-1"
+          },
+          [
+            _c("p", [
+              _vm._v(
+                "Le " +
+                  _vm._s(_vm.formatedDate(futureEvent.event_date)) +
+                  " : " +
+                  _vm._s(futureEvent.title)
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-perso py-1",
+                  attrs: {
+                    type: "button",
+                    href: "inscription/" + futureEvent.id
+                  }
+                },
+                [_vm._v("Modifier")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.showDeleteButton,
+                      expression: "!showDeleteButton"
+                    }
+                  ],
+                  staticClass: "btn btn-danger py-1",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.deleteEvent(futureEvent.id)
+                    }
+                  }
+                },
+                [_vm._v("Supprimer")]
+              )
+            ])
+          ]
+        )
+      }),
+      _vm._v(" "),
+      _c(
         "div",
         {
-          key: futureEvent.id,
-          staticClass: "d-flex justify-content-between py-1"
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showDeleteSpinner,
+              expression: "showDeleteSpinner"
+            }
+          ],
+          staticClass:
+            "position-absolute w-100 h-100 justify-content-center align-items-center bg-white",
+          staticStyle: { display: "flex", top: "0", left: "0", opacity: "0.8" }
         },
-        [
-          _c("p", [
-            _vm._v(
-              "Le " +
-                _vm._s(_vm.formatedDate(futureEvent.event_date)) +
-                " : " +
-                _vm._s(futureEvent.title)
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-perso py-1",
-                attrs: { type: "button", href: "inscription/" + futureEvent.id }
-              },
-              [_vm._v("Modifier")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              { staticClass: "btn btn-danger py-1", attrs: { type: "button" } },
-              [_vm._v("Supprimer")]
-            )
-          ])
-        ]
+        [_vm._m(0)]
       )
-    }),
-    0
+    ],
+    2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
+  }
+]
 render._withStripped = true
 
 
