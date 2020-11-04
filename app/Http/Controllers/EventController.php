@@ -9,6 +9,9 @@ use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Repositories\EventUserRepository;
+
+
 class EventController extends Controller
 {
     /**
@@ -18,12 +21,14 @@ class EventController extends Controller
      */
     public function index()
     {
+        $eventUser = new EventUserRepository();
+        $booked = $eventUser->booked();
         // if (Auth::user()) {
         //     $bookedAll = Auth::user()->events->all();
         //     $events = Event::orderBy('event_date', 'asc')->get();
         //     return view('events', ['events' => $events, 'bookedAll' => $bookedAll]);
         // } else {
-        $booked = DB::table('event_user')->select('event_id', DB::raw('count(*) as seats_booked'))->groupBy('event_id');
+        // $booked = DB::table('event_user')->select('event_id', DB::raw('count(*) as seats_booked'))->groupBy('event_id');
         $events = DB::table('events')->leftJoinSub($booked, 'booked', function ($join) {$join->on('events.id', '=', 'booked.event_id');})->orderBy('event_date', 'asc')->get();
         // $events = Event::orderBy('event_date', 'asc')->get();
         return view('events', ['events' => $events]);
@@ -108,7 +113,7 @@ class EventController extends Controller
 
         $eventPicture = $request->file('picture')->store('eventsPictures', 'public');//store the new picture
 
-        Event::create([
+        $eventCreated = Event::create([
             'category' => $request->category,
             'title' => $request->title,
             'event_date' => $request->event_date,
@@ -119,6 +124,11 @@ class EventController extends Controller
             'price' => $request->price,
             'event_picture' => $eventPicture
         ]);
+
+        //to reload event list in admin panel via emit
+        if($eventCreated) {
+            return $this->indexFuture();
+        }
     }
 
     /**

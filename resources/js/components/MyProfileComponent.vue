@@ -1,6 +1,6 @@
 <template>
     <div class="d-lg-flex">
-        <form enctype="multipart/form-data" class="m-auto" style="width: 20%;">
+        <form enctype="multipart/form-data" class="m-auto" style="width: 180px;">
             <div>
                 <img v-show="!showAvatarPreview" :src="`./../public/storage/${authUser.avatar}`" alt="Photo de profil de l'utilisateur" class="img-thumbnail rounded-circle" style="width: 175px; height: 175px; min-width: 175px; min-height: 175px; position: relative; left: 50%; transform: translateX(-50%); object-fit: cover;">
                 <img v-show="showAvatarPreview" :src="avatarPreview" class="img-thumbnail rounded-circle" style="width: 175px; height: 175px; min-width: 175px; min-height: 175px; position: relative; left: 50%; transform: translateX(-50%); object-fit: cover;">
@@ -8,9 +8,9 @@
             <div class="w-100 text-center">
                 <a v-show="readOnlyAvatar" type="button" style="color: teal;" @click="makeUpdateAvatar">Modifier ma photo</a>
                 <div v-show="!readOnlyAvatar" class="custom-file">
-                    <div class="custom-file">
+                    <div class="custom-file text-left">
                         <input type="file" class="custom-file-input" id="custom-file" aria-describedby="inputGroupFileAddon01" @change="showPreview">
-                        <label class="custom-file-label" for="custom-file" data-browse="Parcourir">Choisir une image...</label>
+                        <label class="custom-file-label" for="custom-file" data-browse="Parcourir">Photo...</label>
                     </div>
                     <div class="d-flex justify-content-center m-2">
                         <button type="button" class="btn btn-outline-perso mx-2" @click="cancelUpdateAvatar">Annuler</button>
@@ -138,10 +138,8 @@ export default {
 
         showPreview(event) {
             this.avatarImage = event.target.files[0];
-            // this.authUser.avatar = event.target.files[0];
             let preview  = new FileReader();
             preview.readAsDataURL(this.avatarImage);
-            // preview.readAsDataURL(this.authUser.avatar);
             preview.onload = event => {
                 this.showAvatarPreview = true;
                 this.avatarPreview = event.target.result;
@@ -163,14 +161,18 @@ export default {
             .catch(error => console.log(error))
         },
 
+        refreshAvatar(avatar) {
+            this.authUser.avatar = avatar.data;
+        },
+
         updateAvatar() {
             let avatarData = new FormData();
             avatarData.append('avatar', this.avatarImage);
-            // avatarData.append('avatar', this.authUser.avatar);
             axios.post('http://localhost/Projet5/public/myProfile/avatar/' + this.authUser.id, avatarData)
             .then((response) => {
                 console.log(avatarData, response);
-                // this.cancelUpdateAvatar();
+                this.refreshAvatar(response);
+                this.showAvatarPreview = false;
                 this.readOnlyAvatar = true;
                 })
             .catch(error => console.log(error))
@@ -178,6 +180,7 @@ export default {
     },
 
     created() {
+        this.authUser.avatar = "avatars/defaultAvatar.png";
         axios.get('http://localhost/Projet5/public/myProfile')
         .then(response => this.authUser = response.data)
         .catch(error => console.log(error));

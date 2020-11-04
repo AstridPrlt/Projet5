@@ -19,10 +19,7 @@
 
         <div class="h-100 w-100">
 
-            <button type="button" class="btn btn-perso w-75 mt-4 shadow" style="margin-left: 12.5%;" data-toggle="modal" data-target="#eventModal">
-                Créer un nouvel évènement
-            </button>
-            <create-event-component></create-event-component>
+
 
             <div class="card w-75 mx-auto mt-4 shadow" style="height: 35%">
                 <h5 class="card-header">Les évènements à venir</h5>

@@ -2332,10 +2332,9 @@ __webpack_require__.r(__webpack_exports__);
     showPreview: function showPreview(event) {
       var _this = this;
 
-      this.avatarImage = event.target.files[0]; // this.authUser.avatar = event.target.files[0];
-
+      this.avatarImage = event.target.files[0];
       var preview = new FileReader();
-      preview.readAsDataURL(this.avatarImage); // preview.readAsDataURL(this.authUser.avatar);
+      preview.readAsDataURL(this.avatarImage);
 
       preview.onload = function (event) {
         _this.showAvatarPreview = true;
@@ -2358,15 +2357,20 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(error);
       });
     },
+    refreshAvatar: function refreshAvatar(avatar) {
+      this.authUser.avatar = avatar.data;
+    },
     updateAvatar: function updateAvatar() {
       var _this3 = this;
 
       var avatarData = new FormData();
-      avatarData.append('avatar', this.avatarImage); // avatarData.append('avatar', this.authUser.avatar);
-
+      avatarData.append('avatar', this.avatarImage);
       axios.post('http://localhost/Projet5/public/myProfile/avatar/' + this.authUser.id, avatarData).then(function (response) {
-        console.log(avatarData, response); // this.cancelUpdateAvatar();
+        console.log(avatarData, response);
 
+        _this3.refreshAvatar(response);
+
+        _this3.showAvatarPreview = false;
         _this3.readOnlyAvatar = true;
       })["catch"](function (error) {
         return console.log(error);
@@ -2376,6 +2380,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this4 = this;
 
+    this.authUser.avatar = "avatars/defaultAvatar.png";
     axios.get('http://localhost/Projet5/public/myProfile').then(function (response) {
       return _this4.authUser = response.data;
     })["catch"](function (error) {
@@ -2533,7 +2538,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.event_picture);
       console.log(formData);
       axios.post('http://localhost/Projet5/public/eventCreation', formData).then(function (response) {
-        console.log(response);
+        _this2.$emit('event-created', response);
 
         _this2.cancelCreationEvent();
       })["catch"](function (error) {
@@ -2573,6 +2578,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2594,6 +2604,9 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
   methods: {
     formatedDate: function formatedDate(date) {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('ll');
+    },
+    refreshEvents: function refreshEvents(futureEvents) {
+      this.futureEvents = futureEvents.data;
     },
     deleteEvent: function deleteEvent(id) {
       var _this2 = this;
@@ -60358,7 +60371,7 @@ var render = function() {
       "form",
       {
         staticClass: "m-auto",
-        staticStyle: { width: "20%" },
+        staticStyle: { width: "180px" },
         attrs: { enctype: "multipart/form-data" }
       },
       [
@@ -60446,7 +60459,7 @@ var render = function() {
               staticClass: "custom-file"
             },
             [
-              _c("div", { staticClass: "custom-file" }, [
+              _c("div", { staticClass: "custom-file text-left" }, [
                 _c("input", {
                   staticClass: "custom-file-input",
                   attrs: {
@@ -60463,7 +60476,7 @@ var render = function() {
                     staticClass: "custom-file-label",
                     attrs: { for: "custom-file", "data-browse": "Parcourir" }
                   },
-                  [_vm._v("Choisir une image...")]
+                  [_vm._v("Photo...")]
                 )
               ]),
               _vm._v(" "),
@@ -61545,6 +61558,24 @@ var render = function() {
   return _c(
     "div",
     [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-perso w-25 mb-4 shadow position-relative",
+          staticStyle: { left: "50%", transform: "translateX(-50%)" },
+          attrs: {
+            type: "button",
+            "data-toggle": "modal",
+            "data-target": "#eventModal"
+          }
+        },
+        [_vm._v("\n            Créer un nouvel évènement\n    ")]
+      ),
+      _vm._v(" "),
+      _c("create-event-component", {
+        on: { "event-created": _vm.refreshEvents }
+      }),
+      _vm._v(" "),
       _vm._l(_vm.futureEvents, function(futureEvent) {
         return _c(
           "div",
@@ -61578,14 +61609,6 @@ var render = function() {
               _c(
                 "button",
                 {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: !_vm.showDeleteButton,
-                      expression: "!showDeleteButton"
-                    }
-                  ],
                   staticClass: "btn btn-danger py-1",
                   attrs: { type: "button" },
                   on: {

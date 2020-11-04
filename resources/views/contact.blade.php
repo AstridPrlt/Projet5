@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title')
-    La communauté
+    Contact
 @endsection
 
 @section('public_content')

@@ -60,6 +60,11 @@ class UserController extends Controller
 
         $authUser->update(['avatar' => $avatar]); //update the db
 
+        if($authUser->update(['avatar' => $avatar])) {
+            return response()->json($authUser->avatar);
+        } else {
+            return response()->json(['error' => "La photo n'a pas pu être modifiée"]);
+        }
     }
 
     /**

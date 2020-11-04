@@ -138,7 +138,7 @@ export default {
             console.log(formData);
             axios.post('http://localhost/Projet5/public/eventCreation', formData)
             .then((response) => {
-                console.log(response);
+                this.$emit('event-created', response);
                 this.cancelCreationEvent();
             })
             .catch(error => console.log(error));

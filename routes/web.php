@@ -20,13 +20,13 @@ Route::get('/', function () {
 });
 
 Route::view('details', 'details');
+Route::view('contact', 'contact');
+Route::view('coweerkers', 'coweerkers');
 
 Route::get('events','EventController@index');
 
 Route::get('inscription/{eventId}', 'EventController@show')->middleware('auth');
 Route::post('eventBooking', 'EventController@booking');
-
-Route::view('coweerkers', 'coweerkers');
 
 Route::get('myProfile', 'UserController@showAuth');
 Route::patch('myProfile/{userId}', 'UserController@update');
