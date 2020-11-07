@@ -8,8 +8,9 @@
         <div v-for="futureEvent in futureEvents" :key="futureEvent.id" class="d-flex justify-content-between py-1">
             <p>Le {{ formatedDate(futureEvent.event_date) }} : {{ futureEvent.title }}</p>
             <div>
-                <button type="button" class="btn btn-perso py-1" :href="`inscription/${futureEvent.id}`">Modifier</button>
+                <button type="button" class="btn btn-perso py-1" data-toggle="modal" :data-target="`#modifyEventModal${futureEvent.id}`">Modifier</button>
                 <button type="button" class="btn btn-danger py-1" @click="deleteEvent(futureEvent.id)">Supprimer</button>
+                <modify-event-component :event-to-modify="futureEvent"></modify-event-component>
             </div>
         </div>
         <div v-show="showDeleteSpinner" class="position-absolute w-100 h-100 justify-content-center align-items-center bg-white" style="display: flex; top: 0; left: 0; opacity: 0.8;">

@@ -51,7 +51,7 @@
                 </li>
             </ul>
 
-            <div class="tab-content m-3" id="pills-tabContent">
+            <div class="tab-content m-3 pb-2" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                     <my-profile-component></my-profile-component>
                 </div>

@@ -63,7 +63,7 @@
                     @yield('public_content')
             </div>
 
-            <footer>
+            <footer class="w-100 position-absolute" style="bottom: 0;">
                 <div class="d-flex text-light pt-4" style="background: linear-gradient(darkgray 10%, #4e545a); box-shadow: 0px -8px 10px 0px lightgrey;">
                     <div class="col-6 text-center">
                         <p class="pb-3">Lun - Sam : 9h - 21h<br>Dim : fermé</p>

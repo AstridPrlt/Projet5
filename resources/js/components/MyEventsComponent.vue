@@ -6,12 +6,18 @@
                 <h5>Le {{ formatedDate(myFutureEvent.event_date) }} : {{ myFutureEvent.title }}</h5>
                 <a type="button" class="btn btn-perso py-1" :href="`inscription/${myFutureEvent.id}`">Détails</a>
             </div>
+            <div v-if="myFutureEvents.length === 0">
+                <p class="d-inline">Vous n'avez aucun évènement de prévu. Consultez la </p><a :href="`events`" style="color: teal;">liste des prochains évènements</a>
+            </div>
         </div>
         <div class="my-3">
             <h4>Les évènements passés</h4>
             <div v-for="myPastEvent in myPastEvents" :key="myPastEvent.id" class="d-flex justify-content-between py-1">
                 <h5>Le {{ formatedDate(myPastEvent.event_date) }} : {{ myPastEvent.title }}</h5>
                 <a type="button" class="btn btn-perso py-1" :href="`inscription/${myPastEvent.id}`">Détails</a>
+            </div>
+            <div v-if="myPastEvents.length === 0">
+                <p>Pas d'évènements passés</p>
             </div>
         </div>
     </div>
@@ -26,7 +32,7 @@ export default {
 
     data() {
         return {
-            myEvents: []
+            myEvents: [],
         }
     },
 

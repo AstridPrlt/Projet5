@@ -151,7 +151,19 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $eventToModify = Event::find($event->id);
+
+        $eventToModify->category = request('category');
+        $eventToModify->title = request('title');
+        $eventToModify->event_date = request('event_date');
+        $eventToModify->begin_time = request('begin_time');
+        $eventToModify->end_time = request('end_time');
+        $eventToModify->event_description = request('event_description');
+        $eventToModify->seats = request('seats');
+        $eventToModify->price = request('price');
+
+        $eventToModify->save();
+
     }
 
     /**

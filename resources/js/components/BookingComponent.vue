@@ -28,7 +28,7 @@
             </div>
 
             <p class="w-100 my-5" v-html="eventSelected.event_description"></p>
-            <button v-show="!isBooked" type="submit" class="btn btn-perso" @click="eventBooking">Confirmer</button>
+            <button v-show="!isBooked" type="submit" class="btn btn-perso" @click="eventBooking">Je m'inscris</button>
             <p v-show="isBooked" class="text-bold" style="color: teal; font-size: 1.5rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !</p>
         </div>
 

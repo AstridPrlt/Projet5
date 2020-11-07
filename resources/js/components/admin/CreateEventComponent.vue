@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control" id="description" rows="8" placeholder="Description..." v-model="event_description" required></textarea>
+                                <textarea class="form-control" id="description" rows="5" placeholder="Description..." v-model="event_description" required></textarea>
                             </div>
                             <div class="form-group row">
                                 <label for="seats" class="col-sm-3 col-form-label">Nombre de places </label>

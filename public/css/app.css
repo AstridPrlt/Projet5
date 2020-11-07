@@ -10905,10 +10905,6 @@ a.text-dark:focus {
 
 
  /*****==========CUSTOM============******/
- .router-link-exact-active, .router-link-active {
-    color: teal;
-    font-weight: bold;
- }
 
  .nav-hover:hover {
     border-top: 4px solid lightgrey;

@@ -24,6 +24,7 @@ Route::view('contact', 'contact');
 Route::view('coweerkers', 'coweerkers');
 
 Route::get('events','EventController@index');
+Route::patch('events/{event}', 'EventController@update');
 
 Route::get('inscription/{eventId}', 'EventController@show')->middleware('auth');
 Route::post('eventBooking', 'EventController@booking');

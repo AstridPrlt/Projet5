@@ -62,6 +62,7 @@ Vue.component('my-contacts-component', require('./components/MyContactsComponent
 Vue.component('future-events-component', require('./components/admin/FutureEventsComponent.vue').default);
 Vue.component('past-events-component', require('./components/admin/PastEventsComponent.vue').default);
 Vue.component('create-event-component', require('./components/admin/CreateEventComponent.vue').default);
+Vue.component('modify-event-component', require('./components/admin/ModifyEventComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -70,5 +71,4 @@ Vue.component('create-event-component', require('./components/admin/CreateEventC
 
 const app = new Vue({
     el: '.appVue',
-    // router: router
 });

@@ -21,7 +21,7 @@
         </form>
 
         <div class="w-100">
-            <form class="border rounded m-3 p-2" style="border-color: lightgray;">
+            <form class="border rounded m-3 p-2">
                 <div  class="form-group row mb-1" v-show="readOnlyInfo" >
                     <label for="staticName" class="col-sm-2 col-form-label">Nom</label>
                     <div class="col-sm-10">
@@ -67,7 +67,7 @@
                 <button v-show="!readOnlyInfo" type="button" class="btn btn-perso w-100 my-1" @click="updateProfile">Enregistrer</button>
             </form>
 
-            <form class="border rounded m-3 p-2" style="border-color: lightgray;">
+            <form class="border rounded m-3 p-2">
                 <div class="form-group row mb-1" v-show="readOnlyIds">
                     <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
@@ -98,6 +98,11 @@
                 <button v-show="readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="makeUpdateIds">Modifier les identifiants</button>
                 <button v-show="!readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="updateProfile">Enregistrer</button>
             </form>
+
+            <div class="d-sm-flex border rounded m-3 p-2 text-center">
+                <button class="m-1 w-50 text-uppercase btn btn-perso2">être invisible</button>
+                <button class="m-1 w-50 text-uppercase btn btn-danger">Supprimer mon compte</button>
+            </div>
         </div>
     </div>
 </template>
