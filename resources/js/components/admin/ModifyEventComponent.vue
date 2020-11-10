@@ -10,7 +10,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form ref="modifyEventForm" method="post" @submit.prevent="updateEvents">
+                        <form method="post" @submit.prevent="updateEvents">
 
                             <div class="form-group row">
                                 <label for="category" class="col-sm-3 col-form-label">Catégorie</label>

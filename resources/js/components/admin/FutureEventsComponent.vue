@@ -7,9 +7,16 @@
 
         <div v-for="futureEvent in futureEvents" :key="futureEvent.id" class="d-flex justify-content-between py-1">
             <p>Le {{ formatedDate(futureEvent.event_date) }} : {{ futureEvent.title }}</p>
-            <div>
-                <button type="button" class="btn btn-perso py-1" data-toggle="modal" :data-target="`#modifyEventModal${futureEvent.id}`">Modifier</button>
-                <button type="button" class="btn btn-danger py-1" @click="deleteEvent(futureEvent.id)">Supprimer</button>
+            <div class="dropdown">
+                    <button class="btn btn-perso dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Plus
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button" data-toggle="modal" :data-target="`#listEventModal${futureEvent.id}`">Liste</button>
+                        <button type="button" class="dropdown-item" data-toggle="modal" :data-target="`#modifyEventModal${futureEvent.id}`">Modifier</button>
+                        <button type="button" class="dropdown-item" @click="deleteEvent(futureEvent.id)">Supprimer</button>
+                    </div>
+                <list-event-component :event-id="futureEvent.id"></list-event-component>
                 <modify-event-component :event-to-modify="futureEvent"></modify-event-component>
             </div>
         </div>

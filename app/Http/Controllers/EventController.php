@@ -37,7 +37,7 @@ class EventController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a specified event to the auth user and indicates if he has already booked it.
      *
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
@@ -50,6 +50,12 @@ class EventController extends Controller
         return view('booking', ['eventSelected' => $eventSelected, 'booked' => $booked]);
     }
 
+    /**
+     * Book an event for the auth user.
+     *
+     * @param  \App\Event  $event
+     * @return \Illuminate\Http\Response
+     */
     public function booking(Request $request)
     {
         $user = Auth::user();
@@ -57,6 +63,12 @@ class EventController extends Controller
         return "Vous êtes inscrit";
     }
 
+    /**
+     * Show the user all the events he has booked, in his home page.
+     *
+     * @param  \App\Event  $event
+     * @return \Illuminate\Http\Response
+     */
     public function showMyEvents()
     {
         $myEvents = Auth::user()->events->all();
@@ -64,6 +76,19 @@ class EventController extends Controller
         return response()->json($myEvents);
     }
 
+    /**
+     * Show the listing of all the users registered for an event. Used by admin.
+     *
+     * @param  \App\Event  $event
+     * @return \Illuminate\Http\Response
+     */
+    public function showListEvent($eventId)
+    {
+        $list = DB::table('event_user')->where('event_id', $eventId);
+        $usersOnList = DB::table('users')->joinSub($list, 'list', function ($join) {$join->on('users.id', '=', 'list.user_id');})->select('name', 'email')->get();
+
+        return response()->json($usersOnList);
+    }
 
     /**
      * Display a listing of all the past events for admin management.

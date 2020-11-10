@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->boolean('admin')->default(0);
-            $table->string('avatar')->default('defaultAvatar.png');
+            $table->string('avatar')->default('avatars/defaultAvatar.png');
             $table->string('job')->nullable();
             $table->text('user_description')->nullable();
             $table->timestamps();

@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('title')
-    Contact
+    Message
 @endsection
 
 @section('public_content')

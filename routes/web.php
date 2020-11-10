@@ -20,8 +20,15 @@ Route::get('/', function () {
 });
 
 Route::view('details', 'details');
-Route::view('contact', 'contact');
-Route::view('coweerkers', 'coweerkers');
+
+Route::get('contact', 'ContactController@show');
+Route::post('contact', 'ContactController@store');
+
+Route::get('coweerkers', 'UserController@index');
+// Route::view('coweerkers', 'coweerkers');
+// Route::get('coweerkers', 'UserController@index')->middleware('auth');
+
+Route::view('contactUsers', 'contactUsers');
 
 Route::get('events','EventController@index');
 Route::patch('events/{event}', 'EventController@update');
@@ -38,6 +45,7 @@ Route::post('eventCreation', 'EventController@store');
 Route::get('futureEventsList', 'EventController@indexFuture');
 Route::delete('futureEventsList/{eventId}', 'EventController@destroy');
 Route::get('pastEventsList', 'EventController@indexPast');
+Route::get('events/list/{eventId}', 'EventController@showListEvent');
 
 Auth::routes();
 
