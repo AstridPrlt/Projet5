@@ -37,7 +37,7 @@
                                     <a href={{url('events')}} class="text-uppercase mx-3">Les évènements</a>
                                 </div>
                                 <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'coweerkers' ? 'active-page' : '' }}">
-                                    <a href="coweerkers" class="text-uppercase mx-3">Les coweerkers</a></div>
+                                    <a href={{url('coweerkers')}} class="text-uppercase mx-3">Les coweerkers</a></div>
                             </div>
 
                             <div>

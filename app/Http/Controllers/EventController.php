@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 use App\Repositories\EventUserRepository;
-
+use Mockery\Undefined;
 
 class EventController extends Controller
 {
@@ -27,18 +27,19 @@ class EventController extends Controller
     public function index()
     {
         $events = $this->eventUser->eventsIndexWithNbBooked();
-        // if (Auth::user()) {
-        //     $bookedAll = Auth::user()->events->all();
-        //     $events = Event::orderBy('event_date', 'asc')->get();
-        //     return view('events', ['events' => $events, 'bookedAll' => $bookedAll]);
-        // } else {
-        return view('events', ['events' => $events]);
-    }
 
-    // public function isEventBookedByAuth($eventId) {
-    //     $isBooked = $this->eventUser->isEventBookedByAuth($eventId);
-    //     return $isBooked;
-    // }
+        if (Auth::user()) { //if a user is authentified, check if he has some future events booked -> return an array of these events id
+            $authEvents = $this->eventUser->authEventIds();
+            if(empty($authEvents)) { //if no events booked by this user
+                $authEvents = json_encode("Pas d'évènement");
+            }
+            return view('events', ['events' => $events, 'authEvents' => $authEvents]);
+        } else {
+            $authEvents = json_encode("Pas d'évènement");
+            return view('events', ['events' => $events, 'authEvents' => $authEvents]);
+        }
+
+    }
 
     /**
      * Show a specified event to the auth user and indicates if he has already booked it.
@@ -74,7 +75,7 @@ class EventController extends Controller
     public function showMyEvents()
     {
         $myEvents = $this->eventUser->userEvents();
-        return $myEvents;
+        return response()->json($myEvents);
     }
 
     /**
@@ -114,16 +115,6 @@ class EventController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created event.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -151,17 +142,6 @@ class EventController extends Controller
         } else {
             return response()->json(['error' => "L'évènement n'a pas pu être créé"]);
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Event $event)
-    {
-        //
     }
 
     /**
@@ -206,6 +186,9 @@ class EventController extends Controller
         if($eventToDelete->event_picture !== 'eventsPictures/logoEvent.png') {
             Storage::disk('local')->delete('public/'.$eventToDelete->event_picture); //delete the related picture except if it's the default event picture
         };
+        //delete booking in event_user table for the given event
+        $eventToDelete->users()->detach();
+
         $deleteEvent = $eventToDelete->delete();
 
         if($deleteEvent) {
@@ -218,9 +201,14 @@ class EventController extends Controller
     public function destroyPastEvent(Event $event, $eventId)
     {
         $eventToDelete = Event::find($eventId);
+
+        //delete the related picture except if it's the default event picture
         if($eventToDelete->event_picture !== 'eventsPictures/logoEvent.png') {
-            Storage::disk('local')->delete('public/'.$eventToDelete->event_picture); //delete the related picture except if it's the default event picture
+            Storage::disk('local')->delete('public/'.$eventToDelete->event_picture);
         };
+        //delete booking in event_user table for the given event
+        $eventToDelete->users()->detach();
+
         $deleteEvent = $eventToDelete->delete();
 
         if($deleteEvent) {
@@ -228,5 +216,26 @@ class EventController extends Controller
         } else {
             return response()->json(['error' => "L'évènement n'a pas pu être supprimé"]);
         }
+    }
+
+        /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Event  $event
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Event $event)
+    {
+        //
     }
 }

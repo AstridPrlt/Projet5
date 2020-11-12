@@ -2066,10 +2066,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['events'],
+  props: ['events', 'authEvents'],
   data: function data() {
     return {
       showEvents: this.events
@@ -60405,32 +60408,71 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-perso2",
-                attrs: {
-                  type: "button",
-                  "data-toggle": "modal",
-                  "data-target": "#eventModal" + showFutureEvent.id
-                }
-              },
-              [_vm._v("Détails")]
-            ),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-perso",
-                attrs: {
-                  type: "button",
-                  href: "inscription/" + showFutureEvent.id
-                }
-              },
-              [_vm._v("Je m'inscris !")]
-            )
-          ]),
+          !_vm.authEvents.includes(showFutureEvent.id)
+            ? _c("div", { staticClass: "card-body text-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-perso2",
+                    attrs: {
+                      type: "button",
+                      "data-toggle": "modal",
+                      "data-target": "#eventModal" + showFutureEvent.id
+                    }
+                  },
+                  [_vm._v("Détails")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-perso",
+                    attrs: {
+                      type: "button",
+                      href: "inscription/" + showFutureEvent.id
+                    }
+                  },
+                  [_vm._v("Je m'inscris !")]
+                )
+              ])
+            : _c("div", { staticClass: "card-body text-right" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-perso2",
+                    attrs: {
+                      type: "button",
+                      "data-toggle": "modal",
+                      "data-target": "#eventModal" + showFutureEvent.id
+                    }
+                  },
+                  [_vm._v("Détails")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "svg",
+                  {
+                    staticClass: "bi bi-check-circle-fill",
+                    staticStyle: { color: "teal" },
+                    attrs: {
+                      width: "2em",
+                      height: "2em",
+                      viewBox: "0 0 16 16",
+                      fill: "currentColor",
+                      xmlns: "http://www.w3.org/2000/svg"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                      }
+                    })
+                  ]
+                )
+              ]),
           _vm._v(" "),
           _c(
             "div",

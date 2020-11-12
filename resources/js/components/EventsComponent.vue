@@ -20,13 +20,16 @@
                         Places restantes : {{ showFutureEvent.seats - showFutureEvent.seats_booked }} / {{ showFutureEvent.seats }}
                     </li>
                 </ul>
-            <div class="card-body">
+            <div v-if="!authEvents.includes(showFutureEvent.id)" class="card-body text-right">
                 <button type="button" class="btn btn-perso2" data-toggle="modal" :data-target="`#eventModal${ showFutureEvent.id }`">Détails</button>
                 <a type="button" class="btn btn-perso" :href="`inscription/${showFutureEvent.id}`">Je m'inscris !</a>
             </div>
-            <!-- <div v-show="eventBookedByAuth">
-
-            </div> -->
+            <div v-else class="card-body text-right">
+                <button type="button" class="btn btn-perso2" data-toggle="modal" :data-target="`#eventModal${ showFutureEvent.id }`">Détails</button>
+                <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-check-circle-fill" style="color: teal;" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+            </div>
 
 
             <div class="modal fade" :id="`eventModal${ showFutureEvent.id }`" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -56,7 +59,7 @@
 
     export default {
 
-        props: ['events'],
+        props: ['events', 'authEvents'],
 
         data() {
             return {

@@ -44,7 +44,13 @@ class EventUserRepository {
     public function userEvents()
     {
         $showMyEvents = Auth::user()->events->all();
-        return response()->json($showMyEvents);
+        return $showMyEvents;
+    }
+
+    public function authEventIds()
+    {
+        $authEvents = DB::table('event_user')->where('user_id', Auth::user()->id)->pluck('event_id');
+        return $authEvents;
     }
 
     public function usersListForEvent($eventId)

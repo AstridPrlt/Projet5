@@ -10,19 +10,101 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Image;
 
+use App\Repositories\UserRepository;
+
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->userRequest = new UserRepository();
+    }
     /**
-     * Display a listing of all coweerkers.
+     * Display a listing of all coweerkers on coweerkers page.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $listOfUsers = User::where([['id', '!=', auth()->id()],['admin', false],])->get();
-
+        $listOfUsers = $this->userRequest->usersIndex();
         return view('coweerkers', ['listOfUsers' => $listOfUsers]);
     }
+
+    /**
+     * Store the user avatar in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAvatar(Request $request)
+    {
+        $this->validate($request, [
+            'avatar' => 'required|image|mimes:png,jpg,jpeg,gif,svg',
+        ]);
+
+        $updateAvatar = $this->userRequest->updateAvatar($request);
+        return $updateAvatar;
+    }
+
+    /**
+     * Display the Auth user details
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showAuth()
+    {
+        $authUser = Auth::user();
+        return response()->json($authUser);
+    }
+
+    /**
+     * Update the user profile : name, job and description.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProfile(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required|max:30',
+            'job' => 'min:2|max:50',
+            'user_description' => 'min:2|max:200'
+        ]);
+
+        $updateUserProfile = $this->userRequest->updateUserProfile();
+        return $updateUserProfile;
+    }
+
+    /**
+     * Update the user ids : email and password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateIds(Request $request)
+    {
+        $authUser = User::find(Auth::user()->id);
+
+        $validator = Validator::make($request->all(), [
+            'email' => ['required', 'email', 'max:60', Rule::unique('users')->ignore($authUser)],
+        ]);
+
+        $updateUserIds = $this->userRequest->updateUserIds($validator, $authUser);
+        return $updateUserIds;
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -46,60 +128,6 @@ class UserController extends Controller
     }
 
     /**
-     * Store the user avatar in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function storeAvatar(Request $request, $id)
-    {
-        $this->validate($request, [
-            'avatar' => 'required|image|mimes:png,jpg,jpeg,gif,svg',
-        ]);
-
-        $authUser = User::find(Auth::user()->id);
-
-        if($authUser->avatar !== 'avatars/defaultAvatar.png') {
-        Storage::disk('local')->delete('public/'.$authUser->avatar); //delete the old picture if different than the default avatar picture
-        };
-
-        $avatar = $request->file('avatar')->store('avatars', 'public'); //store the new picture
-        $image = Image::make(Storage::get('public/'.$avatar))->fit(300)->encode(); //resize the new picture
-        Storage::put('public/'.$avatar, $image); //then save it
-
-        $authUser->update(['avatar' => $avatar]); //update the db
-
-        if($authUser->update(['avatar' => $avatar])) {
-            return response()->json($authUser->avatar);
-        } else {
-            return response()->json(['error' => "La photo n'a pas pu être modifiée"]);
-        }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Display the Auth user details
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function showAuth()
-    {
-        $authUser = Auth::user();
-        return response()->json($authUser);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -111,58 +139,12 @@ class UserController extends Controller
     }
 
     /**
-     * Update the user profile : name, job and description.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateProfile(Request $request, $id)
-    {
-        $this->validate($request, [
-            'name' => 'required|max:30',
-            'job' => 'min:2|max:50',
-            'user_description' => 'min:2|max:200'
-        ]);
-
-        $authUser = User::find(Auth::user()->id);
-
-        $authUser->name = request('name');
-        $authUser->email = request('email');
-        $authUser->job = request('job');
-        $authUser->user_description = request('user_description');
-        $authUser->save();
-    }
-
-    /**
-     * Update the user ids : email and password.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function updateIds(Request $request, $id)
-    {
-        $authUser = User::find(Auth::user()->id);
-
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'max:60', Rule::unique('users')->ignore($authUser)],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
-        };
-
-        $authUser->email = request('email');
-        $authUser->save();
-    }
-    /**
-     * Remove the specified resource from storage.
+     * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function show($id)
     {
         //
     }
