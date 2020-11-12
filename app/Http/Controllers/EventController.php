@@ -8,33 +8,37 @@ use \Illuminate\Support\Facades\DB;
 use Facade\FlareClient\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 use App\Repositories\EventUserRepository;
 
 
 class EventController extends Controller
 {
+    public function __construct()
+    {
+        $this->eventUser = new EventUserRepository();
+    }
     /**
-     * Display a listing of the events with the number of available seats.
+     * Display a listing of the events with the number of booked seats.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $eventUser = new EventUserRepository();
-        $booked = $eventUser->booked();
+        $events = $this->eventUser->eventsIndexWithNbBooked();
         // if (Auth::user()) {
         //     $bookedAll = Auth::user()->events->all();
         //     $events = Event::orderBy('event_date', 'asc')->get();
         //     return view('events', ['events' => $events, 'bookedAll' => $bookedAll]);
         // } else {
-        // $booked = DB::table('event_user')->select('event_id', DB::raw('count(*) as seats_booked'))->groupBy('event_id');
-        $events = DB::table('events')->leftJoinSub($booked, 'booked', function ($join) {$join->on('events.id', '=', 'booked.event_id');})->orderBy('event_date', 'asc')->get();
-        // $events = Event::orderBy('event_date', 'asc')->get();
         return view('events', ['events' => $events]);
-        // }
-        // return response()->json($events);
     }
+
+    // public function isEventBookedByAuth($eventId) {
+    //     $isBooked = $this->eventUser->isEventBookedByAuth($eventId);
+    //     return $isBooked;
+    // }
 
     /**
      * Show a specified event to the auth user and indicates if he has already booked it.
@@ -44,9 +48,8 @@ class EventController extends Controller
      */
     public function show(Event $event, $eventId)
     {
-        $booked = Auth::user()->events->contains($eventId) ? 1 : 0;
-        $eventSelected = Event::find($eventId);
-
+        $eventSelected = $this->eventUser->showEvent($eventId);
+        $booked = $this->eventUser->isEventBookedByAuth($eventId);
         return view('booking', ['eventSelected' => $eventSelected, 'booked' => $booked]);
     }
 
@@ -58,48 +61,44 @@ class EventController extends Controller
      */
     public function booking(Request $request)
     {
-        $user = Auth::user();
-        $user->events()->attach($request->eventId);
-        return "Vous êtes inscrit";
+        $eventBooking = $this->eventUser->eventBooking($request);
+        return $eventBooking;
     }
 
     /**
-     * Show the user all the events he has booked, in his home page.
+     * Show the user all the events he has booked, in his profile page.
      *
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
     public function showMyEvents()
     {
-        $myEvents = Auth::user()->events->all();
-
-        return response()->json($myEvents);
+        $myEvents = $this->eventUser->userEvents();
+        return $myEvents;
     }
 
     /**
-     * Show the listing of all the users registered for an event. Used by admin.
+     * For Admin : Show the listing of all the users registered for an event.
      *
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
     public function showListEvent($eventId)
     {
-        $list = DB::table('event_user')->where('event_id', $eventId);
-        $usersOnList = DB::table('users')->joinSub($list, 'list', function ($join) {$join->on('users.id', '=', 'list.user_id');})->select('name', 'email')->get();
-
-        return response()->json($usersOnList);
+        $usersList = $this->eventUser->usersListForEvent($eventId);
+        return $usersList;
     }
 
     /**
-     * Display a listing of all the past events for admin management.
+     * For Admin : Display a listing of all the past events.
      *
      * @return \Illuminate\Http\Response
      */
 
     public function indexPast()
     {
-        $pastEvents = Event::where('event_date','<', NOW())->orderBy('event_date', 'desc')->get();
-        return response()->json($pastEvents);
+        $showPastEvents = $this->eventUser->showPastEvents();
+        return $showPastEvents;
     }
 
     /**
@@ -110,8 +109,8 @@ class EventController extends Controller
 
     public function indexFuture()
     {
-        $futureEvents = Event::where('event_date','>', NOW())->orderBy('event_date', 'asc')->get();
-        return response()->json($futureEvents);
+        $showFutureEvents = $this->eventUser->showFutureEvents();
+        return $showFutureEvents;
     }
 
     /**
@@ -125,7 +124,7 @@ class EventController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created event.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -133,26 +132,24 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'picture' => 'required|image|mimes:png,jpg,jpeg,gif,svg',
+            'category' => 'required',
+            'title' => 'required|min:2|max:60',
+            'event_date' => 'required|date',
+            'begin_time' => 'required',
+            'end_time' => 'required',
+            'event_description' => 'required|min:2|max:500',
+            'seats' => 'required|max:200',
+            'price' => 'required|max:2000',
+            'picture' => 'image|mimes:png,jpg,jpeg,gif,svg|nullable',
         ]);
 
-        $eventPicture = $request->file('picture')->store('eventsPictures', 'public');//store the new picture
-
-        $eventCreated = Event::create([
-            'category' => $request->category,
-            'title' => $request->title,
-            'event_date' => $request->event_date,
-            'begin_time' => $request->begin_time,
-            'end_time' => $request->end_time,
-            'event_description' => nl2br($request->event_description),
-            'seats' => $request->seats,
-            'price' => $request->price,
-            'event_picture' => $eventPicture
-        ]);
+        $storeEvent = $this->eventUser->storeNewEvent($request);
 
         //to reload event list in admin panel via emit
-        if($eventCreated) {
+        if($storeEvent) {
             return $this->indexFuture();
+        } else {
+            return response()->json(['error' => "L'évènement n'a pas pu être créé"]);
         }
     }
 
@@ -168,7 +165,7 @@ class EventController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified event.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Event  $event
@@ -176,33 +173,58 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $eventToModify = Event::find($event->id);
+        $this->validate($request, [
+            'category' => 'required',
+            'title' => 'required|min:2|max:60',
+            'event_date' => 'required|date',
+            'begin_time' => 'required',
+            'end_time' => 'required',
+            'event_description' => 'required|min:2|max:500',
+            'seats' => 'required|max:200',
+            'price' => 'required|max:2000'
+        ]);
 
-        $eventToModify->category = request('category');
-        $eventToModify->title = request('title');
-        $eventToModify->event_date = request('event_date');
-        $eventToModify->begin_time = request('begin_time');
-        $eventToModify->end_time = request('end_time');
-        $eventToModify->event_description = request('event_description');
-        $eventToModify->seats = request('seats');
-        $eventToModify->price = request('price');
+        $updateEvent = $this->eventUser->updateEvent($event);
 
-        $eventToModify->save();
+        if($updateEvent) {
+            return response()->json(['confirm' => "L'évènement a été modifié"]);
+        } else {
+            return response()->json(['error' => "L'évènement n'a pas pu être modifié"]);
+        }
 
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove future and past events.
      *
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event, $eventId)
+    public function destroyFutureEvent(Event $event, $eventId)
     {
         $eventToDelete = Event::find($eventId);
+        if($eventToDelete->event_picture !== 'eventsPictures/logoEvent.png') {
+            Storage::disk('local')->delete('public/'.$eventToDelete->event_picture); //delete the related picture except if it's the default event picture
+        };
+        $deleteEvent = $eventToDelete->delete();
 
-        if($eventToDelete -> delete()) {
+        if($deleteEvent) {
             return $this->indexFuture();
+        } else {
+            return response()->json(['error' => "L'évènement n'a pas pu être supprimé"]);
+        }
+    }
+
+    public function destroyPastEvent(Event $event, $eventId)
+    {
+        $eventToDelete = Event::find($eventId);
+        if($eventToDelete->event_picture !== 'eventsPictures/logoEvent.png') {
+            Storage::disk('local')->delete('public/'.$eventToDelete->event_picture); //delete the related picture except if it's the default event picture
+        };
+        $deleteEvent = $eventToDelete->delete();
+
+        if($deleteEvent) {
+            return $this->indexPast();
         } else {
             return response()->json(['error' => "L'évènement n'a pas pu être supprimé"]);
         }

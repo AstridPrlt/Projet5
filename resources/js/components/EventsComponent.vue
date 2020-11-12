@@ -22,9 +22,11 @@
                 </ul>
             <div class="card-body">
                 <button type="button" class="btn btn-perso2" data-toggle="modal" :data-target="`#eventModal${ showFutureEvent.id }`">Détails</button>
-                <!-- <button type="button" class="btn btn-perso" @click="$router.push({name: 'inscription', params: {id: `${event.id}` }})">Je m'inscris !</button> -->
                 <a type="button" class="btn btn-perso" :href="`inscription/${showFutureEvent.id}`">Je m'inscris !</a>
             </div>
+            <!-- <div v-show="eventBookedByAuth">
+
+            </div> -->
 
 
             <div class="modal fade" :id="`eventModal${ showFutureEvent.id }`" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -39,7 +41,6 @@
                         <div class="modal-body" v-html="showFutureEvent.event_description"></div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                            <!-- <button type="button" class="btn btn-perso" @click="$router.push({path: 'booking'})">Je m'inscris !</button> -->
                         </div>
                     </div>
                 </div>
@@ -76,12 +77,13 @@
             },
             formatedTime (time) {
                 return moment(time, "HH:mm").format('LT');
-            }
-        },
+            },
 
-        mounted() {
-            console.log('Event mounted')
-    }
+            // eventBookedByAuth() {
+            //     axios.get('http://localhost/Projet5/public/futureEventsList' + )
+            // }
+
+        },
 
 }
 </script>

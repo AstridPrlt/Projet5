@@ -26,7 +26,6 @@
                     <label for="staticName" class="col-sm-2 col-form-label">Nom</label>
                     <div class="col-sm-10">
                         <input type="text" readonly class="form-control-plaintext" id="staticName" v-model="authUser.name">
-                    <!-- <input type="text" v-show="readOnly" readonly class="form-control-plaintext" id="staticName" :value="`${authUser.name}`"> -->
                     </div>
                 </div>
                 <div  class="form-group row mb-1" v-show="!readOnlyInfo">
@@ -71,14 +70,15 @@
                 <div class="form-group row mb-1" v-show="readOnlyIds">
                     <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
-                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" v-model="authUser.email">
+                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" required v-model="authUser.email">
                     </div>
                 </div>
                 <div class="form-group row mb-1" v-show="!readOnlyIds">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-10">
-                    <input type="text" class="form-control" id="email" v-model="authUser.email">
+                    <input type="text" class="form-control" id="email" required v-model="authUser.email">
                     </div>
+                    <p class="w-100 text-center text-danger">{{ error_email }} </p>
                 </div>
 
                 <div class="form-group row mb-1">
@@ -96,7 +96,7 @@
                 </div>
 
                 <button v-show="readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="makeUpdateIds">Modifier les identifiants</button>
-                <button v-show="!readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="updateProfile">Enregistrer</button>
+                <button v-show="!readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="updateIds">Enregistrer</button>
             </form>
 
             <div class="d-sm-flex border rounded m-3 p-2 text-center">
@@ -121,6 +121,8 @@ export default {
 
             readOnlyInfo: true,
             readOnlyIds: true,
+
+            error_email : '',
         }
     },
 
@@ -161,9 +163,23 @@ export default {
             .then((response) => {
                 console.log(response);
                 this.readOnlyInfo = true;
-                this.readOnlyIds = true;
+                // this.readOnlyIds = true;
                 })
             .catch(error => console.log(error))
+        },
+
+        updateIds() {
+            axios.patch('http://localhost/Projet5/public/myProfileIds/' + this.authUser.id, {
+                email: this.authUser.email,
+            })
+            .then((response) => {
+                console.log(response);
+                // this.readOnlyInfo = true;
+                this.readOnlyIds = true;
+                })
+            .catch((error) => {
+                // console.log(error);
+                this.error_email = error.response.data.error.email})
         },
 
         refreshAvatar(avatar) {

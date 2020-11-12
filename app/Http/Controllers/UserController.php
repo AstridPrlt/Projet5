@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Image;
 
@@ -62,8 +64,8 @@ class UserController extends Controller
         };
 
         $avatar = $request->file('avatar')->store('avatars', 'public'); //store the new picture
-        $image = Image::make(Storage::get('public/'.$avatar))->fit(300)->encode();
-        Storage::put('public/'.$avatar, $image);
+        $image = Image::make(Storage::get('public/'.$avatar))->fit(300)->encode(); //resize the new picture
+        Storage::put('public/'.$avatar, $image); //then save it
 
         $authUser->update(['avatar' => $avatar]); //update the db
 
@@ -109,16 +111,16 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the user profile : name, job and description.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateProfile(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required|',
+            'name' => 'required|max:30',
             'job' => 'min:2|max:50',
             'user_description' => 'min:2|max:200'
         ]);
@@ -132,6 +134,28 @@ class UserController extends Controller
         $authUser->save();
     }
 
+    /**
+     * Update the user ids : email and password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateIds(Request $request, $id)
+    {
+        $authUser = User::find(Auth::user()->id);
+
+        $validator = Validator::make($request->all(), [
+            'email' => ['required', 'email', 'max:60', Rule::unique('users')->ignore($authUser)],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        };
+
+        $authUser->email = request('email');
+        $authUser->save();
+    }
     /**
      * Remove the specified resource from storage.
      *

@@ -2065,6 +2065,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2088,10 +2089,10 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
     },
     formatedTime: function formatedTime(time) {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(time, "HH:mm").format('LT');
-    }
-  },
-  mounted: function mounted() {
-    console.log('Event mounted');
+    } // eventBookedByAuth() {
+    //     axios.get('http://localhost/Projet5/public/futureEventsList' + )
+    // }
+
   }
 });
 
@@ -2355,7 +2356,8 @@ __webpack_require__.r(__webpack_exports__);
       avatarPreview: null,
       showAvatarPreview: false,
       readOnlyInfo: true,
-      readOnlyIds: true
+      readOnlyIds: true,
+      error_email: ''
     };
   },
   methods: {
@@ -2396,38 +2398,51 @@ __webpack_require__.r(__webpack_exports__);
         user_description: this.authUser.user_description
       }).then(function (response) {
         console.log(response);
-        _this2.readOnlyInfo = true;
-        _this2.readOnlyIds = true;
+        _this2.readOnlyInfo = true; // this.readOnlyIds = true;
       })["catch"](function (error) {
         return console.log(error);
+      });
+    },
+    updateIds: function updateIds() {
+      var _this3 = this;
+
+      axios.patch('http://localhost/Projet5/public/myProfileIds/' + this.authUser.id, {
+        email: this.authUser.email
+      }).then(function (response) {
+        console.log(response); // this.readOnlyInfo = true;
+
+        _this3.readOnlyIds = true;
+      })["catch"](function (error) {
+        // console.log(error);
+        _this3.error_email = error.response.data.error.email;
       });
     },
     refreshAvatar: function refreshAvatar(avatar) {
       this.authUser.avatar = avatar.data;
     },
     updateAvatar: function updateAvatar() {
-      var _this3 = this;
+      var _this4 = this;
 
       var avatarData = new FormData();
       avatarData.append('avatar', this.avatarImage);
       axios.post('http://localhost/Projet5/public/myProfile/avatar/' + this.authUser.id, avatarData).then(function (response) {
         console.log(avatarData, response);
 
-        _this3.refreshAvatar(response);
+        _this4.refreshAvatar(response);
 
-        _this3.showAvatarPreview = false;
-        _this3.readOnlyAvatar = true;
+        _this4.showAvatarPreview = false;
+        _this4.readOnlyAvatar = true;
       })["catch"](function (error) {
         return console.log(error);
       });
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.authUser.avatar = "avatars/defaultAvatar.png";
     axios.get('http://localhost/Projet5/public/myProfile').then(function (response) {
-      return _this4.authUser = response.data;
+      return _this5.authUser = response.data;
     })["catch"](function (error) {
       return console.log(error);
     });
@@ -2917,12 +2932,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      pastEvents: {}
+      pastEvents: {},
+      showDeleteSpinnerPast: false
     };
   },
   created: function created() {
@@ -2937,6 +2969,19 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
   methods: {
     formatedDate: function formatedDate(date) {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('ll');
+    },
+    deleteEvent: function deleteEvent(id) {
+      var _this2 = this;
+
+      if (confirm("Etes vous sûr de vouloir supprimer cet évènement ?")) {
+        this.showDeleteSpinnerPast = true;
+        axios["delete"]('http://localhost/Projet5/public/pastEventsList/' + id).then(function (response) {
+          _this2.pastEvents = response.data;
+          _this2.showDeleteSpinnerPast = false;
+        })["catch"](function (error) {
+          return console.log(error);
+        });
+      }
     }
   }
 });
@@ -61252,7 +61297,12 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control-plaintext",
-                attrs: { type: "text", readonly: "", id: "staticEmail" },
+                attrs: {
+                  type: "text",
+                  readonly: "",
+                  id: "staticEmail",
+                  required: ""
+                },
                 domProps: { value: _vm.authUser.email },
                 on: {
                   input: function($event) {
@@ -61301,7 +61351,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", id: "email" },
+                attrs: { type: "text", id: "email", required: "" },
                 domProps: { value: _vm.authUser.email },
                 on: {
                   input: function($event) {
@@ -61312,6 +61362,10 @@ var render = function() {
                   }
                 }
               })
+            ]),
+            _vm._v(" "),
+            _c("p", { staticClass: "w-100 text-center text-danger" }, [
+              _vm._v(_vm._s(_vm.error_email) + " ")
             ])
           ]
         ),
@@ -61351,7 +61405,7 @@ var render = function() {
             ],
             staticClass: "btn btn-perso w-100 my-1",
             attrs: { type: "button" },
-            on: { click: _vm.updateProfile }
+            on: { click: _vm.updateIds }
           },
           [_vm._v("Enregistrer")]
         )
@@ -62830,38 +62884,138 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.pastEvents, function(pastEvent) {
-      return _c(
+    [
+      _vm._l(_vm.pastEvents, function(pastEvent) {
+        return _c(
+          "div",
+          {
+            key: pastEvent.id,
+            staticClass: "d-flex justify-content-between py-1"
+          },
+          [
+            _c("p", [
+              _vm._v(
+                "Le " +
+                  _vm._s(_vm.formatedDate(pastEvent.event_date)) +
+                  " : " +
+                  _vm._s(pastEvent.title)
+              )
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "dropdown" },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-perso dropdown-toggle",
+                    attrs: {
+                      type: "button",
+                      id: "dropdownMenu2",
+                      "data-toggle": "dropdown",
+                      "aria-haspopup": "true",
+                      "aria-expanded": "false"
+                    }
+                  },
+                  [_vm._v("\n                Plus\n            ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "dropdown-menu",
+                    attrs: { "aria-labelledby": "dropdownMenu2" }
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "dropdown-item",
+                        attrs: {
+                          type: "button",
+                          "data-toggle": "modal",
+                          "data-target": "#listEventModal" + pastEvent.id
+                        }
+                      },
+                      [_vm._v("Liste")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "dropdown-item",
+                        attrs: {
+                          type: "button",
+                          href: "inscription/" + pastEvent.id
+                        }
+                      },
+                      [_vm._v("Détails")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "dropdown-item",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteEvent(pastEvent.id)
+                          }
+                        }
+                      },
+                      [_vm._v("Supprimer")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("list-event-component", {
+                  attrs: { "event-id": pastEvent.id }
+                }),
+                _vm._v(" "),
+                _c("modify-event-component", {
+                  attrs: { "event-to-modify": pastEvent }
+                })
+              ],
+              1
+            )
+          ]
+        )
+      }),
+      _vm._v(" "),
+      _c(
         "div",
         {
-          key: pastEvent.id,
-          staticClass: "d-flex justify-content-between py-1"
-        },
-        [
-          _c("p", [
-            _vm._v(
-              "Le " +
-                _vm._s(_vm.formatedDate(pastEvent.event_date)) +
-                " : " +
-                _vm._s(pastEvent.title)
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "a",
+          directives: [
             {
-              staticClass: "btn btn-perso py-1",
-              attrs: { type: "button", href: "inscription/" + pastEvent.id }
-            },
-            [_vm._v("Détails")]
-          )
-        ]
+              name: "show",
+              rawName: "v-show",
+              value: _vm.showDeleteSpinnerPast,
+              expression: "showDeleteSpinnerPast"
+            }
+          ],
+          staticClass:
+            "position-absolute w-100 h-100 justify-content-center align-items-center bg-white",
+          staticStyle: { display: "flex", top: "0", left: "0", opacity: "0.8" }
+        },
+        [_vm._m(0)]
       )
-    }),
-    0
+    ],
+    2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
+  }
+]
 render._withStripped = true
 
 
