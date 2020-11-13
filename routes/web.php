@@ -42,6 +42,7 @@ Route::patch('myProfile/{userId}', 'UserController@updateProfile');
 Route::patch('myProfileIds/{userId}', 'UserController@updateIds');
 Route::post('myProfile/avatar/{userId}', 'UserController@storeAvatar');
 Route::get('myEvents','EventController@showMyEvents');
+Route::delete('deleteMyprofile/{userId}', 'UserController@destroy');
 
 Route::post('eventCreation', 'EventController@store');
 Route::get('futureEventsList', 'EventController@indexFuture');
@@ -49,6 +50,8 @@ Route::delete('futureEventsList/{eventId}', 'EventController@destroyFutureEvent'
 Route::get('pastEventsList', 'EventController@indexPast');
 Route::delete('pastEventsList/{eventId}', 'EventController@destroyPastEvent');
 Route::get('events/list/{eventId}', 'EventController@showListEvent');
+
+Route::view('deleteUserConfirm', 'deleteUserConfirm')->name('deleteUserConfirm');
 
 Auth::routes();
 

@@ -2438,6 +2438,16 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         return console.log(error);
       });
+    },
+    userDeletion: function userDeletion() {
+      if (confirm("Etes vous sûr de vouloir supprimer votre compte ?")) {
+        axios["delete"]('http://localhost/Projet5/public/deleteMyprofile/' + this.authUser.id).then(function (response) {
+          console.log(response);
+          window.location.replace(response.data.redirect);
+        })["catch"](function (error) {
+          return console.log(error);
+        });
+      }
     }
   },
   created: function created() {
@@ -61453,7 +61463,26 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm._m(2)
+      _c(
+        "div",
+        { staticClass: "d-sm-flex border rounded m-3 p-2 text-center" },
+        [
+          _c(
+            "button",
+            { staticClass: "m-1 w-50 text-uppercase btn btn-perso2" },
+            [_vm._v("être invisible")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "m-1 w-50 text-uppercase btn btn-danger",
+              on: { click: _vm.userDeletion }
+            },
+            [_vm._v("Supprimer mon compte")]
+          )
+        ]
+      )
     ])
   ])
 }
@@ -61501,28 +61530,6 @@ var staticRenderFns = [
         })
       ])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "d-sm-flex border rounded m-3 p-2 text-center" },
-      [
-        _c(
-          "button",
-          { staticClass: "m-1 w-50 text-uppercase btn btn-perso2" },
-          [_vm._v("être invisible")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          { staticClass: "m-1 w-50 text-uppercase btn btn-danger" },
-          [_vm._v("Supprimer mon compte")]
-        )
-      ]
-    )
   }
 ]
 render._withStripped = true

@@ -101,7 +101,7 @@
 
             <div class="d-sm-flex border rounded m-3 p-2 text-center">
                 <button class="m-1 w-50 text-uppercase btn btn-perso2">être invisible</button>
-                <button class="m-1 w-50 text-uppercase btn btn-danger">Supprimer mon compte</button>
+                <button class="m-1 w-50 text-uppercase btn btn-danger" @click="userDeletion">Supprimer mon compte</button>
             </div>
         </div>
     </div>
@@ -197,6 +197,18 @@ export default {
                 this.readOnlyAvatar = true;
                 })
             .catch(error => console.log(error))
+        },
+
+        userDeletion() {
+            if(confirm("Etes vous sûr de vouloir supprimer votre compte ?")) {
+                axios.delete('http://localhost/Projet5/public/deleteMyprofile/' + this.authUser.id)
+                .then((response) => {
+                    console.log(response);
+                    window.location.replace(response.data.redirect);
+                    })
+                .catch(error => console.log(error));
+            }
+
         }
     },
 

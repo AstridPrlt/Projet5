@@ -102,7 +102,16 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $userToDelete = User::find($id);
+        //delete the old picture if different than the default avatar picture
+        if($userToDelete->avatar !== 'avatars/defaultAvatar.png') {
+            Storage::disk('local')->delete('public/'.$userToDelete->avatar);
+        };
+        //delete booking in event_user table for the given event
+        $userToDelete->events()->detach();
+
+        $userToDelete->delete();
+        return ['redirect' => route('deleteUserConfirm')];
     }
 
 
