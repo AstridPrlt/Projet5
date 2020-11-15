@@ -32,11 +32,8 @@
                                 <div class="col-sm-9"><input type="date" id="eventDate" name="EventDate" class="form-control w-auto" v-model="event_date" required></div>
                             </div>
                             <div class="form-group row">
-                                <label for="eventDate" class="col-sm-3 col-form-label">Heure</label>
-                                <div class="col-sm-9 d-flex">
-                                    <label for="begin"></label><input type="time" id="begin" name="begin" class="form-control w-auto" v-model="begin_time" required>
-                                    <label for="end" class="mx-3"> à </label><input type="time" id="end" name="end" class="form-control w-auto" v-model="end_time" required>
-                                </div>
+                                <label for="beginTime" class="col-sm-3 col-form-label">Heure</label>
+                                <div class="col-sm-9"><input type="time" id="beginTime" name="beginTime" class="form-control w-auto" v-model="begin_time" required></div>
                             </div>
                             <div class="form-group">
                                 <textarea class="form-control" id="description" rows="5" placeholder="Description..." v-model="event_description" required></textarea>
@@ -80,7 +77,6 @@ export default {
                 title: '',
                 event_date: '',
                 begin_time: '',
-                end_time: '',
                 event_description: '',
                 seats: '',
                 price: '',
@@ -108,7 +104,6 @@ export default {
                 this.title = '';
                 this.event_date = '';
                 this.begin_time = '';
-                this.end_time = '';
                 this.event_description = '';
                 this.seats = '';
                 this.price = '';
@@ -127,9 +122,9 @@ export default {
             // avatarData.append('avatar', this.avatarImage);
             formData.append('category', this.category);
             formData.append('title', this.title);
+            formData.append('event_date_time', this.event_date + ' ' + this.begin_time);
             formData.append('event_date', this.event_date);
             formData.append('begin_time', this.begin_time);
-            formData.append('end_time', this.end_time);
             formData.append('event_description', this.event_description);
             formData.append('seats', this.seats);
             formData.append('price', this.price);

@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Image;
 
@@ -55,12 +56,12 @@ class UserRepository {
     public function updateUserIds($validator, $authUser)
     {
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 401);
-        };
-
+            return response()->json(['error' => $validator->errors()]);
+        } else {
         $authUser->email = request('email');
+        $authUser->password = Hash::make(request('password'));
         $authUser->save();
-
         return response()->json($authUser);
+        }
     }
 }

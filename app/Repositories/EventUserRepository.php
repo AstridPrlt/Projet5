@@ -17,7 +17,7 @@ class EventUserRepository {
         //request to know how many seats are already booked for each event
         $booked = DB::table('event_user')->select('event_id', DB::raw('count(*) as seats_booked'))->groupBy('event_id');
         //request to retrieve all events with number of seats already booked
-        $events = DB::table('events')->leftJoinSub($booked, 'booked', function ($join) {$join->on('events.id', '=', 'booked.event_id');})->orderBy('event_date', 'asc')->get();
+        $events = DB::table('events')->leftJoinSub($booked, 'booked', function ($join) {$join->on('events.id', '=', 'booked.event_id');})->orderBy('event_date_time', 'asc')->get();
 
         return $events;
     }
@@ -65,13 +65,13 @@ class EventUserRepository {
 
     public function showPastEvents()
     {
-        $pastEvents = Event::where('event_date','<', NOW())->orderBy('event_date', 'desc')->get();
+        $pastEvents = Event::where('event_date_time','<', NOW())->orderBy('event_date_time', 'desc')->get();
         return response()->json($pastEvents);
     }
 
     public function showFutureEvents()
     {
-        $futureEvents = Event::where('event_date','>', NOW())->orderBy('event_date', 'asc')->get();
+        $futureEvents = Event::where('event_date_time','>', NOW())->orderBy('event_date_time', 'asc')->get();
         return response()->json($futureEvents);
     }
 
@@ -108,10 +108,10 @@ class EventUserRepository {
 
         $eventToModify->category = request('category');
         $eventToModify->title = request('title');
+        $eventToModify->event_date_time = request('event_date_time');
         $eventToModify->event_date = request('event_date');
         $eventToModify->begin_time = request('begin_time');
-        $eventToModify->end_time = request('end_time');
-        $eventToModify->event_description = request('event_description');
+        $eventToModify->event_description = nl2br(request('event_description'));
         $eventToModify->seats = request('seats');
         $eventToModify->price = request('price');
 

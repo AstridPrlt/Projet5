@@ -18,9 +18,9 @@ class CreateEventsTable extends Migration
             $table->string('event_picture')->default('eventsPictures/logoEvent.jpg');
             $table->string('title');
             $table->text('event_description');
+            $table->dateTime('event_date_time');
             $table->date('event_date');
             $table->time('begin_time');
-            $table->time('end_time');
             $table->tinyInteger('seats')->unsigned();
             $table->smallInteger('price')->unsigned();
             $table->string('category');

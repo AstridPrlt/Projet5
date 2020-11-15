@@ -2,7 +2,7 @@
     <div>
         <div class="my-3">
             <h4>Les évènements à venir</h4>
-            <div v-for="myFutureEvent in myFutureEvents" :key="myFutureEvent.id" class="d-flex justify-content-between py-1">
+            <div v-for="myFutureEvent in myFutureEvents" :key="myFutureEvent.id" class="d-md-flex justify-content-between py-1">
                 <h5>Le {{ formatedDate(myFutureEvent.event_date) }} : {{ myFutureEvent.title }}</h5>
                 <a type="button" class="btn btn-perso py-1" :href="`inscription/${myFutureEvent.id}`">Détails</a>
             </div>

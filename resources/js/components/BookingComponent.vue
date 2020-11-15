@@ -17,13 +17,13 @@
     </div> -->
 
     <div>
-        <div class="w-75 mx-auto mt-4 d-flex flex-wrap">
-            <img :src="`./../storage/${eventSelected.event_picture}`" class="w-25" :alt="`${ eventSelected.title }`">
+        <div class="w-75 mx-auto my-4 d-flex flex-wrap">
+            <img :src="`./../storage/${eventSelected.event_picture}`" class="d-none d-md-block w-25" style="object-fit: contain;" :alt="`${ eventSelected.title }`">
 
-            <div class="w-75 text-center">
+            <div class="w-75 m-auto text-center">
                 <h2>{{ eventSelected.title }}</h2>
-                <p>Date : Le {{ formatedDate(eventSelected.event_date) }}</p>
-                <p>De {{ formatedTime(eventSelected.begin_time) }} à {{ formatedTime(eventSelected.end_time) }}</p>
+                <p>Le {{ formatedDate(eventSelected.event_date_time) }}</p>
+                <p>à {{ formatedTime(eventSelected.event_date_time) }}</p>
                 <p>Prix : {{ eventSelected.price }} €</p>
             </div>
 
@@ -45,12 +45,6 @@ export default {
 
         props: ['eventSelected', 'booked'],
 
-        // computed: {
-        //     showEvent: function () {
-        //         return this.events.filter(event => event.id == this.$route.params.id)
-        //     }
-        // },
-
         data: function () {
             return {
                 isBooked: this.booked
@@ -62,7 +56,7 @@ export default {
                 return moment(date).format('ll');
             },
             formatedTime (time) {
-                return moment(time, "HH:mm").format('LT');
+                return moment(time).format('LT');
             },
 
             eventBooking() {
@@ -74,13 +68,6 @@ export default {
 
                 .catch(response => {console.log(error);});
             }
-
-            // eventBooking() {
-            //     axios.post('http://localhost/Projet5/public/eventBooking', {
-            //         event_id: this.$route.params.id })
-            //     .then(function (response) {console.log(response);})
-            //     .catch(function (error) {console.log(error);});
-            // }
         },
 
         // created() {
@@ -88,10 +75,6 @@ export default {
         //     .then(response => this.events = response.data)
         //     .catch(error => console.log(error));
         // },
-
-        // mounted() {
-        //     console.log(this.$route.params.id)
-        // }
 
         mounted() {
             console.log(this.eventSelected.id);

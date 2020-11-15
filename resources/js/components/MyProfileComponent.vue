@@ -23,26 +23,26 @@
         <div class="w-100">
             <form class="border rounded m-3 p-2">
                 <div  class="form-group row mb-1" v-show="readOnlyInfo" >
-                    <label for="staticName" class="col-sm-2 col-form-label">Nom</label>
+                    <label for="staticName" class="col-sm-2 col-form-label font-weight-bold">Nom</label>
                     <div class="col-sm-10">
                         <input type="text" readonly class="form-control-plaintext" id="staticName" v-model="authUser.name">
                     </div>
                 </div>
                 <div  class="form-group row mb-1" v-show="!readOnlyInfo">
-                    <label for="name" class="col-sm-2 col-form-label">Nom</label>
+                    <label for="name" class="col-sm-2 col-form-label font-weight-bold">Nom</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="name" v-model="authUser.name">
                     </div>
                 </div>
 
                 <div class="form-group row mb-1" v-show="readOnlyInfo">
-                    <label for="staticJob" class="col-sm-2 col-form-label">Spécialité</label>
+                    <label for="staticJob" class="col-sm-2 col-form-label font-weight-bold">Spécialité</label>
                     <div class="col-sm-10">
                     <input type="text" readonly class="form-control-plaintext" id="staticJob" v-model="authUser.job">
                     </div>
                 </div>
                 <div class="form-group row mb-1" v-show="!readOnlyInfo">
-                    <label for="job" class="col-sm-2 col-form-label">Spécialité</label>
+                    <label for="job" class="col-sm-2 col-form-label font-weight-bold">Spécialité</label>
                     <div class="col-sm-10">
                     <input type="text" class="form-control" id="job" v-model="authUser.job" placeholder="Votre spécialité / job / domaine de prédilection">
                     </div>
@@ -50,13 +50,13 @@
 
 
                 <div class="form-group row mb-1" v-show="readOnlyInfo">
-                    <label for="staticDesc" class="col-sm-2 col-form-label">Description</label>
+                    <label for="staticDesc" class="col-sm-2 col-form-label font-weight-bold font-weight-bold">Description</label>
                     <div class="col-sm-10">
                     <textarea type="text" readonly class="form-control-plaintext" id="staticDesc" v-model="authUser.user_description"></textarea>
                     </div>
                 </div>
                 <div class="form-group row mb-1" v-show="!readOnlyInfo">
-                    <label for="desc" class="col-sm-2 col-form-label">Description</label>
+                    <label for="desc" class="col-sm-2 col-form-label font-weight-bold">Description</label>
                     <div class="col-sm-10">
                     <textarea type="text" class="form-control" rows="5" id="desc" v-model="authUser.user_description" placeholder="Parlez-nous de vous et de ce que vous cherchez..."></textarea>
                     </div>
@@ -66,37 +66,38 @@
                 <button v-show="!readOnlyInfo" type="button" class="btn btn-perso w-100 my-1" @click="updateProfile">Enregistrer</button>
             </form>
 
-            <form class="border rounded m-3 p-2">
+            <form class="border rounded m-3 p-2" @submit.prevent="updateIds">
                 <div class="form-group row mb-1" v-show="readOnlyIds">
-                    <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                    <label for="staticEmail" class="col-sm-2 col-form-label font-weight-bold">Email</label>
                     <div class="col-sm-10">
                     <input type="text" readonly class="form-control-plaintext" id="staticEmail" required v-model="authUser.email">
                     </div>
                 </div>
                 <div class="form-group row mb-1" v-show="!readOnlyIds">
-                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                    <label for="email" class="col-sm-2 col-form-label font-weight-bold">Email</label>
                     <div class="col-sm-10">
                     <input type="text" class="form-control" id="email" required v-model="authUser.email">
                     </div>
                     <p class="w-100 text-center text-danger">{{ error_email }} </p>
                 </div>
 
-                <div class="form-group row mb-1">
-                    <label for="inputPassword" class="col-sm-2 col-form-label">Mot de passe</label>
+                <div class="form-group row mb-1" v-show="!readOnlyIds">
+                    <label for="inputPassword" class="col-sm-2 col-form-label font-weight-bold">Mot de passe</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputPassword">
+                        <input type="password" class="form-control" id="inputPassword" required>
+                    </div>
+                    <p class="w-100 text-center text-danger">{{ error_password }} </p>
+                </div>
+
+                <div class="form-group row mb-1" v-show="!readOnlyIds">
+                    <label for="inputPassword2" class="col-sm-2 col-form-label font-weight-bold">Mot de passe (confirmation)</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inputPassword2" required>
                     </div>
                 </div>
 
-                <div class="form-group row mb-1">
-                    <label for="inputPassword2" class="col-sm-2 col-form-label">Mot de passe (confirmation)</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputPassword2">
-                    </div>
-                </div>
-
-                <button v-show="readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="makeUpdateIds">Modifier les identifiants</button>
-                <button v-show="!readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="updateIds">Enregistrer</button>
+                <button v-show="readOnlyIds" type="button" class="btn btn-perso w-100 my-1" @click="makeUpdateIds">Modifier mon email et mon mot de passe</button>
+                <button v-show="!readOnlyIds" type="submit" class="btn btn-perso w-100 my-1">Enregistrer</button>
             </form>
 
             <div class="d-sm-flex border rounded m-3 p-2 text-center">
@@ -123,6 +124,7 @@ export default {
             readOnlyIds: true,
 
             error_email : '',
+            error_password : ''
         }
     },
 
@@ -171,15 +173,21 @@ export default {
         updateIds() {
             axios.patch('http://localhost/Projet5/public/myProfileIds/' + this.authUser.id, {
                 email: this.authUser.email,
+                password: document.getElementById('inputPassword').value,
+                password_confirmation: document.getElementById('inputPassword2').value,
             })
             .then((response) => {
                 console.log(response);
-                // this.readOnlyInfo = true;
                 this.readOnlyIds = true;
+                this.error_email = '';
+                this.error_password = '';
+                document.getElementById('inputPassword').value = '';
+                document.getElementById('inputPassword2').value = ''
                 })
             .catch((error) => {
-                // console.log(error);
-                this.error_email = error.response.data.error.email})
+                console.log(error);
+                this.error_email = error.response.data.error.email;
+                this.error_password = error.response.data.error.password});
         },
 
         refreshAvatar(avatar) {

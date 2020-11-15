@@ -1348,6 +1348,13 @@ pre code {
 }
 
 @media (min-width: 992px) {
+
+    .active-page {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        margin-bottom: 0;
+    }
+
   .col-lg {
     flex-basis: 0;
     flex-grow: 1;
@@ -10936,13 +10943,12 @@ a.text-dark:focus {
 
  /*****==========CUSTOM============******/
 
- .nav-hover:hover {
-    border-top: 4px solid lightgrey;
- }
-
  .active-page {
-    text-decoration: none;
-    border-top: 4px solid gray;
+    background-color: darkgray;
+    border-radius: 0.5rem;
+ }
+ .active-page a {
+     color: white;
  }
 
  .btn-perso {

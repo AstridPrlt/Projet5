@@ -125,9 +125,7 @@ class EventController extends Controller
         $this->validate($request, [
             'category' => 'required',
             'title' => 'required|min:2|max:60',
-            'event_date' => 'required|date',
-            'begin_time' => 'required',
-            'end_time' => 'required',
+            'event_date_time' => 'required',
             'event_description' => 'required|min:2|max:500',
             'seats' => 'required|max:200',
             'price' => 'required|max:2000',
@@ -156,9 +154,9 @@ class EventController extends Controller
         $this->validate($request, [
             'category' => 'required',
             'title' => 'required|min:2|max:60',
+            'event_date_time' => 'required',
             'event_date' => 'required|date',
             'begin_time' => 'required',
-            'end_time' => 'required',
             'event_description' => 'required|min:2|max:500',
             'seats' => 'required|max:200',
             'price' => 'required|max:2000'

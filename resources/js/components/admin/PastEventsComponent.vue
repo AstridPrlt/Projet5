@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-for="pastEvent in pastEvents" :key="pastEvent.id" class="d-flex justify-content-between py-1">
-            <p>Le {{ formatedDate(pastEvent.event_date) }} : {{ pastEvent.title }}</p>
+            <p>Le {{ formatedDate(pastEvent.event_date_time) }} : {{ pastEvent.title }}</p>
             <div class="dropdown">
                 <button class="btn btn-perso dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Plus

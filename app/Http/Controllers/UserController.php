@@ -88,7 +88,8 @@ class UserController extends Controller
         $authUser = User::find(Auth::user()->id);
 
         $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'max:60', Rule::unique('users')->ignore($authUser)],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($authUser)],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         $updateUserIds = $this->userRequest->updateUserIds($validator, $authUser);
