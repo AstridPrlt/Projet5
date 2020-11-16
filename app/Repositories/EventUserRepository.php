@@ -17,7 +17,7 @@ class EventUserRepository {
         //request to know how many seats are already booked for each event
         $booked = DB::table('event_user')->select('event_id', DB::raw('count(*) as seats_booked'))->groupBy('event_id');
         //request to retrieve all events with number of seats already booked
-        $events = DB::table('events')->leftJoinSub($booked, 'booked', function ($join) {$join->on('events.id', '=', 'booked.event_id');})->orderBy('event_date_time', 'asc')->get();
+        $events = DB::table('events')->where('event_date_time','>', NOW())->leftJoinSub($booked, 'booked', function ($join) {$join->on('events.id', '=', 'booked.event_id');})->orderBy('event_date_time', 'asc')->get();
 
         return $events;
     }
@@ -38,7 +38,13 @@ class EventUserRepository {
     {
         $user = Auth::user();
         $user->events()->attach($request->eventId);
-        return "Vous êtes inscrit";
+        return "Inscription OK";
+    }
+
+    public function eventBookingToCancel($eventId) {
+        $user = Auth::user();
+        $user->events()->detach($eventId);
+        return "Inscription annulée";
     }
 
     public function userEvents()
@@ -102,6 +108,12 @@ class EventUserRepository {
         return $eventCreated;
     }
 
+    public function editEvent($eventId)
+    {
+        $eventToUpdate = Event::find($eventId);
+        return $eventToUpdate;
+    }
+
     public function updateEvent(Event $event)
     {
         $eventToModify = Event::find($event->id);
@@ -111,11 +123,13 @@ class EventUserRepository {
         $eventToModify->event_date_time = request('event_date_time');
         $eventToModify->event_date = request('event_date');
         $eventToModify->begin_time = request('begin_time');
-        $eventToModify->event_description = nl2br(request('event_description'));
+        $eventToModify->event_description = htmlspecialchars(request('event_description'));
         $eventToModify->seats = request('seats');
         $eventToModify->price = request('price');
 
         $eventToModify->save();
+
+        return $eventToModify;
     }
 
 }

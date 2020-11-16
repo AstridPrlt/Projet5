@@ -27,9 +27,13 @@
                 <p>Prix : {{ eventSelected.price }} €</p>
             </div>
 
-            <p class="w-100 my-5" v-html="eventSelected.event_description"></p>
+            <p class="w-100 my-5" style="white-space: pre-line;">{{ eventSelected.event_description }}</p>
             <button v-show="!isBooked" type="submit" class="btn btn-perso" @click="eventBooking">Je m'inscris</button>
-            <p v-show="isBooked" class="text-bold" style="color: teal; font-size: 1.5rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !</p>
+            <div v-show="isBooked">
+                <p v-show="!bookingCanceled" class="text-bold" style="color: teal; font-size: 1.5rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !</p>
+                <button v-show="!bookingCanceled" type="button" class="btn btn-outline-perso" @click="cancelBooking">Annuler mon inscription</button>
+                <p v-show="bookingCanceled" class="text-bold" style="color: teal; font-size: 1.5rem;">Votre inscription a bien été annulée.</p>
+            </div>
         </div>
 
     </div>
@@ -47,7 +51,8 @@ export default {
 
         data: function () {
             return {
-                isBooked: this.booked
+                isBooked: this.booked,
+                bookingCanceled: false
             }
         },
 
@@ -67,6 +72,17 @@ export default {
                     console.log(response); })
 
                 .catch(response => {console.log(error);});
+            },
+
+            cancelBooking() {
+                if(confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
+                axios.delete('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id)
+                .then((response) => {
+                    console.log(response);
+                    this.bookingCanceled = true;
+                    })
+                .catch(error => console.log(error));
+            }
             }
         },
 

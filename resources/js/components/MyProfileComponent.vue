@@ -23,42 +23,42 @@
         <div class="w-100">
             <form class="border rounded m-3 p-2">
                 <div  class="form-group row mb-1" v-show="readOnlyInfo" >
-                    <label for="staticName" class="col-sm-2 col-form-label font-weight-bold">Nom</label>
+                    <label for="staticName" class="col-sm-2 col-form-label" style="color: gray;">Nom</label>
                     <div class="col-sm-10">
                         <input type="text" readonly class="form-control-plaintext" id="staticName" v-model="authUser.name">
                     </div>
                 </div>
                 <div  class="form-group row mb-1" v-show="!readOnlyInfo">
-                    <label for="name" class="col-sm-2 col-form-label font-weight-bold">Nom</label>
+                    <label for="name" class="col-sm-2 col-form-label" style="color: gray;">Nom</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="name" v-model="authUser.name">
+                        <input type="text" class="form-control" id="name" v-model="authUser.name" maxlength="30">
                     </div>
                 </div>
 
                 <div class="form-group row mb-1" v-show="readOnlyInfo">
-                    <label for="staticJob" class="col-sm-2 col-form-label font-weight-bold">Spécialité</label>
+                    <label for="staticJob" class="col-sm-2 col-form-label" style="color: gray;">Spécialité</label>
                     <div class="col-sm-10">
                     <input type="text" readonly class="form-control-plaintext" id="staticJob" v-model="authUser.job">
                     </div>
                 </div>
                 <div class="form-group row mb-1" v-show="!readOnlyInfo">
-                    <label for="job" class="col-sm-2 col-form-label font-weight-bold">Spécialité</label>
+                    <label for="job" class="col-sm-2 col-form-label" style="color: gray;">Spécialité</label>
                     <div class="col-sm-10">
-                    <input type="text" class="form-control" id="job" v-model="authUser.job" placeholder="Votre spécialité / job / domaine de prédilection">
+                    <input type="text" class="form-control" id="job" v-model="authUser.job" minlength="2" maxlength="50" placeholder="Votre spécialité / job / domaine de prédilection">
                     </div>
                 </div>
 
 
                 <div class="form-group row mb-1" v-show="readOnlyInfo">
-                    <label for="staticDesc" class="col-sm-2 col-form-label font-weight-bold font-weight-bold">Description</label>
+                    <label for="staticDesc" class="col-sm-2 col-form-label" style="color: gray;">Description</label>
                     <div class="col-sm-10">
                     <textarea type="text" readonly class="form-control-plaintext" id="staticDesc" v-model="authUser.user_description"></textarea>
                     </div>
                 </div>
                 <div class="form-group row mb-1" v-show="!readOnlyInfo">
-                    <label for="desc" class="col-sm-2 col-form-label font-weight-bold">Description</label>
+                    <label for="desc" class="col-sm-2 col-form-label" style="color: gray;">Description</label>
                     <div class="col-sm-10">
-                    <textarea type="text" class="form-control" rows="5" id="desc" v-model="authUser.user_description" placeholder="Parlez-nous de vous et de ce que vous cherchez..."></textarea>
+                    <textarea type="text" class="form-control" rows="5" id="desc" v-model="authUser.user_description" minlength="2" maxlength="200" placeholder="Parlez-nous de vous et de ce que vous cherchez..."></textarea>
                     </div>
                 </div>
 
@@ -68,29 +68,29 @@
 
             <form class="border rounded m-3 p-2" @submit.prevent="updateIds">
                 <div class="form-group row mb-1" v-show="readOnlyIds">
-                    <label for="staticEmail" class="col-sm-2 col-form-label font-weight-bold">Email</label>
+                    <label for="staticEmail" class="col-sm-2 col-form-label" style="color: gray;">Email</label>
                     <div class="col-sm-10">
                     <input type="text" readonly class="form-control-plaintext" id="staticEmail" required v-model="authUser.email">
                     </div>
                 </div>
                 <div class="form-group row mb-1" v-show="!readOnlyIds">
-                    <label for="email" class="col-sm-2 col-form-label font-weight-bold">Email</label>
+                    <label for="email" class="col-sm-2 col-form-label" style="color: gray;">Email</label>
                     <div class="col-sm-10">
-                    <input type="text" class="form-control" id="email" required v-model="authUser.email">
+                    <input type="text" class="form-control" id="email" maxlength="255" required v-model="authUser.email">
                     </div>
                     <p class="w-100 text-center text-danger">{{ error_email }} </p>
                 </div>
 
                 <div class="form-group row mb-1" v-show="!readOnlyIds">
-                    <label for="inputPassword" class="col-sm-2 col-form-label font-weight-bold">Mot de passe</label>
+                    <label for="inputPassword" class="col-sm-2 col-form-label" style="color: gray;">Mot de passe</label>
                     <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputPassword" required>
+                        <input type="password" class="form-control" id="inputPassword" minlength="8" required>
                     </div>
                     <p class="w-100 text-center text-danger">{{ error_password }} </p>
                 </div>
 
                 <div class="form-group row mb-1" v-show="!readOnlyIds">
-                    <label for="inputPassword2" class="col-sm-2 col-form-label font-weight-bold">Mot de passe (confirmation)</label>
+                    <label for="inputPassword2" class="col-sm-2 col-form-label" style="color: gray;">Mot de passe (confirmation)</label>
                     <div class="col-sm-10">
                         <input type="password" class="form-control" id="inputPassword2" required>
                     </div>

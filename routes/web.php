@@ -32,10 +32,12 @@ Route::view('contactUsers', 'contactUsers');
 
 Route::get('events','EventController@index');
 // Route::get('eventBooked/{eventId}','EventController@isEventBookedByAuth');
+Route::get('modifyEvent/{eventId}', 'EventController@edit');
 Route::patch('events/{event}', 'EventController@update');
 
 Route::get('inscription/{eventId}', 'EventController@show')->middleware('auth');
 Route::post('eventBooking', 'EventController@booking');
+Route::delete('eventBooking/{eventId}', 'EventController@cancelBooking');
 
 Route::get('myProfile', 'UserController@showAuth');
 Route::patch('myProfile/{userId}', 'UserController@updateProfile');

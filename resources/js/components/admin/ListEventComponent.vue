@@ -14,7 +14,7 @@
                                 <p>{{ people.name }} / {{ people.email }}</p>
                             </div>
                             <div v-if="listEvent.length === 0">
-                                <p>Il n'y a aucun inscrit pour le moment</p>
+                                <p>Il n'y a aucun inscrit</p>
                             </div>
                     </div>
                 </div>

@@ -41,7 +41,7 @@
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" v-html="showFutureEvent.event_description"></div>
+                        <div class="modal-body" style="white-space: pre-line;">{{ showFutureEvent.event_description }}</div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                         </div>
@@ -63,16 +63,16 @@
 
         data() {
             return {
-                showEvents: this.events,
+                showFutureEvents: this.events,
             }
         },
 
-        computed: {
-            showFutureEvents: function () {
-                let filteredEvents = this.showEvents.filter(showEvent => new Date(showEvent.event_date_time) >= new Date());
-                return filteredEvents;
-        },
-    },
+    //     computed: {
+    //         showFutureEvents: function () {
+    //             let filteredEvents = this.showEvents.filter(showEvent => new Date(showEvent.event_date_time) >= new Date());
+    //             return filteredEvents;
+    //     },
+    // },
 
         methods: {
             // formatedDate (date) {

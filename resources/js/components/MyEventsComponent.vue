@@ -4,7 +4,9 @@
             <h4>Les évènements à venir</h4>
             <div v-for="myFutureEvent in myFutureEvents" :key="myFutureEvent.id" class="d-md-flex justify-content-between py-1">
                 <h5>Le {{ formatedDate(myFutureEvent.event_date) }} : {{ myFutureEvent.title }}</h5>
-                <a type="button" class="btn btn-perso py-1" :href="`inscription/${myFutureEvent.id}`">Détails</a>
+                <div class="d-flex">
+                    <a type="button" class="btn btn-perso py-1 mr-2" :href="`inscription/${myFutureEvent.id}`">Voir</a>
+                </div>
             </div>
             <div v-if="myFutureEvents.length === 0">
                 <p class="d-inline">Vous n'avez aucun évènement de prévu. Consultez la </p><a :href="`events`" style="color: teal;">liste des prochains évènements</a>

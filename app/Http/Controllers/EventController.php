@@ -66,6 +66,12 @@ class EventController extends Controller
         return $eventBooking;
     }
 
+    public function cancelBooking($eventId)
+    {
+        $eventBookingToCancel = $this->eventUser->eventBookingToCancel($eventId);
+        return $eventBookingToCancel;
+    }
+
     /**
      * Show the user all the events he has booked, in his profile page.
      *
@@ -143,6 +149,18 @@ class EventController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Event  $event
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($eventId)
+    {
+        $editEvent = $this->eventUser->editEvent($eventId);
+        return response()->json($editEvent);
+    }
+
+    /**
      * Update the specified event.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -164,8 +182,9 @@ class EventController extends Controller
 
         $updateEvent = $this->eventUser->updateEvent($event);
 
+        //to reload event list in admin panel via emit
         if($updateEvent) {
-            return response()->json(['confirm' => "L'évènement a été modifié"]);
+            return $this->indexFuture();
         } else {
             return response()->json(['error' => "L'évènement n'a pas pu être modifié"]);
         }
@@ -226,14 +245,4 @@ class EventController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Event  $event
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Event $event)
-    {
-        //
-    }
 }

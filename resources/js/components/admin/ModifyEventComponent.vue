@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" :id="`modifyEventModal${eventToModify.id}`" tabindex="-1" aria-labelledby="modifyEventModalLabel" aria-hidden="true">
+        <div class="modal fade" :id="`modifyEventModal${eventIdToModify}`" data-backdrop="static" tabindex="-1" aria-labelledby="modifyEventModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -13,9 +13,9 @@
                         <form method="post" @submit.prevent="updateEvents">
 
                             <div class="form-group row">
-                                <label :for="`category${eventToModify.id}`" class="col-sm-3 col-form-label">Catégorie</label>
+                                <label :for="`category${eventIdToModify}`" class="col-sm-3 col-form-label">Catégorie</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" :id="`category${eventToModify.id}`" v-model="eventToModify.category" required>
+                                    <select class="form-control" :id="`category${eventIdToModify}`" v-model="eventToModify.category" required>
                                         <option>Réseau</option>
                                         <option>Compétences</option>
                                         <option>Business</option>
@@ -24,27 +24,27 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label :for="`title${eventToModify.id}`" class="col-sm-3 col-form-label">Titre</label>
-                                <div class="col-sm-9"><input type="text" class="form-control" :id="`title${eventToModify.id}`" v-model="eventToModify.title" required></div>
+                                <label :for="`title${eventIdToModify}`" class="col-sm-3 col-form-label">Titre</label>
+                                <div class="col-sm-9"><input type="text" class="form-control" :id="`title${eventIdToModify}`" maxlength="60" minlength="2" v-model="eventToModify.title" required></div>
                             </div>
                             <div class="form-group row">
-                                <label :for="`eventDate${eventToModify.id}`" class="col-sm-3 col-form-label">Date</label>
-                                <div class="col-sm-9"><input type="date" :id="`eventDate${eventToModify.id}`" name="eventDate" class="form-control w-auto" v-model="eventToModify.event_date" required></div>
+                                <label :for="`eventDate${eventIdToModify}`" class="col-sm-3 col-form-label">Date</label>
+                                <div class="col-sm-9"><input type="date" :id="`eventDate${eventIdToModify}`" name="eventDate" class="form-control w-auto" v-model="eventToModify.event_date" required></div>
                             </div>
                             <div class="form-group row">
-                                <label :for="`begin${eventToModify.id}`" class="col-sm-3 col-form-label">Heure</label>
-                                <div class="col-sm-9"><input type="time" :id="`begin${eventToModify.id}`" name="begin" class="form-control w-auto" v-model="eventToModify.begin_time" required></div>
+                                <label :for="`begin${eventIdToModify}`" class="col-sm-3 col-form-label">Heure</label>
+                                <div class="col-sm-9"><input type="time" :id="`begin${eventIdToModify}`" name="begin" class="form-control w-auto" v-model="eventToModify.begin_time" required></div>
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control" :id="`description${eventToModify.id}`" rows="5" placeholder="Description..." v-model="eventToModify.event_description" required></textarea>
+                                <textarea class="form-control" :id="`description${eventIdToModify}`" rows="5" placeholder="Description..." maxlength="500" minlength="2" v-model="eventToModify.event_description" required></textarea>
                             </div>
                             <div class="form-group row">
-                                <label :for="`seats${eventToModify.id}`" class="col-sm-3 col-form-label">Nombre de places </label>
-                                <div class="col-sm-9"><input type="number" class="form-control w-auto" :id="`seats${eventToModify.id}`" max="200" v-model="eventToModify.seats" required></div>
+                                <label :for="`seats${eventIdToModify}`" class="col-sm-3 col-form-label">Nombre de places </label>
+                                <div class="col-sm-9"><input type="number" class="form-control w-auto" :id="`seats${eventIdToModify}`" max="200" v-model="eventToModify.seats" required></div>
                             </div>
                             <div class="form-group row">
-                                <label :for="`price${eventToModify.id}`" class="col-sm-3 col-form-label">Prix </label>
-                                <div class="col-sm-9"><input type="number" class="form-control w-auto" :id="`price${eventToModify.id}`" max="2000" v-model="eventToModify.price" required></div>
+                                <label :for="`price${eventIdToModify}`" class="col-sm-3 col-form-label">Prix </label>
+                                <div class="col-sm-9"><input type="number" class="form-control w-auto" :id="`price${eventIdToModify}`" max="2000" v-model="eventToModify.price" required></div>
                             </div>
 
                             <button type="button" class="btn btn-outline-perso mx-2" data-dismiss="modal" aria-label="Close">Annuler</button>
@@ -66,19 +66,26 @@
 
 export default {
 
-    props: ['eventToModify'],
+    props: ['eventIdToModify'],
 
     data() {
         return {
             spinner: false,
+            eventToModify: {}
         }
     },
+
+    created() {
+        axios.get('http://localhost/Projet5/public/modifyEvent/' + this.eventIdToModify)
+        .then(response => this.eventToModify = response.data)
+        .catch(error => console.log(error));
+        },
 
     methods: {
 
         updateEvents() {
             this.spinner = true;
-            axios.patch('http://localhost/Projet5/public/events/' + this.eventToModify.id, {
+            axios.patch('http://localhost/Projet5/public/events/' + this.eventIdToModify, {
                 category: this.eventToModify.category,
                 title: this.eventToModify.title,
                 event_date: this.eventToModify.event_date,
@@ -91,7 +98,8 @@ export default {
             .then((response) => {
                 console.log(response);
                 this.spinner = false;
-                alert("L'évènement a bien été modifié")
+                alert("L'évènement a bien été modifié");
+                this.$emit('event-updated', response);
                 })
             .catch(error => console.log(error))
         }

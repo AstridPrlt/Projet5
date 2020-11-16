@@ -1949,13 +1949,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['eventSelected', 'booked'],
   data: function data() {
     return {
-      isBooked: this.booked
+      isBooked: this.booked,
+      bookingCanceled: false
     };
   },
   methods: {
@@ -1976,6 +1981,18 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
       })["catch"](function (response) {
         console.log(error);
       });
+    },
+    cancelBooking: function cancelBooking() {
+      var _this2 = this;
+
+      if (confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
+        axios["delete"]('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id).then(function (response) {
+          console.log(response);
+          _this2.bookingCanceled = true;
+        })["catch"](function (error) {
+          return console.log(error);
+        });
+      }
     }
   },
   // created() {
@@ -2061,17 +2078,15 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
   props: ['events', 'authEvents'],
   data: function data() {
     return {
-      showEvents: this.events
+      showFutureEvents: this.events
     };
   },
-  computed: {
-    showFutureEvents: function showFutureEvents() {
-      var filteredEvents = this.showEvents.filter(function (showEvent) {
-        return new Date(showEvent.event_date_time) >= new Date();
-      });
-      return filteredEvents;
-    }
-  },
+  //     computed: {
+  //         showFutureEvents: function () {
+  //             let filteredEvents = this.showEvents.filter(showEvent => new Date(showEvent.event_date_time) >= new Date());
+  //             return filteredEvents;
+  //     },
+  // },
   methods: {
     // formatedDate (date) {
     //     return moment(date).format('ll');
@@ -2155,6 +2170,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
 //
 //
 //
@@ -2881,18 +2898,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['eventToModify'],
+  props: ['eventIdToModify'],
   data: function data() {
     return {
-      spinner: false
+      spinner: false,
+      eventToModify: {}
     };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('http://localhost/Projet5/public/modifyEvent/' + this.eventIdToModify).then(function (response) {
+      return _this.eventToModify = response.data;
+    })["catch"](function (error) {
+      return console.log(error);
+    });
   },
   methods: {
     updateEvents: function updateEvents() {
-      var _this = this;
+      var _this2 = this;
 
       this.spinner = true;
-      axios.patch('http://localhost/Projet5/public/events/' + this.eventToModify.id, {
+      axios.patch('http://localhost/Projet5/public/events/' + this.eventIdToModify, {
         category: this.eventToModify.category,
         title: this.eventToModify.title,
         event_date: this.eventToModify.event_date,
@@ -2903,8 +2930,10 @@ __webpack_require__.r(__webpack_exports__);
         price: this.eventToModify.price
       }).then(function (response) {
         console.log(response);
-        _this.spinner = false;
+        _this2.spinner = false;
         alert("L'évènement a bien été modifié");
+
+        _this2.$emit('event-updated', response);
       })["catch"](function (error) {
         return console.log(error);
       });
@@ -2925,7 +2954,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-//
 //
 //
 //
@@ -60180,10 +60208,14 @@ var render = function() {
         _c("p", [_vm._v("Prix : " + _vm._s(_vm.eventSelected.price) + " €")])
       ]),
       _vm._v(" "),
-      _c("p", {
-        staticClass: "w-100 my-5",
-        domProps: { innerHTML: _vm._s(_vm.eventSelected.event_description) }
-      }),
+      _c(
+        "p",
+        {
+          staticClass: "w-100 my-5",
+          staticStyle: { "white-space": "pre-line" }
+        },
+        [_vm._v(_vm._s(_vm.eventSelected.event_description))]
+      ),
       _vm._v(" "),
       _c(
         "button",
@@ -60204,7 +60236,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "p",
+        "div",
         {
           directives: [
             {
@@ -60213,15 +60245,65 @@ var render = function() {
               value: _vm.isBooked,
               expression: "isBooked"
             }
-          ],
-          staticClass: "text-bold",
-          staticStyle: { color: "teal", "font-size": "1.5rem" }
+          ]
         },
         [
-          _vm._v(
-            "Vous êtes inscrit à cet évènement, rendez-vous le " +
-              _vm._s(_vm.formatedDate(_vm.eventSelected.event_date)) +
-              " !"
+          _c(
+            "p",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.bookingCanceled,
+                  expression: "!bookingCanceled"
+                }
+              ],
+              staticClass: "text-bold",
+              staticStyle: { color: "teal", "font-size": "1.5rem" }
+            },
+            [
+              _vm._v(
+                "Vous êtes inscrit à cet évènement, rendez-vous le " +
+                  _vm._s(_vm.formatedDate(_vm.eventSelected.event_date)) +
+                  " !"
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: !_vm.bookingCanceled,
+                  expression: "!bookingCanceled"
+                }
+              ],
+              staticClass: "btn btn-outline-perso",
+              attrs: { type: "button" },
+              on: { click: _vm.cancelBooking }
+            },
+            [_vm._v("Annuler mon inscription")]
+          ),
+          _vm._v(" "),
+          _c(
+            "p",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.bookingCanceled,
+                  expression: "bookingCanceled"
+                }
+              ],
+              staticClass: "text-bold",
+              staticStyle: { color: "teal", "font-size": "1.5rem" }
+            },
+            [_vm._v("Votre inscription a bien été annulée.")]
           )
         ]
       )
@@ -60467,12 +60549,14 @@ var render = function() {
                       _vm._m(0, true)
                     ]),
                     _vm._v(" "),
-                    _c("div", {
-                      staticClass: "modal-body",
-                      domProps: {
-                        innerHTML: _vm._s(showFutureEvent.event_description)
-                      }
-                    }),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "modal-body",
+                        staticStyle: { "white-space": "pre-line" }
+                      },
+                      [_vm._v(_vm._s(showFutureEvent.event_description))]
+                    ),
                     _vm._v(" "),
                     _vm._m(1, true)
                   ])
@@ -60675,17 +60759,19 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-perso py-1",
-                  attrs: {
-                    type: "button",
-                    href: "inscription/" + myFutureEvent.id
-                  }
-                },
-                [_vm._v("Détails")]
-              )
+              _c("div", { staticClass: "d-flex" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn btn-perso py-1 mr-2",
+                    attrs: {
+                      type: "button",
+                      href: "inscription/" + myFutureEvent.id
+                    }
+                  },
+                  [_vm._v("Voir")]
+                )
+              ])
             ]
           )
         }),
@@ -60934,7 +61020,8 @@ var render = function() {
             _c(
               "label",
               {
-                staticClass: "col-sm-2 col-form-label font-weight-bold",
+                staticClass: "col-sm-2 col-form-label",
+                staticStyle: { color: "gray" },
                 attrs: { for: "staticName" }
               },
               [_vm._v("Nom")]
@@ -60983,7 +61070,8 @@ var render = function() {
             _c(
               "label",
               {
-                staticClass: "col-sm-2 col-form-label font-weight-bold",
+                staticClass: "col-sm-2 col-form-label",
+                staticStyle: { color: "gray" },
                 attrs: { for: "name" }
               },
               [_vm._v("Nom")]
@@ -61000,7 +61088,7 @@ var render = function() {
                   }
                 ],
                 staticClass: "form-control",
-                attrs: { type: "text", id: "name" },
+                attrs: { type: "text", id: "name", maxlength: "30" },
                 domProps: { value: _vm.authUser.name },
                 on: {
                   input: function($event) {
@@ -61032,7 +61120,8 @@ var render = function() {
             _c(
               "label",
               {
-                staticClass: "col-sm-2 col-form-label font-weight-bold",
+                staticClass: "col-sm-2 col-form-label",
+                staticStyle: { color: "gray" },
                 attrs: { for: "staticJob" }
               },
               [_vm._v("Spécialité")]
@@ -61081,7 +61170,8 @@ var render = function() {
             _c(
               "label",
               {
-                staticClass: "col-sm-2 col-form-label font-weight-bold",
+                staticClass: "col-sm-2 col-form-label",
+                staticStyle: { color: "gray" },
                 attrs: { for: "job" }
               },
               [_vm._v("Spécialité")]
@@ -61101,6 +61191,8 @@ var render = function() {
                 attrs: {
                   type: "text",
                   id: "job",
+                  minlength: "2",
+                  maxlength: "50",
                   placeholder:
                     "Votre spécialité / job / domaine de prédilection"
                 },
@@ -61135,8 +61227,8 @@ var render = function() {
             _c(
               "label",
               {
-                staticClass:
-                  "col-sm-2 col-form-label font-weight-bold font-weight-bold",
+                staticClass: "col-sm-2 col-form-label",
+                staticStyle: { color: "gray" },
                 attrs: { for: "staticDesc" }
               },
               [_vm._v("Description")]
@@ -61189,7 +61281,8 @@ var render = function() {
             _c(
               "label",
               {
-                staticClass: "col-sm-2 col-form-label font-weight-bold",
+                staticClass: "col-sm-2 col-form-label",
+                staticStyle: { color: "gray" },
                 attrs: { for: "desc" }
               },
               [_vm._v("Description")]
@@ -61210,6 +61303,8 @@ var render = function() {
                   type: "text",
                   rows: "5",
                   id: "desc",
+                  minlength: "2",
+                  maxlength: "200",
                   placeholder:
                     "Parlez-nous de vous et de ce que vous cherchez..."
                 },
@@ -61297,7 +61392,8 @@ var render = function() {
               _c(
                 "label",
                 {
-                  staticClass: "col-sm-2 col-form-label font-weight-bold",
+                  staticClass: "col-sm-2 col-form-label",
+                  staticStyle: { color: "gray" },
                   attrs: { for: "staticEmail" }
                 },
                 [_vm._v("Email")]
@@ -61351,7 +61447,8 @@ var render = function() {
               _c(
                 "label",
                 {
-                  staticClass: "col-sm-2 col-form-label font-weight-bold",
+                  staticClass: "col-sm-2 col-form-label",
+                  staticStyle: { color: "gray" },
                   attrs: { for: "email" }
                 },
                 [_vm._v("Email")]
@@ -61368,7 +61465,12 @@ var render = function() {
                     }
                   ],
                   staticClass: "form-control",
-                  attrs: { type: "text", id: "email", required: "" },
+                  attrs: {
+                    type: "text",
+                    id: "email",
+                    maxlength: "255",
+                    required: ""
+                  },
                   domProps: { value: _vm.authUser.email },
                   on: {
                     input: function($event) {
@@ -61404,7 +61506,8 @@ var render = function() {
               _c(
                 "label",
                 {
-                  staticClass: "col-sm-2 col-form-label font-weight-bold",
+                  staticClass: "col-sm-2 col-form-label",
+                  staticStyle: { color: "gray" },
                   attrs: { for: "inputPassword" }
                 },
                 [_vm._v("Mot de passe")]
@@ -61435,7 +61538,8 @@ var render = function() {
               _c(
                 "label",
                 {
-                  staticClass: "col-sm-2 col-form-label font-weight-bold",
+                  staticClass: "col-sm-2 col-form-label",
+                  staticStyle: { color: "gray" },
                   attrs: { for: "inputPassword2" }
                 },
                 [_vm._v("Mot de passe (confirmation)")]
@@ -61513,7 +61617,12 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-sm-10" }, [
       _c("input", {
         staticClass: "form-control",
-        attrs: { type: "password", id: "inputPassword", required: "" }
+        attrs: {
+          type: "password",
+          id: "inputPassword",
+          minlength: "8",
+          required: ""
+        }
       })
     ])
   },
@@ -61840,7 +61949,13 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: { type: "text", id: "title", required: "" },
+                        attrs: {
+                          type: "text",
+                          id: "title",
+                          maxlength: "60",
+                          minlength: "2",
+                          required: ""
+                        },
                         domProps: { value: _vm.title },
                         on: {
                           input: function($event) {
@@ -61949,6 +62064,8 @@ var render = function() {
                         id: "description",
                         rows: "5",
                         placeholder: "Description...",
+                        maxlength: "500",
+                        minlength: "2",
                         required: ""
                       },
                       domProps: { value: _vm.event_description },
@@ -62270,7 +62387,8 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("modify-event-component", {
-                  attrs: { "event-to-modify": futureEvent }
+                  attrs: { "event-id-to-modify": futureEvent.id },
+                  on: { "event-created": _vm.refreshEvents }
                 })
               ],
               1
@@ -62363,9 +62481,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _vm.listEvent.length === 0
-                  ? _c("div", [
-                      _c("p", [_vm._v("Il n'y a aucun inscrit pour le moment")])
-                    ])
+                  ? _c("div", [_c("p", [_vm._v("Il n'y a aucun inscrit")])])
                   : _vm._e()
               ],
               2
@@ -62430,7 +62546,8 @@ var render = function() {
       {
         staticClass: "modal fade",
         attrs: {
-          id: "modifyEventModal" + _vm.eventToModify.id,
+          id: "modifyEventModal" + _vm.eventIdToModify,
+          "data-backdrop": "static",
           tabindex: "-1",
           "aria-labelledby": "modifyEventModalLabel",
           "aria-hidden": "true"
@@ -62459,7 +62576,7 @@ var render = function() {
                       "label",
                       {
                         staticClass: "col-sm-3 col-form-label",
-                        attrs: { for: "category" + _vm.eventToModify.id }
+                        attrs: { for: "category" + _vm.eventIdToModify }
                       },
                       [_vm._v("Catégorie")]
                     ),
@@ -62478,7 +62595,7 @@ var render = function() {
                           ],
                           staticClass: "form-control",
                           attrs: {
-                            id: "category" + _vm.eventToModify.id,
+                            id: "category" + _vm.eventIdToModify,
                             required: ""
                           },
                           on: {
@@ -62519,7 +62636,7 @@ var render = function() {
                       "label",
                       {
                         staticClass: "col-sm-3 col-form-label",
-                        attrs: { for: "title" + _vm.eventToModify.id }
+                        attrs: { for: "title" + _vm.eventIdToModify }
                       },
                       [_vm._v("Titre")]
                     ),
@@ -62537,7 +62654,9 @@ var render = function() {
                         staticClass: "form-control",
                         attrs: {
                           type: "text",
-                          id: "title" + _vm.eventToModify.id,
+                          id: "title" + _vm.eventIdToModify,
+                          maxlength: "60",
+                          minlength: "2",
                           required: ""
                         },
                         domProps: { value: _vm.eventToModify.title },
@@ -62562,7 +62681,7 @@ var render = function() {
                       "label",
                       {
                         staticClass: "col-sm-3 col-form-label",
-                        attrs: { for: "eventDate" + _vm.eventToModify.id }
+                        attrs: { for: "eventDate" + _vm.eventIdToModify }
                       },
                       [_vm._v("Date")]
                     ),
@@ -62580,7 +62699,7 @@ var render = function() {
                         staticClass: "form-control w-auto",
                         attrs: {
                           type: "date",
-                          id: "eventDate" + _vm.eventToModify.id,
+                          id: "eventDate" + _vm.eventIdToModify,
                           name: "eventDate",
                           required: ""
                         },
@@ -62606,7 +62725,7 @@ var render = function() {
                       "label",
                       {
                         staticClass: "col-sm-3 col-form-label",
-                        attrs: { for: "begin" + _vm.eventToModify.id }
+                        attrs: { for: "begin" + _vm.eventIdToModify }
                       },
                       [_vm._v("Heure")]
                     ),
@@ -62624,7 +62743,7 @@ var render = function() {
                         staticClass: "form-control w-auto",
                         attrs: {
                           type: "time",
-                          id: "begin" + _vm.eventToModify.id,
+                          id: "begin" + _vm.eventIdToModify,
                           name: "begin",
                           required: ""
                         },
@@ -62657,9 +62776,11 @@ var render = function() {
                       ],
                       staticClass: "form-control",
                       attrs: {
-                        id: "description" + _vm.eventToModify.id,
+                        id: "description" + _vm.eventIdToModify,
                         rows: "5",
                         placeholder: "Description...",
+                        maxlength: "500",
+                        minlength: "2",
                         required: ""
                       },
                       domProps: { value: _vm.eventToModify.event_description },
@@ -62683,7 +62804,7 @@ var render = function() {
                       "label",
                       {
                         staticClass: "col-sm-3 col-form-label",
-                        attrs: { for: "seats" + _vm.eventToModify.id }
+                        attrs: { for: "seats" + _vm.eventIdToModify }
                       },
                       [_vm._v("Nombre de places ")]
                     ),
@@ -62701,7 +62822,7 @@ var render = function() {
                         staticClass: "form-control w-auto",
                         attrs: {
                           type: "number",
-                          id: "seats" + _vm.eventToModify.id,
+                          id: "seats" + _vm.eventIdToModify,
                           max: "200",
                           required: ""
                         },
@@ -62727,7 +62848,7 @@ var render = function() {
                       "label",
                       {
                         staticClass: "col-sm-3 col-form-label",
-                        attrs: { for: "price" + _vm.eventToModify.id }
+                        attrs: { for: "price" + _vm.eventIdToModify }
                       },
                       [_vm._v("Prix ")]
                     ),
@@ -62745,7 +62866,7 @@ var render = function() {
                         staticClass: "form-control w-auto",
                         attrs: {
                           type: "number",
-                          id: "price" + _vm.eventToModify.id,
+                          id: "price" + _vm.eventIdToModify,
                           max: "2000",
                           required: ""
                         },
@@ -62954,10 +63075,6 @@ var render = function() {
                 _vm._v(" "),
                 _c("list-event-component", {
                   attrs: { "event-id": pastEvent.id }
-                }),
-                _vm._v(" "),
-                _c("modify-event-component", {
-                  attrs: { "event-to-modify": pastEvent }
                 })
               ],
               1

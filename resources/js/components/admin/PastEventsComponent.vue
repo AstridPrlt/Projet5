@@ -12,7 +12,6 @@
                     <button type="button" class="dropdown-item" @click="deleteEvent(pastEvent.id)">Supprimer</button>
                 </div>
                 <list-event-component :event-id="pastEvent.id"></list-event-component>
-                <modify-event-component :event-to-modify="pastEvent"></modify-event-component>
             </div>
         </div>
         <div v-show="showDeleteSpinnerPast" class="position-absolute w-100 h-100 justify-content-center align-items-center bg-white" style="display: flex; top: 0; left: 0; opacity: 0.8;">

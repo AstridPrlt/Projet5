@@ -25,7 +25,7 @@
                             </div>
                             <div class="form-group row">
                                 <label for="category" class="col-sm-3 col-form-label">Titre</label>
-                                <div class="col-sm-9"><input type="text" class="form-control" id="title" v-model="title" required></div>
+                                <div class="col-sm-9"><input type="text" class="form-control" id="title" v-model="title" maxlength="60" minlength="2" required></div>
                             </div>
                             <div class="form-group row">
                                 <label for="eventDate" class="col-sm-3 col-form-label">Date</label>
@@ -36,7 +36,7 @@
                                 <div class="col-sm-9"><input type="time" id="beginTime" name="beginTime" class="form-control w-auto" v-model="begin_time" required></div>
                             </div>
                             <div class="form-group">
-                                <textarea class="form-control" id="description" rows="5" placeholder="Description..." v-model="event_description" required></textarea>
+                                <textarea class="form-control" id="description" rows="5" placeholder="Description..." v-model="event_description" maxlength="500" minlength="2" required></textarea>
                             </div>
                             <div class="form-group row">
                                 <label for="seats" class="col-sm-3 col-form-label">Nombre de places </label>
