@@ -52,16 +52,32 @@
                         </div>
 
                         <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="w-100 mb-2 text-center">
+                                <button type="submit" class="btn text-light" style="background-color: steelblue;">
                                     {{ __('Connexion') }}
                                 </button>
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Vous avez oublié votre mot de passe ?') }}
+                                        {{ __('Mot de passe oublié') }}
                                     </a>
                                 @endif
+                            </div>
+
+                            <div class="w-75 mx-auto my-3 position-relative" style="border-top: 1px solid lightgrey;">
+                                <p class="px-2 bg-white position-absolute" style="top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%);">OU</p>
+                            </div>
+
+                            <div class="w-100 text-center">
+                                <a href="login/github" type="submit" class="btn w-auto text-light m-2 rounded-pill" style="background-color: steelblue;">
+                                    <img src="{{url('/images/logo-github.png')}}" style="width: 40px;" alt="Connexion avec Github">
+                                    {{ __('Connexion avec GitHub') }}
+                                </a>
+                                <a href="login/google" type="submit" class="btn w-auto text-light rounded-pill" style="background-color: steelblue;">
+                                    <img src="{{url('/images/logo-google.png')}}" style="width: 40px;" alt="Connexion avec Google">
+                                    {{ __('Connexion avec Google') }}
+                                </a>
+
                             </div>
                         </div>
                     </form>

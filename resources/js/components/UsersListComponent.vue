@@ -7,7 +7,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ people.name }}</h5>
                         <h6 class="font-weight-bold" style="color: teal;">{{ people.job }}</h6>
-                        <p class="card-text font-italic">"{{ people.user_description}}"</p>
+                        <p class="card-text font-italic">{{ people.user_description}}</p>
                         <div class="d-flex justify-content-around">
                             <a href="#" data-toggle="tooltip" data-placement="top" title="Ajouter à mes contacts" style="color: teal;">
                                 <div @click="addContact">

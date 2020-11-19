@@ -29,18 +29,18 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
-                    <div class="collapse navbar-collapse h-100 pt-4 pt-lg-0 bg-white" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse h-100 pt-lg-0 bg-white" id="navbarSupportedContent">
                         <div class="d-flex w-100 h-100">
                         <ul class="navbar-nav w-100 h-100 pb-2 align-items-center flex-column flex-lg-row justify-content-end">
                             <div class="d-flex h-100 align-items-center flex-column flex-lg-row">
                                 <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'details' ? 'active-page' : '' }}">
-                                    <a href="details" class="text-uppercase m-3">Le lieu</a>
+                                    <a href="details" class="text-uppercase mx-3 my-2">Le lieu</a>
                                 </div>
                                 <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'events' ? 'active-page' : '' }}">
-                                    <a href={{url('events')}} class="text-uppercase m-3">Les évènements</a>
+                                    <a href={{url('events')}} class="text-uppercase mx-3 my-2">Les évènements</a>
                                 </div>
-                                <div class="nav-hover d-flex h-100 mb-1 align-items-center {{ Request::path() === 'coweerkers' ? 'active-page' : '' }}">
-                                    <a href={{url('coweerkers')}} class="text-uppercase m-3">Les coweerkers</a></div>
+                                <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'coweerkers' ? 'active-page' : '' }}">
+                                    <a href={{url('coweerkers')}} class="text-uppercase mx-3 my-2">Les coweerkers</a></div>
                             </div>
 
                             <div>

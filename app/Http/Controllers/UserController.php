@@ -68,8 +68,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:30',
-            'job' => 'min:2|max:50',
-            'user_description' => 'min:2|max:200'
+            'job' => 'min:2|max:50|nullable',
+            'user_description' => 'min:2|max:200|nullable'
         ]);
 
         $updateUserProfile = $this->userRequest->updateUserProfile();

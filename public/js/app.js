@@ -61191,7 +61191,6 @@ var render = function() {
                 attrs: {
                   type: "text",
                   id: "job",
-                  minlength: "2",
                   maxlength: "50",
                   placeholder:
                     "Votre spécialité / job / domaine de prédilection"
@@ -61303,7 +61302,6 @@ var render = function() {
                   type: "text",
                   rows: "5",
                   id: "desc",
-                  minlength: "2",
                   maxlength: "200",
                   placeholder:
                     "Parlez-nous de vous et de ce que vous cherchez..."
@@ -61692,7 +61690,7 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("p", { staticClass: "card-text font-italic" }, [
-                  _vm._v('"' + _vm._s(people.user_description) + '"')
+                  _vm._v(_vm._s(people.user_description))
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "d-flex justify-content-around" }, [

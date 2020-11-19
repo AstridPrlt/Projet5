@@ -44,7 +44,7 @@
                 <div class="form-group row mb-1" v-show="!readOnlyInfo">
                     <label for="job" class="col-sm-2 col-form-label" style="color: gray;">Spécialité</label>
                     <div class="col-sm-10">
-                    <input type="text" class="form-control" id="job" v-model="authUser.job" minlength="2" maxlength="50" placeholder="Votre spécialité / job / domaine de prédilection">
+                    <input type="text" class="form-control" id="job" v-model="authUser.job" maxlength="50" placeholder="Votre spécialité / job / domaine de prédilection">
                     </div>
                 </div>
 
@@ -58,7 +58,7 @@
                 <div class="form-group row mb-1" v-show="!readOnlyInfo">
                     <label for="desc" class="col-sm-2 col-form-label" style="color: gray;">Description</label>
                     <div class="col-sm-10">
-                    <textarea type="text" class="form-control" rows="5" id="desc" v-model="authUser.user_description" minlength="2" maxlength="200" placeholder="Parlez-nous de vous et de ce que vous cherchez..."></textarea>
+                    <textarea type="text" class="form-control" rows="5" id="desc" v-model="authUser.user_description" maxlength="200" placeholder="Parlez-nous de vous et de ce que vous cherchez..."></textarea>
                     </div>
                 </div>
 
