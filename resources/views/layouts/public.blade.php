@@ -64,21 +64,21 @@
             </nav>
 
 
-            <div style="padding-top: 75px;">
+            <div style="padding-top: 72px;">
                     @yield('public_content')
             </div>
 
             <footer class="w-100">
-                <div class="d-flex text-light pt-4" style="background: linear-gradient(darkgray 10%, #4e545a); box-shadow: 0px -8px 10px 0px lightgrey;">
+                <div class="d-flex text-light pt-4" style="background: linear-gradient(lightslategray 50%, cadetblue); box-shadow: 0px -8px 10px 0px lightgrey;">
                     <div class="col-6 text-center">
                         <p class="pb-3">Lun - Sam : 9h - 21h<br>Dim : fermé</p>
                         <p>Le Cowee<br>10, rue de la fausse adresse<br>75022 Paris</p>
                         <p>Tèl : +33 1 00 00 00 00</p>
                     </div>
                     <div class="col-6 align-center" style="border-left: 1px solid white;">
-                        <a href="#" class="d-block mb-1 text-light">Tarifs</a>
+                        <a href="details" class="d-block mb-1 text-light">Tarifs</a>
                         <a href="contact" class="d-block mb-1 text-light">Nous contacter</a>
-                        <a href="#" class="d-block mb-1 text-light">Mentions légales</a>
+                        <a href="mentions" class="d-block mb-1 text-light">Mentions légales</a>
                         <a href="#" class="d-block mb-1 text-light">Conditions générales d'utilisation</a>
                         <a href="#" class="d-block mb-1 text-light">Politique de Protection des données personnelles</a>
                         <a href="#" class="d-block mb-1 text-light">Sitemap</a>
@@ -87,6 +87,11 @@
 
                 <div class="w-100 bg-dark"><p class="mb-0 w-100 text-center text-light">Ne cherchez pas ce café ! Ce site est fictif et créé dans le cadre d'une formation</p></div>
             </footer>
+
         </div>
+
+        <!--cookies consent-->
+        @include('cookieConsent::index')
+
     </body>
 </html>

@@ -84,9 +84,14 @@
             </div>
         </nav>
 
-        <main style="min-height: 100vh; padding-top: 75px; background: center bottom no-repeat url('./../public/images/background.png'); background-size: cover;">
+        <main style="min-height: 100vh; padding-top: 72px; background: center bottom no-repeat url({{url('/images/background.png')}}); background-size: cover;">
             @yield('content')
         </main>
+
     </div>
+
+    <!--cookies consent-->
+    @include('cookieConsent::index')
+
 </body>
 </html>

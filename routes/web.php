@@ -29,6 +29,7 @@ Route::get('coweerkers', 'UserController@index');
 // Route::get('coweerkers', 'UserController@index')->middleware('auth');
 
 Route::view('contactUsers', 'contactUsers');
+Route::view('mentions', 'mentions');
 
 Route::get('events','EventController@index');
 // Route::get('eventBooked/{eventId}','EventController@isEventBookedByAuth');
