@@ -66,6 +66,22 @@ class EventController extends Controller
         return $eventBooking;
     }
 
+    /**
+     * When user book and pay an event, it add the payment_intent in event_user db in case of refund
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function bookingPaymentInt(Request $request, $eventId)
+    {
+        $bookingToUpdate = DB::table('event_user')->where('event_id', $eventId)->where('user_id', Auth::user()->id)->update(['payment_intent' => $request->pi]);
+
+        if($bookingToUpdate) {
+            return response()->json($bookingToUpdate);
+        } else {
+            return response()->json(['error' => "Problème avec payment_intent"]);
+        }
+    }
+
     public function cancelBooking($eventId)
     {
         $eventBookingToCancel = $this->eventUser->eventBookingToCancel($eventId);

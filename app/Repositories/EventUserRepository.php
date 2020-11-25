@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use App\Event;
+use App\Http\Controllers\PaymentController;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -42,7 +43,14 @@ class EventUserRepository {
     }
 
     public function eventBookingToCancel($eventId) {
-        $user = Auth::user();
+        $user = Auth::user()->id;
+
+        //Stripe refunds the user thanks to payment_intent
+        $paymentIntent = DB::table('event_user')->where('event_id', $eventId)->where('user_id', $user)->get('payment_intent');
+        $refund = new PaymentController;
+        $refund->refund(html_entity_decode($paymentIntent, ENT_QUOTES));
+
+        //delete the booking in event_user
         $user->events()->detach($eventId);
         return "Inscription annulée";
     }

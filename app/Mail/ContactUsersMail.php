@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ContactMail extends Mailable
+class ContactUsersMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,10 +30,6 @@ class ContactMail extends Mailable
      */
     public function build()
     {
-        // if(array_key_exists('senderName', $contactData)) {
-        //     return $this->markdown('contact.emailUsers');
-        // } else {
-            return $this->markdown('contact.email');
-        // }
+        return $this->subject('Le Cowee : Vous avez reçu un message')->markdown('contact.emailUsers');
     }
 }

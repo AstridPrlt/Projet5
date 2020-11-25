@@ -1,21 +1,4 @@
 <template>
-    <!-- <div>
-        <div v-for="event in showEvent" :key="event.id" class="w-75 mx-auto mt-4 d-flex flex-wrap">
-            <img :src="`./../public/images/events/${ event.event_picture }`" class="w-25" :alt="`${ event.title }`">
-
-            <div class="w-75 text-center">
-                <h2>{{ event.title }}</h2>
-                <p>Date : Le {{ formatedDate(event.event_date) }}</p>
-                <p>De {{ formatedTime(event.begin_time) }} à {{ formatedTime(event.end_time) }}</p>
-                <p>Prix : {{ event.price }} €</p>
-            </div>
-
-            <p class="w-100 my-5">{{ event.event_description }}</p>
-            <button type="button" class="btn btn-perso" @click="eventBooking()">Confirmer</button>
-        </div>
-
-    </div> -->
-
     <div>
         <div class="w-75 mx-auto my-4 d-flex flex-wrap">
             <img :src="`./../storage/${eventSelected.event_picture}`" class="d-none d-md-block w-25" style="object-fit: contain;" :alt="`${ eventSelected.title }`">
@@ -28,12 +11,19 @@
             </div>
 
             <p class="w-100 my-5" style="white-space: pre-line;">{{ eventSelected.event_description }}</p>
-            <button v-show="!isBooked" type="submit" class="btn btn-perso" @click="eventBooking">Je m'inscris</button>
-            <div v-show="isBooked">
-                <p v-show="!bookingCanceled" class="text-bold" style="color: teal; font-size: 1.5rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !</p>
+
+            <button v-show="!isBooked && !payment" type="submit" class="btn btn-perso" @click="eventBooking(eventSelected.id)">Je m'inscris</button>
+
+            <payment-component v-show="payment" :event-to-pay="eventSelected.id" :price-to-pay="eventSelected.price" @payment-made="bookingOk" @payment-error="cancelBookingAfterError"></payment-component>
+
+            <div v-show="isBooked && !payment" id="payment-made">
+                <p v-show="!bookingCanceled" class="text-bold" style="color: teal; font-size: 1rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !<br/>Retrouvez la liste de vos évènements dans <a :href="`home`"><u>votre profil</u></a></p>
+
                 <button v-show="!bookingCanceled" type="button" class="btn btn-outline-perso" @click="cancelBooking">Annuler mon inscription</button>
-                <p v-show="bookingCanceled" class="text-bold" style="color: teal; font-size: 1.5rem;">Votre inscription a bien été annulée.</p>
+                <p v-show="bookingCanceled" class="text-bold" style="color: teal; font-size: 1rem;">Votre inscription a bien été annulée.</p>
             </div>
+
+            <div class="w-auto mx-auto my-3 p-1" style="color: darkgrey;">L'inscription est définitive, et ne peut donner lieu à aucun remboursement.</div>
         </div>
 
     </div>
@@ -42,16 +32,19 @@
 
 
 <script>
-  import moment from 'moment';
-  moment.locale('fr');
+import moment from 'moment';
+moment.locale('fr');
+import PaymentComponent from './PaymentComponent.vue';
 
 export default {
+  components: { PaymentComponent },
 
         props: ['eventSelected', 'booked'],
 
         data: function () {
             return {
-                isBooked: this.booked,
+                isBooked: this.booked, //to know if it's already booked by user
+                payment: false,
                 bookingCanceled: false
             }
         },
@@ -64,14 +57,29 @@ export default {
                 return moment(time).format('LT');
             },
 
-            eventBooking() {
-                axios.post('http://localhost/Projet5/public/eventBooking', {
-                    eventId: this.eventSelected.id })
-                .then(response => {
-                    this.isBooked = 1;
-                    console.log(response); })
+            paymentComponent() {
+                this.payment = true;
+                this.isBooked = true;
+            },
 
-                .catch(response => {console.log(error);});
+            eventBooking(eventSelected) {
+                axios.post('http://localhost/Projet5/public/eventBooking', {
+                    eventId: eventSelected })
+                .then(response => {
+                    // this.isBooked = 1;
+                    this.payment = true
+                })
+                .catch(error => alert("L'inscription n'a pas abouti"));
+            },
+
+            bookingOk(payload) {
+                this.isBooked = 1;
+                this.payment = false;
+                axios.patch('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id, {
+                    pi: payload.pi
+                })
+                .then(response => console.log(response))
+                .catch(error => console.log(error, payload))
             },
 
             cancelBooking() {
@@ -82,19 +90,15 @@ export default {
                     this.bookingCanceled = true;
                     })
                 .catch(error => console.log(error));
-            }
+                }
+            },
+
+            cancelBookingAfterError() {
+                axios.delete('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id)
+                .then(response => this.isBooked = 0)
+                .catch(error => alert("L'inscription n'a pas abouti"));
             }
         },
-
-        // created() {
-        //     axios.get('http://localhost/Projet5/public/eventsList')
-        //     .then(response => this.events = response.data)
-        //     .catch(error => console.log(error));
-        // },
-
-        mounted() {
-            console.log(this.eventSelected.id);
-        }
 
 }
 </script>

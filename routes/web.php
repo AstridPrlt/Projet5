@@ -14,23 +14,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//***********************
+//******PUBLIC PART******
 Route::get('/', function () {
-    // return view('layouts.public');
     return view('welcome');
 });
 
 Route::view('details', 'details');
+Route::view('mentions', 'mentions');
 
-Route::get('contact', 'ContactController@show');
-Route::post('contact', 'ContactController@store');
+Route::get('contact', 'ContactController@showContactForm');
+Route::post('contact', 'ContactController@sendContactForm');
 
 Route::get('coweerkers', 'UserController@index');
 // Route::view('coweerkers', 'coweerkers');
 // Route::get('coweerkers', 'UserController@index')->middleware('auth');
 
-Route::view('contactUsers', 'contactUsers');
-Route::view('mentions', 'mentions');
+Route::get('contactUsers/{userId}', 'ContactController@showUsersContact')->middleware('auth');
+Route::post('contactUsers/{userId}', 'ContactController@sendUsersContact')->middleware('auth');
 
+
+//***************************
+//*****EVENTS MANAGEMENT*****
 Route::get('events','EventController@index');
 // Route::get('eventBooked/{eventId}','EventController@isEventBookedByAuth');
 Route::get('modifyEvent/{eventId}', 'EventController@edit');
@@ -38,8 +43,14 @@ Route::patch('events/{event}', 'EventController@update');
 
 Route::get('inscription/{eventId}', 'EventController@show')->middleware('auth');
 Route::post('eventBooking', 'EventController@booking');
+Route::patch('eventBooking/{eventId}', 'EventController@bookingPaymentInt');
 Route::delete('eventBooking/{eventId}', 'EventController@cancelBooking');
 
+Route::post('inscription/{eventId}/paiement', 'PaymentController@create');
+
+
+//****************************
+//*****PROFILE MANAGEMENT*****
 Route::get('myProfile', 'UserController@showAuth');
 Route::patch('myProfile/{userId}', 'UserController@updateProfile');
 Route::patch('myProfileIds/{userId}', 'UserController@updateIds');
@@ -47,6 +58,11 @@ Route::post('myProfile/avatar/{userId}', 'UserController@storeAvatar');
 Route::get('myEvents','EventController@showMyEvents');
 Route::delete('deleteMyprofile/{userId}', 'UserController@destroy');
 
+Route::view('deleteUserConfirm', 'deleteUserConfirm')->name('deleteUserConfirm');
+
+
+//**************************
+//*****ADMIN MANAGEMENT*****
 Route::post('eventCreation', 'EventController@store');
 Route::get('futureEventsList', 'EventController@indexFuture');
 Route::delete('futureEventsList/{eventId}', 'EventController@destroyFutureEvent');
@@ -54,13 +70,13 @@ Route::get('pastEventsList', 'EventController@indexPast');
 Route::delete('pastEventsList/{eventId}', 'EventController@destroyPastEvent');
 Route::get('events/list/{eventId}', 'EventController@showListEvent');
 
-Route::view('deleteUserConfirm', 'deleteUserConfirm')->name('deleteUserConfirm');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-//SOCIALITE
+//**************************
+//*********SOCIALITE********
 Route::get('login/{provider}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{provider}/callback', 'Auth\LoginController@handleProviderCallback');

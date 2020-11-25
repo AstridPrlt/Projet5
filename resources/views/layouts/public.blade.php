@@ -15,6 +15,8 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
 
+        @yield('extra-script')
+
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     </head>
@@ -76,9 +78,9 @@
                         <p>Tèl : +33 1 00 00 00 00</p>
                     </div>
                     <div class="col-6 align-center" style="border-left: 1px solid white;">
-                        <a href="details" class="d-block mb-1 text-light">Tarifs</a>
-                        <a href="contact" class="d-block mb-1 text-light">Nous contacter</a>
-                        <a href="mentions" class="d-block mb-1 text-light">Mentions légales</a>
+                        <a href="{{ url('details') }}" class="d-block mb-1 text-light">Tarifs</a>
+                        <a href="{{ url('contact') }}" class="d-block mb-1 text-light">Nous contacter</a>
+                        <a href="{{ url('mentions') }}" class="d-block mb-1 text-light">Mentions légales</a>
                         <a href="#" class="d-block mb-1 text-light">Conditions générales d'utilisation</a>
                         <a href="#" class="d-block mb-1 text-light">Politique de Protection des données personnelles</a>
                         <a href="#" class="d-block mb-1 text-light">Sitemap</a>
