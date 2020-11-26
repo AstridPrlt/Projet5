@@ -41,4 +41,15 @@ class User extends Authenticatable
     public function events() {
         return $this->belongsToMany(Event::class, 'event_user')->withTimestamps();
     }
+
+
+    //create relationship : add a contact to user
+    public function contact(User $user) {
+        return $this->contacts()->save($user);
+    }
+
+    public function contacts() {
+        return $this->belongsToMany(User::class, 'contacts', 'user_id', 'followed_user_id');
+    }
+
 }

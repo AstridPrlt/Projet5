@@ -36,24 +36,4 @@ class PaymentController extends Controller
         return response()->json($clientSecret);
     }
 
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @param string $paymentIntent
-     * @return \Illuminate\Http\Response
-     */
-    public function refund($paymentIntent)
-    {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        // $paymentIntent = str_replace('"', "'", $paymentIntent);
-
-        $re = Refund::create([
-            'payment_intent' => $paymentIntent
-        ]);
-
-        // return response()->json($re);
-    }
 }

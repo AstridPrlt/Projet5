@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Image;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository {
 
@@ -18,6 +19,24 @@ class UserRepository {
         $usersIndex = User::where([['id', '!=', auth()->id()],['admin', false],])->get();
         return $usersIndex;
     }
+
+    public function authContactsIds() {
+        $authContacts = DB::table('contacts')->where('user_id', Auth::user()->id)->pluck('followed_user_id');
+        return $authContacts;
+    }
+
+    public function addContactToAuth($contactId) {
+        $user = Auth::user();
+        $user->contacts()->attach($contactId);
+        return "Contact ajouté";
+    }
+
+    public function removeContactToAuth($contactId) {
+        $user = Auth::user();
+        $user->contacts()->detach($contactId);
+        return "Contact supprimé";
+    }
+
 
     public function updateAvatar(Request $request)
     {

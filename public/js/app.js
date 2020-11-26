@@ -1956,8 +1956,8 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
     return {
       isBooked: this.booked,
       //to know if it's already booked by user
-      payment: false,
-      bookingCanceled: false
+      payment: false // bookingCanceled: false
+
     };
   },
   methods: {
@@ -1994,23 +1994,21 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
         return console.log(error, payload);
       });
     },
-    cancelBooking: function cancelBooking() {
+    // cancelBooking() {
+    //     if(confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
+    //     axios.delete('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id)
+    //     .then((response) => {
+    //         console.log(response);
+    //         this.bookingCanceled = true;
+    //         })
+    //     .catch(error => console.log(error));
+    //     }
+    // },
+    cancelBookingAfterError: function cancelBookingAfterError() {
       var _this2 = this;
 
-      if (confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
-        axios["delete"]('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id).then(function (response) {
-          console.log(response);
-          _this2.bookingCanceled = true;
-        })["catch"](function (error) {
-          return console.log(error);
-        });
-      }
-    },
-    cancelBookingAfterError: function cancelBookingAfterError() {
-      var _this3 = this;
-
       axios["delete"]('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id).then(function (response) {
-        return _this3.isBooked = 0;
+        return _this2.isBooked = 0;
       })["catch"](function (error) {
         return alert("L'inscription n'a pas abouti");
       });
@@ -2659,13 +2657,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['listOfUsers'],
+  props: ['listOfUsers', 'authContacts'],
   data: function data() {
-    return {};
+    return {
+      contacts: this.authContacts
+    };
   },
   methods: {
-    addContact: function addContact() {}
+    addContact: function addContact(userId) {
+      var _this = this;
+
+      axios.post('http://localhost/Projet5/public/addContact', {
+        userId: userId
+      }).then(function (response) {
+        console.log(response.data);
+
+        _this.contacts.push(response.data);
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    },
+    removeContact: function removeContact(userId) {
+      var _this2 = this;
+
+      axios["delete"]('http://localhost/Projet5/public/removeContact/' + userId).then(function (response) {
+        console.log(response.data);
+
+        var userRemoved = function userRemoved(id) {
+          return id == response.data;
+        };
+
+        console.log(_this2.contacts);
+
+        var indexToRemove = _this2.contacts.findIndex(userRemoved);
+
+        console.log(indexToRemove);
+
+        _this2.contacts.splice(indexToRemove, 1);
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    }
   }
 });
 
@@ -60418,14 +60452,6 @@ var render = function() {
             _c(
               "p",
               {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.bookingCanceled,
-                    expression: "!bookingCanceled"
-                  }
-                ],
                 staticClass: "text-bold",
                 staticStyle: { color: "teal", "font-size": "1rem" }
               },
@@ -60441,51 +60467,13 @@ var render = function() {
                   _c("u", [_vm._v("votre profil")])
                 ])
               ]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.bookingCanceled,
-                    expression: "!bookingCanceled"
-                  }
-                ],
-                staticClass: "btn btn-outline-perso",
-                attrs: { type: "button" },
-                on: { click: _vm.cancelBooking }
-              },
-              [_vm._v("Annuler mon inscription")]
-            ),
-            _vm._v(" "),
-            _c(
-              "p",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.bookingCanceled,
-                    expression: "bookingCanceled"
-                  }
-                ],
-                staticClass: "text-bold",
-                staticStyle: { color: "teal", "font-size": "1rem" }
-              },
-              [_vm._v("Votre inscription a bien été annulée.")]
             )
           ]
         ),
         _vm._v(" "),
         _c(
           "div",
-          {
-            staticClass: "w-auto mx-auto my-3 p-1",
-            staticStyle: { color: "darkgrey" }
-          },
+          { staticClass: "w-100 my-3 p-1", staticStyle: { color: "darkgrey" } },
           [
             _vm._v(
               "L'inscription est définitive, et ne peut donner lieu à aucun remboursement."
@@ -61974,41 +61962,97 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "d-flex justify-content-around" }, [
                 _c(
-                  "a",
+                  "div",
                   {
-                    staticStyle: { color: "teal" },
-                    attrs: {
-                      href: "#",
-                      "data-toggle": "tooltip",
-                      "data-placement": "top",
-                      title: "Ajouter à mes contacts"
-                    }
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.spinner,
+                        expression: "!spinner"
+                      }
+                    ],
+                    staticStyle: { color: "teal", cursor: "pointer" }
                   },
                   [
-                    _c("div", { on: { click: _vm.addContact } }, [
-                      _c(
-                        "svg",
-                        {
-                          staticClass: "bi bi-star",
-                          attrs: {
-                            width: "1.7rem",
-                            height: "1.7rem",
-                            viewBox: "0 0 16 16",
-                            fill: "currentColor",
-                            xmlns: "http://www.w3.org/2000/svg"
-                          }
-                        },
-                        [
-                          _c("path", {
+                    _vm.contacts.includes(people.id)
+                      ? _c(
+                          "div",
+                          {
                             attrs: {
-                              "fill-rule": "evenodd",
-                              d:
-                                "M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
+                              "data-toggle": "tooltip",
+                              "data-placement": "top",
+                              title: "Retirer de mes contacts"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.removeContact(people.id)
+                              }
                             }
-                          })
-                        ]
-                      )
-                    ])
+                          },
+                          [
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-star-fill",
+                                attrs: {
+                                  width: "1.7rem",
+                                  height: "1.7rem",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      : _c(
+                          "div",
+                          {
+                            attrs: {
+                              "data-toggle": "tooltip",
+                              "data-placement": "top",
+                              title: "Ajouter à mes contacts"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.addContact(people.id)
+                              }
+                            }
+                          },
+                          [
+                            _c(
+                              "svg",
+                              {
+                                staticClass: "bi bi-star",
+                                attrs: {
+                                  width: "1.7rem",
+                                  height: "1.7rem",
+                                  viewBox: "0 0 16 16",
+                                  fill: "currentColor",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    "fill-rule": "evenodd",
+                                    d:
+                                      "M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
                   ]
                 ),
                 _vm._v(" "),
@@ -62016,7 +62060,13 @@ var render = function() {
                   "a",
                   {
                     staticStyle: { color: "teal" },
-                    attrs: { type: "button", href: "contactUsers/" + people.id }
+                    attrs: {
+                      type: "button",
+                      href: "contactUsers/" + people.id,
+                      "data-toggle": "tooltip",
+                      "data-placement": "top",
+                      title: "Envoyer un message"
+                    }
                   },
                   [
                     _c(
@@ -62024,8 +62074,6 @@ var render = function() {
                       {
                         staticClass: "bi bi-chat-text",
                         attrs: {
-                          "data-toggle": "tooltip",
-                          "data-placement": "top",
                           width: "1.7rem",
                           height: "1.7rem",
                           viewBox: "0 0 16 16",

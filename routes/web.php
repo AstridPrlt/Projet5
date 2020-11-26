@@ -30,8 +30,13 @@ Route::get('coweerkers', 'UserController@index');
 // Route::view('coweerkers', 'coweerkers');
 // Route::get('coweerkers', 'UserController@index')->middleware('auth');
 
+
+//***************************
+//*****CONTACTS MANAGEMENT*****
 Route::get('contactUsers/{userId}', 'ContactController@showUsersContact')->middleware('auth');
 Route::post('contactUsers/{userId}', 'ContactController@sendUsersContact')->middleware('auth');
+Route::post('addContact', 'UserController@storeContact');
+Route::delete('removeContact/{userId}', 'UserController@removeContact');
 
 
 //***************************

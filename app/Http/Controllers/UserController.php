@@ -26,7 +26,48 @@ class UserController extends Controller
     public function index()
     {
         $listOfUsers = $this->userRequest->usersIndex();
-        return view('coweerkers', ['listOfUsers' => $listOfUsers]);
+
+
+        // return view('coweerkers', ['listOfUsers' => $listOfUsers]);
+
+        if (Auth::user()) { //if the user is authentified, check if he already has favorite contacts -> return an array of these users id
+            $authContacts = $this->userRequest->authContactsIds();
+            if(empty($authContacts)) { //if user has no favorites contacts
+                $authContacts = json_encode("Pas de contacts favoris");
+            }
+            return view('coweerkers', ['listOfUsers' => $listOfUsers, 'authContacts' => $authContacts]);
+        } else {
+            $authContacts = json_encode("Pas de contacts favoris");
+            return view('coweerkers', ['listOfUsers' => $listOfUsers, 'authContacts' => $authContacts]);
+        }
+    }
+
+    /**
+     * Add a favorite contact to auth user list.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeContact(Request $request) {
+
+        $contactId = $request->userId;
+
+        $addContact = $this->userRequest->addContactToAuth($contactId);
+
+        return response()->json($contactId);
+    }
+
+    /**
+     * Remove a favorite contact to auth user list.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function removeContact($userId) {
+
+        $removeContact = $this->userRequest->removeContactToAuth($userId);
+
+        return response()->json($userId);
     }
 
     /**

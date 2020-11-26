@@ -17,13 +17,13 @@
             <payment-component v-show="payment" :event-to-pay="eventSelected.id" :price-to-pay="eventSelected.price" @payment-made="bookingOk" @payment-error="cancelBookingAfterError"></payment-component>
 
             <div v-show="isBooked && !payment" id="payment-made">
-                <p v-show="!bookingCanceled" class="text-bold" style="color: teal; font-size: 1rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !<br/>Retrouvez la liste de vos évènements dans <a :href="`home`"><u>votre profil</u></a></p>
+                <p class="text-bold" style="color: teal; font-size: 1rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !<br/>Retrouvez la liste de vos évènements dans <a :href="`home`"><u>votre profil</u></a></p>
 
-                <button v-show="!bookingCanceled" type="button" class="btn btn-outline-perso" @click="cancelBooking">Annuler mon inscription</button>
-                <p v-show="bookingCanceled" class="text-bold" style="color: teal; font-size: 1rem;">Votre inscription a bien été annulée.</p>
+                <!-- <button v-show="!bookingCanceled" type="button" class="btn btn-outline-perso" @click="cancelBooking">Annuler mon inscription</button>
+                <p v-show="bookingCanceled" class="text-bold" style="color: teal; font-size: 1rem;">Votre inscription a bien été annulée.</p> -->
             </div>
 
-            <div class="w-auto mx-auto my-3 p-1" style="color: darkgrey;">L'inscription est définitive, et ne peut donner lieu à aucun remboursement.</div>
+            <div class="w-100 my-3 p-1" style="color: darkgrey;">L'inscription est définitive, et ne peut donner lieu à aucun remboursement.</div>
         </div>
 
     </div>
@@ -45,7 +45,7 @@ export default {
             return {
                 isBooked: this.booked, //to know if it's already booked by user
                 payment: false,
-                bookingCanceled: false
+                // bookingCanceled: false
             }
         },
 
@@ -82,16 +82,16 @@ export default {
                 .catch(error => console.log(error, payload))
             },
 
-            cancelBooking() {
-                if(confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
-                axios.delete('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id)
-                .then((response) => {
-                    console.log(response);
-                    this.bookingCanceled = true;
-                    })
-                .catch(error => console.log(error));
-                }
-            },
+            // cancelBooking() {
+            //     if(confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
+            //     axios.delete('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id)
+            //     .then((response) => {
+            //         console.log(response);
+            //         this.bookingCanceled = true;
+            //         })
+            //     .catch(error => console.log(error));
+            //     }
+            // },
 
             cancelBookingAfterError() {
                 axios.delete('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id)
