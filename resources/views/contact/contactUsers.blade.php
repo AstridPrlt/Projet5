@@ -16,6 +16,8 @@
             @endif
 
             <input id="senderName" name="senderName" type="hidden" value="{{ $authUser->name }}">
+            <input id="senderJob" name="senderJob" type="hidden" value="{{ $authUser->job }}">
+            <input id="senderDescription" name="senderDescription" type="hidden" value="{{ $authUser->user_description }}">
             <input id="contactName" name="contactName" type="hidden" value="{{ $userToContact->name }}">
 
             <div class="form-group">

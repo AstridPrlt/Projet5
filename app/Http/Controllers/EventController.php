@@ -55,7 +55,7 @@ class EventController extends Controller
     }
 
     /**
-     * Book an event for the auth user.
+     * Book an event for the auth user with the payment_intent (Stripe ref)
      *
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
@@ -64,22 +64,6 @@ class EventController extends Controller
     {
         $eventBooking = $this->eventUser->eventBooking($request);
         return $eventBooking;
-    }
-
-    /**
-     * When user book and pay an event, it add the payment_intent in event_user db in case of refund
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function bookingPaymentInt(Request $request, $eventId)
-    {
-        $bookingToUpdate = DB::table('event_user')->where('event_id', $eventId)->where('user_id', Auth::user()->id)->update(['payment_intent' => $request->pi]);
-
-        if($bookingToUpdate) {
-            return response()->json($bookingToUpdate);
-        } else {
-            return response()->json(['error' => "Problème avec payment_intent"]);
-        }
     }
 
     public function cancelBooking($eventId)

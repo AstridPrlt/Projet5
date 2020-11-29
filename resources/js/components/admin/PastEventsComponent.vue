@@ -14,10 +14,9 @@
                 <list-event-component :event-id="pastEvent.id"></list-event-component>
             </div>
         </div>
-        <div v-show="showDeleteSpinnerPast" class="position-absolute w-100 h-100 justify-content-center align-items-center bg-white" style="display: flex; top: 0; left: 0; opacity: 0.8;">
-            <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+
+        <div v-show="showSpinnerPast" class="position-absolute w-100 h-100 justify-content-center align-items-center bg-white" style="display: flex; top: 0; left: 0; opacity: 0.8;">
+            <div v-show="showSpinnerPast" class="lds-ripple"><div></div><div></div></div>
         </div>
     </div>
 </template>
@@ -31,14 +30,21 @@
         data() {
             return {
                 pastEvents: {},
-                showDeleteSpinnerPast: false,
+                showSpinnerPast: false,
             }
         },
 
         created() {
+            this.showSpinnerPast = true;
             axios.get('http://localhost/Projet5/public/pastEventsList')
-            .then(response => this.pastEvents = response.data)
-            .catch(error => console.log(error));
+            .then((response) => {
+                this.pastEvents = response.data;
+                this.showSpinnerPast = false;
+            })
+            .catch((error) => {
+                console.log(error);
+                this.showSpinnerPast = false;
+            });
         },
 
         methods: {
@@ -48,11 +54,11 @@
 
             deleteEvent(id) {
                 if(confirm("Etes vous sûr de vouloir supprimer cet évènement ?")) {
-                this.showDeleteSpinnerPast = true;
+                this.showSpinnerPast = true;
                 axios.delete('http://localhost/Projet5/public/pastEventsList/' + id)
                 .then((response) => {
                     this.pastEvents = response.data;
-                    this.showDeleteSpinnerPast = false;
+                    this.showSpinnerPast = false;
                 })
                 .catch(error => console.log(error));
                 }

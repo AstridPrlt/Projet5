@@ -17,7 +17,7 @@
                     </a>
                 </div>
             </div>
-            <img class="col-12 col-sm-5 col-md-7 px-0" src="{{url('/images/coffeeplace.jpg')}}" alt="Photo du café">
+            <img class="col-12 col-sm-5 col-md-7 px-0" src="{{url('/images/coffeeplace.jpg')}}" alt="Photo du café" style="object-fit: cover;">
         </div>
 
         <div class="d-sm-flex flex-sm-row-reverse bg-light">
@@ -30,7 +30,7 @@
                     </a>
                 </div>
             </div>
-            <img class="col-12 col-sm-5 col-md-7 px-0" src="{{url('/images/events.jpg')}}" alt="Photo d'un évènement">
+            <img class="col-12 col-sm-5 col-md-7 px-0" src="{{url('/images/events.jpg')}}" alt="Photo d'un évènement" style="object-fit: cover;">
         </div>
 
         <div class="d-sm-flex bg-light">
@@ -43,7 +43,7 @@
                     </a>
                 </div>
             </div>
-            <img class="col-12 col-sm-5 col-md-7 px-0" src="{{url('/images/community.jpg')}}" alt="Photo de la communauté">
+            <img class="col-12 col-sm-5 col-md-7 px-0" src="{{url('/images/community.jpg')}}" alt="Photo de la communauté" style="object-fit: cover;">
         </div>
     </div>
 

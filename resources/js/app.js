@@ -19,7 +19,7 @@ window.Vue = require('vue');
 Vue.component('events-component', require('./components/EventsComponent.vue').default);
 Vue.component('booking-component', require('./components/BookingComponent.vue').default);
 Vue.component('payment-component', require('./components/PaymentComponent.vue').default);
-Vue.component('users-list-component', require('./components/UsersListComponent.vue').default);
+Vue.component('coweerkers-component', require('./components/CoweerkersComponent.vue').default);
 
 Vue.component('message-users-component', require('./components/MessageUsersComponent.vue').default);
 
@@ -32,6 +32,7 @@ Vue.component('past-events-component', require('./components/admin/PastEventsCom
 Vue.component('create-event-component', require('./components/admin/CreateEventComponent.vue').default);
 Vue.component('modify-event-component', require('./components/admin/ModifyEventComponent.vue').default);
 Vue.component('list-event-component', require('./components/admin/ListEventComponent.vue').default);
+Vue.component('list-users-component', require('./components/admin/ListUsersComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

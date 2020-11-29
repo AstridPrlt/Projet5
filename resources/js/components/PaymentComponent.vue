@@ -92,7 +92,7 @@ export default {
                     } else {// The payment has been processed!
                         if (result.paymentIntent.status === 'succeeded') {
                             document.getElementById('payment-form').remove();
-                            this.$emit('payment-made', { pi: result.paymentIntent.id });
+                            this.$emit('payment-made', { pi: result.paymentIntent.id, eventId: this.eventToPay });
 
                         }
                     }

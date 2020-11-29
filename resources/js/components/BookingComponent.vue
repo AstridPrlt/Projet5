@@ -7,23 +7,28 @@
                 <h2>{{ eventSelected.title }}</h2>
                 <p>Le {{ formatedDate(eventSelected.event_date_time) }}</p>
                 <p>à {{ formatedTime(eventSelected.event_date_time) }}</p>
-                <p>Prix : {{ eventSelected.price }} €</p>
+                <p>Prix : {{ eventSelected.price == 0 ? "Gratuit !" : eventSelected.price + " €" }}</p>
             </div>
 
             <p class="w-100 my-5" style="white-space: pre-line;">{{ eventSelected.event_description }}</p>
 
+            <p v-show="bookingCanceled" class="text-bold w-100" style="color: teal; font-size: 1rem;">Votre inscription a bien été annulée.</p>
+
             <button v-show="!isBooked && !payment" type="submit" class="btn btn-perso" @click="eventBooking(eventSelected.id)">Je m'inscris</button>
 
-            <payment-component v-show="payment" :event-to-pay="eventSelected.id" :price-to-pay="eventSelected.price" @payment-made="bookingOk" @payment-error="cancelBookingAfterError"></payment-component>
+            <payment-component v-show="payment" :event-to-pay="eventSelected.id" :price-to-pay="eventSelected.price" @payment-made="makeBooking"></payment-component>
 
-            <div v-show="isBooked && !payment" id="payment-made">
+            <div v-show="isBooked && !payment &&!bookingCanceled" id="payment-made">
                 <p class="text-bold" style="color: teal; font-size: 1rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !<br/>Retrouvez la liste de vos évènements dans <a :href="`home`"><u>votre profil</u></a></p>
 
-                <!-- <button v-show="!bookingCanceled" type="button" class="btn btn-outline-perso" @click="cancelBooking">Annuler mon inscription</button>
-                <p v-show="bookingCanceled" class="text-bold" style="color: teal; font-size: 1rem;">Votre inscription a bien été annulée.</p> -->
+                <button v-if="eventSelected.price == 0 && !bookingCanceled" type="button" class="btn btn-outline-perso" @click="cancelBooking">Annuler mon inscription</button>
             </div>
 
-            <div class="w-100 my-3 p-1" style="color: darkgrey;">L'inscription est définitive, et ne peut donner lieu à aucun remboursement.</div>
+            <div v-if="!eventSelected.price == 0" class="w-100 my-3 p-1" style="color: darkgrey;">L'inscription est définitive, et ne peut donner lieu à aucun remboursement.</div>
+        </div>
+
+        <div v-show="spinner" class="position-absolute w-100 h-100 justify-content-center align-items-center bg-white" style="display: flex; top: 0; left: 0; opacity: 0.8; z-index: 5;">
+            <div v-show="spinner" class="lds-ripple"><div></div><div></div></div>
         </div>
 
     </div>
@@ -45,7 +50,9 @@ export default {
             return {
                 isBooked: this.booked, //to know if it's already booked by user
                 payment: false,
-                // bookingCanceled: false
+                spinner: false,
+
+                bookingCanceled: false
             }
         },
 
@@ -62,42 +69,58 @@ export default {
                 this.isBooked = true;
             },
 
+
             eventBooking(eventSelected) {
-                axios.post('http://localhost/Projet5/public/eventBooking', {
-                    eventId: eventSelected })
-                .then(response => {
-                    // this.isBooked = 1;
+                if (this.eventSelected.price == 0) {
+                    this.spinner = true;
+                    axios.post('http://localhost/Projet5/public/eventBooking', {
+                        eventId: eventSelected })
+                    .then(response => {
+                        this.isBooked = 1;
+                        this.spinner = false;
+                    })
+                    .catch((error) => {
+                        this.spinner = false;
+                        alert("L'inscription n'a pas abouti");
+                    });
+                } else {
                     this.payment = true
-                })
-                .catch(error => alert("L'inscription n'a pas abouti"));
+                };
             },
 
-            bookingOk(payload) {
-                this.isBooked = 1;
+            makeBooking(payload) {
+                console.log(payload);
+                this.spinner = true;
                 this.payment = false;
-                axios.patch('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id, {
+                axios.post('http://localhost/Projet5/public/eventBooking', {
+                    eventId: payload.eventId,
                     pi: payload.pi
                 })
-                .then(response => console.log(response))
-                .catch(error => console.log(error, payload))
+                .then((response) => {
+                    console.log(response);
+                    this.spinner = false;
+                    this.isBooked = 1;
+                })
+                .catch((error) => {
+                    console.log(error, payload);
+                    alert("Probleme avec l'inscription");
+                    this.spinner = false
+                })
             },
 
-            // cancelBooking() {
-            //     if(confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
-            //     axios.delete('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id)
-            //     .then((response) => {
-            //         console.log(response);
-            //         this.bookingCanceled = true;
-            //         })
-            //     .catch(error => console.log(error));
-            //     }
-            // },
-
-            cancelBookingAfterError() {
+            cancelBooking() {
+                this.spinner = true;
+                if(confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
                 axios.delete('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id)
-                .then(response => this.isBooked = 0)
-                .catch(error => alert("L'inscription n'a pas abouti"));
-            }
+                .then((response) => {
+                    console.log(response);
+                    this.isBooked = 0;
+                    this.bookingCanceled = true;
+                    this.spinner = false
+                    })
+                .catch(error => console.log(error));
+                }
+            },
         },
 
 }

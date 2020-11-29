@@ -9,7 +9,8 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Image;
+// use Image;
+use Intervention\Image\Facades\Image;
 
 class EventUserRepository {
 
@@ -39,11 +40,19 @@ class EventUserRepository {
     {
         $user = Auth::user();
         $user->events()->attach($request->eventId);
-        return "Inscription OK";
+        $bookingInfo = DB::table('event_user')->where('event_id', $request->eventId)->where('user_id', Auth::user()->id)->get();
+
+        if(isset($request->pi)) {
+            $addPaymentIntent = DB::table('event_user')->where('event_id', $request->eventId)->where('user_id', Auth::user()->id)->update(['payment_intent' => $request->pi]);
+            $bookingInfo = DB::table('event_user')->where('event_id', $request->eventId)->where('user_id', Auth::user()->id)->get();
+        }
+
+        return $bookingInfo;
     }
 
-    public function eventBookingToCancel($eventId) {
-        $user = Auth::user()->id;
+    public function eventBookingToCancel($eventId)
+    {
+        $user = Auth::user();
         //delete the booking in event_user
         $user->events()->detach($eventId);
         return "Inscription annulée";
@@ -86,26 +95,27 @@ class EventUserRepository {
     public function storeNewEvent(Request $request)
     {
         if($request->file('picture')){
-        $eventPicture = $request->file('picture')->store('eventsPictures', 'public');//store the new picture
-        $image = Image::make(Storage::get('public/'.$eventPicture))->fit(300, 200)->encode(); //resize the new picture
-        Storage::put('public/'.$eventPicture, $image); //then save it
+            $eventPicture = $request->file('picture')->store('eventsPictures', 'public');//store the new picture
+            $image = Image::make(Storage::get('public/'.$eventPicture))->fit(300, 200)->encode(); //resize the new picture
+            Storage::put('public/'.$eventPicture, $image); //then save it
         } else {
             $eventPicture = null;
         };
 
-        // $eventCreated = Event::create([
-        //     'category' => $request->category,
-        //     'title' => $request->title,
-        //     'event_date' => $request->event_date,
-        //     'begin_time' => $request->begin_time,
-        //     'end_time' => $request->end_time,
-        //     'event_description' => nl2br($request->event_description),
-        //     'seats' => $request->seats,
-        //     'price' => $request->price,
-        //     'event_picture' => $eventPicture
-        // ]);
+        $eventCreated = Event::create([
+            'category' => $request->category,
+            'title' => $request->title,
+            'event_date_time' => $request->event_date_time,
+            'event_date' => $request->event_date,
+            'begin_time' => $request->begin_time,
+            'end_time' => $request->end_time,
+            'event_description' => $request->event_description,
+            'seats' => $request->seats,
+            'price' => $request->price,
+            'event_picture' => $eventPicture
+        ]);
 
-        $eventCreated = Event::create($request->all());
+        // $eventCreated = Event::create($request->all());
 
         return $eventCreated;
     }

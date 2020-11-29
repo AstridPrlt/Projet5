@@ -3,7 +3,7 @@
 
 Vous avez reçu un message de {{ $contactData['prenom'] }} {{ $contactData['nom'] }} / {{ $contactData['email'] }}
 
-"{{ $contactData['message'] }}"
+"{{str_replace("<br />", "  ", nl2br($contactData['message']))}}"
 
 
 {{-- @component('mail::button', ['url' => ''])

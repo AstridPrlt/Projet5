@@ -47,6 +47,8 @@ class ContactController extends Controller
         $contactData = request()->validate([
             'message' => 'required|min:5|max:800',
             'senderName' => 'required',
+            'senderJob' => 'required',
+            'senderDescription' => 'required',
             'contactName' => 'required'
         ]);
 

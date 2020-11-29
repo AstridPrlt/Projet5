@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->default('avatars/defaultAvatar.png');
             $table->string('job')->nullable();
             $table->text('user_description')->nullable();
+            $table->boolean('invisible')->default(0);
             $table->timestamps();
         });
     }

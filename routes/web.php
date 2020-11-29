@@ -48,7 +48,6 @@ Route::patch('events/{event}', 'EventController@update');
 
 Route::get('inscription/{eventId}', 'EventController@show')->middleware('auth');
 Route::post('eventBooking', 'EventController@booking');
-Route::patch('eventBooking/{eventId}', 'EventController@bookingPaymentInt');
 Route::delete('eventBooking/{eventId}', 'EventController@cancelBooking');
 
 Route::post('inscription/{eventId}/paiement', 'PaymentController@create');
@@ -61,6 +60,9 @@ Route::patch('myProfile/{userId}', 'UserController@updateProfile');
 Route::patch('myProfileIds/{userId}', 'UserController@updateIds');
 Route::post('myProfile/avatar/{userId}', 'UserController@storeAvatar');
 Route::get('myEvents','EventController@showMyEvents');
+Route::get('myContacts','UserController@showMyContacts');
+Route::patch('userInvisible/{userId}', 'UserController@makeInvisible');
+Route::patch('userVisible/{userId}', 'UserController@makeVisible');
 Route::delete('deleteMyprofile/{userId}', 'UserController@destroy');
 
 Route::view('deleteUserConfirm', 'deleteUserConfirm')->name('deleteUserConfirm');
@@ -74,6 +76,9 @@ Route::delete('futureEventsList/{eventId}', 'EventController@destroyFutureEvent'
 Route::get('pastEventsList', 'EventController@indexPast');
 Route::delete('pastEventsList/{eventId}', 'EventController@destroyPastEvent');
 Route::get('events/list/{eventId}', 'EventController@showListEvent');
+
+Route::get('usersList', 'UserController@indexAdmin');
+Route::delete('deleteUser/{userId}', 'UserController@destroy');
 
 
 Auth::routes();

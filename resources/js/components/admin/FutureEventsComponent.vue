@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button type="button" class="btn btn-perso w-25 mb-4 shadow position-relative" style="left: 50%; transform: translateX(-50%);" data-toggle="modal" data-target="#eventModal">
+        <button type="button" class="btn btn-perso mb-4 shadow position-relative" style="left: 50%; transform: translateX(-50%);" data-toggle="modal" data-target="#eventModal">
                 Créer un nouvel évènement
         </button>
         <create-event-component @event-created="refreshEvents"></create-event-component>
@@ -20,10 +20,11 @@
                 <modify-event-component :event-id-to-modify="futureEvent.id" @event-created="refreshEvents"></modify-event-component>
             </div>
         </div>
-        <div v-show="showDeleteSpinner" class="position-absolute w-100 h-100 justify-content-center align-items-center bg-white" style="display: flex; top: 0; left: 0; opacity: 0.8;">
-            <div class="spinner-border" role="status">
+        <div v-show="showSpinnerFuture" class="position-absolute w-100 h-100 justify-content-center align-items-center bg-white" style="display: flex; top: 0; left: 0; opacity: 0.8;">
+            <div v-show="showSpinnerFuture" class="lds-ripple"><div></div><div></div></div>
+            <!-- <div class="spinner-border" role="status">
                 <span class="sr-only">Loading...</span>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
@@ -38,15 +39,23 @@
         data() {
             return {
                 futureEvents: {},
-                showDeleteSpinner: false
+                showSpinnerFuture: false
             }
         },
 
         created() {
+            this.showSpinnerFuture = true;
             axios.get('http://localhost/Projet5/public/futureEventsList')
-            .then(response => this.futureEvents = response.data)
-            .catch(error => console.log(error));
+            .then((response) => {
+                this.futureEvents = response.data;
+                this.showSpinnerFuture = false
+            })
+            .catch((error) => {
+                console.log(error);
+                this.showSpinnerFuture = false;
+            });
         },
+
 
         methods: {
             formatedDate (date) {
@@ -59,13 +68,16 @@
 
             deleteEvent(id) {
                 if(confirm("Etes vous sûr de vouloir supprimer cet évènement ?")) {
-                this.showDeleteSpinner = true;
+                this.showSpinnerFuture = true;
                 axios.delete('http://localhost/Projet5/public/futureEventsList/' + id)
                 .then((response) => {
                     this.futureEvents = response.data;
-                    this.showDeleteSpinner = false;
+                    this.showSpinnerFuture = false;
                 })
-                .catch(error => console.log(error));
+                .catch((error) => {
+                console.log(error);
+                this.showSpinnerFuture = false;
+                });
             }
             }
         },

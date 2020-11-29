@@ -16,8 +16,13 @@ class UserRepository {
 
     public function usersIndex()
     {
-        $usersIndex = User::where([['id', '!=', auth()->id()],['admin', false],])->get();
+        $usersIndex = User::where([['id', '!=', auth()->id()],['admin', false],['invisible', 0]])->get();
         return $usersIndex;
+    }
+
+    public function usersIndexForAdmin() {
+        $allUsersExceptAuth = User::where('id', '!=', auth()->id())->get();
+        return $allUsersExceptAuth;
     }
 
     public function authContactsIds() {
@@ -37,13 +42,21 @@ class UserRepository {
         return "Contact supprimé";
     }
 
+    public function userContacts()
+    {
+        // $showMyContacts = Auth::user()->contacts->all();
+        $visible = DB::table('users')->where('invisible', 0);
+        $showMyContacts = DB::table('contacts')->where('user_id', Auth::user()->id)->joinSub($visible, 'visible', function ($join) {$join->on('contacts.followed_user_id', '=', 'visible.id');})->get();
+        return $showMyContacts;
+    }
+
 
     public function updateAvatar(Request $request)
     {
         $authUser = User::find(Auth::user()->id);
 
         if($authUser->avatar !== 'avatars/defaultAvatar.png') {
-        Storage::disk('local')->delete('public/'.$authUser->avatar); //delete the old picture if different than the default avatar picture
+            Storage::disk('local')->delete('public/'.$authUser->avatar); //delete the old picture if different than the default avatar picture
         };
 
         $avatar = $request->file('avatar')->store('avatars', 'public'); //store the new picture
@@ -72,15 +85,11 @@ class UserRepository {
         return response()->json($authUser);
     }
 
-    public function updateUserIds($validator, $authUser)
+    public function updateUserIds($authUser)
     {
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()]);
-        } else {
         $authUser->email = request('email');
         $authUser->password = Hash::make(request('password'));
         $authUser->save();
         return response()->json($authUser);
-        }
     }
 }

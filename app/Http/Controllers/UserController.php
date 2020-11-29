@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Image;
+use Illuminate\Support\Facades\DB;
 
 use App\Repositories\UserRepository;
 
@@ -25,20 +26,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        $listOfUsers = $this->userRequest->usersIndex();
-
-
-        // return view('coweerkers', ['listOfUsers' => $listOfUsers]);
+        $coweerkers = $this->userRequest->usersIndex();
 
         if (Auth::user()) { //if the user is authentified, check if he already has favorite contacts -> return an array of these users id
             $authContacts = $this->userRequest->authContactsIds();
             if(empty($authContacts)) { //if user has no favorites contacts
                 $authContacts = json_encode("Pas de contacts favoris");
             }
-            return view('coweerkers', ['listOfUsers' => $listOfUsers, 'authContacts' => $authContacts]);
+            return view('coweerkers', ['coweerkers' => $coweerkers, 'authContacts' => $authContacts]);
         } else {
             $authContacts = json_encode("Pas de contacts favoris");
-            return view('coweerkers', ['listOfUsers' => $listOfUsers, 'authContacts' => $authContacts]);
+            return view('coweerkers', ['coweerkers' => $coweerkers, 'authContacts' => $authContacts]);
         }
     }
 
@@ -68,6 +66,18 @@ class UserController extends Controller
         $removeContact = $this->userRequest->removeContactToAuth($userId);
 
         return response()->json($userId);
+    }
+
+    /**
+     * Show the user all its favorite contacts, in his profile page.
+     *
+     * @param  \App\Event  $event
+     * @return \Illuminate\Http\Response
+     */
+    public function showMyContacts()
+    {
+        $myContacts = $this->userRequest->userContacts();
+        return response()->json($myContacts);
     }
 
     /**
@@ -133,11 +143,56 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $updateUserIds = $this->userRequest->updateUserIds($validator, $authUser);
-        return $updateUserIds;
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        } else {
+            $updateUserIds = $this->userRequest->updateUserIds($authUser);
+            return $updateUserIds;
+        }
     }
+
+
     /**
-     * Remove the specified resource from storage.
+     * Permit the user to be invisible from other users.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+        public function makeInvisible(Request $request)
+        {
+            $authUser = User::find(Auth::user()->id);
+            $authUser->invisible = 1;
+            $authUser->save();
+
+            if($authUser->update(['invisible' => 1])) {
+                return response()->json($authUser);
+            } else {
+                return response()->json(['error' => "La requête n'a pas fonctionné"]);
+            }
+        }
+
+    /**
+     * Permit the user to return to be visible from other users.
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function makeVisible(Request $request)
+    {
+        $authUser = User::find(Auth::user()->id);
+        $authUser->invisible = 0;
+        $authUser->save();
+
+        if($authUser->update(['invisible' => 0])) {
+            return response()->json($authUser);
+        } else {
+            return response()->json(['error' => "La requête n'a pas fonctionné"]);
+        }
+    }
+
+
+    /**
+     * Destroy the user (made by user).
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -151,52 +206,32 @@ class UserController extends Controller
         };
         //delete booking in event_user table for the given event
         $userToDelete->events()->detach();
+        //delete relationship with other users
+        $userToDelete->contacts()->detach();
+        $userIsFollowed = DB::table('contacts')->where('followed_user_id', $userToDelete->id)->delete();
 
-        $userToDelete->delete();
-        return ['redirect' => route('deleteUserConfirm')];
+        if(Auth::user()->admin == 0) { // if it's done by the user himself
+            $userToDelete->delete();
+            return ['redirect' => route('deleteUserConfirm')];
+        } else { //if it's done by the admin
+            $userToDelete->delete();
+            return response()->json($id);
+        }
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    //******ADMIN*********
 
     /**
-     * Store a newly created resource in storage.
+     * Retrieve the list of all users to admin
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function indexAdmin ()
     {
-        //
+        $listOfUsers =  $this->userRequest->usersIndexForAdmin();
+        return $listOfUsers;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 }
