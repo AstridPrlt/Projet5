@@ -92,4 +92,52 @@ class UserRepository {
         $authUser->save();
         return response()->json($authUser);
     }
+
+    public function makeUserInvisible()
+    {
+        $authUser = User::find(Auth::user()->id);
+        $authUser->invisible = 1;
+        $authUser->save();
+
+        if($authUser->update(['invisible' => 1])) {
+            return response()->json($authUser);
+        } else {
+            return response()->json(['error' => "La requête n'a pas fonctionné"]);
+        }
+    }
+
+    public function makeUserVisible()
+    {
+        $authUser = User::find(Auth::user()->id);
+        $authUser->invisible = 0;
+        $authUser->save();
+
+        if($authUser->update(['invisible' => 0])) {
+            return response()->json($authUser);
+        } else {
+            return response()->json(['error' => "La requête n'a pas fonctionné"]);
+        }
+    }
+
+    public function destroyUser($id)
+    {
+        $userToDelete = User::find($id);
+        //delete the old picture if different than the default avatar picture
+        if($userToDelete->avatar !== 'avatars/defaultAvatar.png') {
+            Storage::disk('local')->delete('public/'.$userToDelete->avatar);
+        };
+        //delete booking in event_user table for the given event
+        $userToDelete->events()->detach();
+        //delete relationship with other users
+        $userToDelete->contacts()->detach();
+        $userIsFollowed = DB::table('contacts')->where('followed_user_id', $userToDelete->id)->delete();
+
+        if(Auth::user()->admin == 0) { // if it's done by the user himself
+            $userToDelete->delete();
+            return ['redirect' => route('deleteUserConfirm')];
+        } else { //if it's done by the admin
+            $userToDelete->delete();
+            return response()->json($id);
+        }
+    }
 }

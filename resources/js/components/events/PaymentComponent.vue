@@ -80,7 +80,6 @@ export default {
                 this.stripe.confirmCardPayment(response.data, { //send the client_secret to Stripe with info
                     payment_method: {
                         card: this.card,
-                        // billing_details: { name: 'Jenny Rosen' }
                     },
 
                 }).then((result) => {

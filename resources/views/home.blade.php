@@ -3,17 +3,6 @@
 @section('content')
 
 <div class="mw-100 h-100 pt-5 pb-3">
-    {{-- <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            @if (session('status'))
-            <div class="alert alert-success" role="alert">
-                {{ session('status') }}
-            </div>
-            @endif
-
-            {{ __('Bonjour ' . Auth::user()->name . ' !') }}
-        </div>
-    </div> --}}
 
     @if ( Auth::user()->admin == 1 )
 

@@ -30,10 +30,7 @@ class ContactMail extends Mailable
      */
     public function build()
     {
-        // if(array_key_exists('senderName', $contactData)) {
-        //     return $this->markdown('contact.emailUsers');
-        // } else {
-            return $this->markdown('contact.email');
-        // }
+        return $this->markdown('contact.email');
+
     }
 }

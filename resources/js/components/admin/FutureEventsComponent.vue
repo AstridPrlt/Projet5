@@ -22,9 +22,6 @@
         </div>
         <div v-show="showSpinnerFuture" class="position-absolute w-100 h-100 justify-content-center align-items-center bg-white" style="display: flex; top: 0; left: 0; opacity: 0.8;">
             <div v-show="showSpinnerFuture" class="lds-ripple"><div></div><div></div></div>
-            <!-- <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-            </div> -->
         </div>
     </div>
 </template>

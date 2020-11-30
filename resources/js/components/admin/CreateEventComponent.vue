@@ -115,11 +115,8 @@ export default {
         },
 
         submitEvent() {
-            // if(this.title && this.event_date) {
             this.spinner = true;
-            // };
             let formData = new FormData();
-            // avatarData.append('avatar', this.avatarImage);
             formData.append('category', this.category);
             formData.append('title', this.title);
             formData.append('event_date_time', this.event_date + ' ' + this.begin_time);

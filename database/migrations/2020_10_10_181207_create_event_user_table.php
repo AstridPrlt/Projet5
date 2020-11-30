@@ -17,6 +17,7 @@ class CreateEventUserTable extends Migration
             $table->id();
             $table->foreignId('event_id')->constrained();
             $table->foreignId('user_id')->constrained();
+            $table->string('payment_intent')->nullable();
             $table->timestamps();
 
             $table->unique(['event_id', 'user_id']);

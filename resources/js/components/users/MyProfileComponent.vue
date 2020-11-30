@@ -187,7 +187,6 @@ export default {
             .then((response) => {
                 console.log(response);
                 this.readOnlyInfo = true;
-                // this.readOnlyIds = true;
                 })
             .catch(error => console.log(error))
         },

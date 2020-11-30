@@ -16,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 //***********************
 //******PUBLIC PART******
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
 
 Route::view('details', 'details');
 Route::view('mentions', 'mentions');
@@ -27,8 +25,6 @@ Route::get('contact', 'ContactController@showContactForm');
 Route::post('contact', 'ContactController@sendContactForm');
 
 Route::get('coweerkers', 'UserController@index');
-// Route::view('coweerkers', 'coweerkers');
-// Route::get('coweerkers', 'UserController@index')->middleware('auth');
 
 
 //***************************
@@ -42,7 +38,6 @@ Route::delete('removeContact/{userId}', 'UserController@removeContact');
 //***************************
 //*****EVENTS MANAGEMENT*****
 Route::get('events','EventController@index');
-// Route::get('eventBooked/{eventId}','EventController@isEventBookedByAuth');
 Route::get('modifyEvent/{eventId}', 'EventController@edit');
 Route::patch('events/{event}', 'EventController@update');
 
@@ -64,7 +59,6 @@ Route::get('myContacts','UserController@showMyContacts');
 Route::patch('userInvisible/{userId}', 'UserController@makeInvisible');
 Route::patch('userVisible/{userId}', 'UserController@makeVisible');
 Route::delete('deleteMyprofile/{userId}', 'UserController@destroy');
-
 Route::view('deleteUserConfirm', 'deleteUserConfirm')->name('deleteUserConfirm');
 
 
