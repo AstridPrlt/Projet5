@@ -35,7 +35,7 @@ export default {
     },
 
     created() {
-        axios.get('http://localhost/Projet5/public/events/list/' + this.eventId)
+        axios.get('https://lecowee.astrid-perillat.fr/events/list/' + this.eventId)
         .then(response => this.listEvent = response.data)
         .catch(error => console.log(error));
     }

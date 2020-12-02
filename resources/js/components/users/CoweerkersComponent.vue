@@ -3,7 +3,7 @@
         <div class="my-5">
             <div class="card-columns position-relative">
                 <div v-for="people in coweerkers" :key="people.id" class="card">
-                    <img :src="`./../public/storage/${people.avatar}`" class="card-img-top" :alt="`Photo de profil de ${people.name}`">
+                    <img :src="`/storage/${people.avatar}`" class="card-img-top" :alt="`Photo de profil de ${people.name}`">
                     <div class="card-body">
                         <h5 class="card-title">{{ people.name }}</h5>
                         <h6 class="font-weight-bold" style="color: teal;">{{ people.job }}</h6>
@@ -53,7 +53,7 @@ export default {
 
         addContact(userId) {
             this.spinner = true;
-            axios.post('http://localhost/Projet5/public/addContact', {
+            axios.post('https://lecowee.astrid-perillat.fr/addContact', {
                 userId: userId })
             .then(response => {
                 console.log(response.data);
@@ -65,7 +65,7 @@ export default {
 
         removeContact(userId) {
             this.spinner = true;
-            axios.delete('http://localhost/Projet5/public/removeContact/' + userId)
+            axios.delete('https://lecowee.astrid-perillat.fr/removeContact/' + userId)
             .then((response) => {
                 console.log(response.data);
                 let userRemoved = (id) => id == response.data;

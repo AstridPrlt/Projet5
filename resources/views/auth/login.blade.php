@@ -69,11 +69,11 @@
                             </div>
 
                             <div class="w-100 text-center">
-                                <a href="login/github" type="submit" class="btn w-auto text-light m-2 rounded-pill" style="background-color: steelblue;">
+                                <a href="login/github" class="btn w-auto text-light m-2 rounded-pill" style="background-color: steelblue;">
                                     <img src="{{url('/images/logo-github.png')}}" style="width: 40px;" alt="Connexion avec Github">
                                     {{ __('Connexion avec GitHub') }}
                                 </a>
-                                <a href="login/google" type="submit" class="btn w-auto text-light rounded-pill" style="background-color: steelblue;">
+                                <a href="login/google" class="btn w-auto text-light rounded-pill" style="background-color: steelblue;">
                                     <img src="{{url('/images/logo-google.png')}}" style="width: 40px;" alt="Connexion avec Google">
                                     {{ __('Connexion avec Google') }}
                                 </a>

@@ -3,11 +3,11 @@
         <div class="d-lg-flex">
             <form enctype="multipart/form-data" class="m-auto" style="width: 180px;">
                 <div>
-                    <img v-show="!showAvatarPreview" :src="`./../public/storage/${authUser.avatar}`" alt="Photo de profil de l'utilisateur" class="img-thumbnail rounded-circle" style="width: 175px; height: 175px; min-width: 175px; min-height: 175px; position: relative; left: 50%; transform: translateX(-50%); object-fit: cover;">
+                    <img v-show="!showAvatarPreview" :src="`/storage/${authUser.avatar}`" alt="Photo de profil de l'utilisateur" class="img-thumbnail rounded-circle" style="width: 175px; height: 175px; min-width: 175px; min-height: 175px; position: relative; left: 50%; transform: translateX(-50%); object-fit: cover;">
                     <img v-show="showAvatarPreview" :src="avatarPreview" class="img-thumbnail rounded-circle" style="width: 175px; height: 175px; min-width: 175px; min-height: 175px; position: relative; left: 50%; transform: translateX(-50%); object-fit: cover;">
                 </div>
                 <div class="w-100 text-center">
-                    <a v-show="readOnlyAvatar" type="button" style="color: teal;" @click="makeUpdateAvatar">Modifier ma photo</a>
+                    <a v-show="readOnlyAvatar" style="color: teal; cursor: pointer;" @click="makeUpdateAvatar">Modifier ma photo</a>
                     <div v-show="!readOnlyAvatar" class="custom-file">
                         <div class="custom-file text-left">
                             <input type="file" class="custom-file-input" id="custom-file" aria-describedby="inputGroupFileAddon01" @change="showPreview">
@@ -142,7 +142,7 @@ export default {
     created() {
         this.spinnerProfile = true;
         this.authUser.avatar = "avatars/defaultAvatar.png";
-        axios.get('http://localhost/Projet5/public/myProfile')
+        axios.get('https://lecowee.astrid-perillat.fr/myProfile')
         .then((response) => {
             this.authUser = response.data;
             this.spinnerProfile = false;
@@ -178,7 +178,7 @@ export default {
         },
 
         updateProfile() {
-            axios.patch('http://localhost/Projet5/public/myProfile/' + this.authUser.id, {
+            axios.patch('https://lecowee.astrid-perillat.fr/myProfile/' + this.authUser.id, {
                 name: this.authUser.name,
                 email: this.authUser.email,
                 job: this.authUser.job,
@@ -192,7 +192,7 @@ export default {
         },
 
         updateIds() {
-            axios.patch('http://localhost/Projet5/public/myProfileIds/' + this.authUser.id, {
+            axios.patch('https://lecowee.astrid-perillat.fr/myProfileIds/' + this.authUser.id, {
                 email: this.authUser.email,
                 password: document.getElementById('inputPassword').value,
                 password_confirmation: document.getElementById('inputPassword2').value,
@@ -218,7 +218,7 @@ export default {
         updateAvatar() {
             let avatarData = new FormData();
             avatarData.append('avatar', this.avatarImage);
-            axios.post('http://localhost/Projet5/public/myProfile/avatar/' + this.authUser.id, avatarData)
+            axios.post('https://lecowee.astrid-perillat.fr/myProfile/avatar/' + this.authUser.id, avatarData)
             .then((response) => {
                 console.log(avatarData, response);
                 this.refreshAvatar(response);
@@ -230,7 +230,7 @@ export default {
 
         makeInvisible() {
             this.spinnerProfile = true;
-            axios.patch('http://localhost/Projet5/public/userInvisible/' + this.authUser.id)
+            axios.patch('https://lecowee.astrid-perillat.fr/userInvisible/' + this.authUser.id)
             .then((response) => {
                 console.log(response);
                 this.authUser.invisible = 1;
@@ -241,7 +241,7 @@ export default {
 
         makeVisible() {
             this.spinnerProfile = true;
-            axios.patch('http://localhost/Projet5/public/userVisible/' + this.authUser.id)
+            axios.patch('https://lecowee.astrid-perillat.fr/userVisible/' + this.authUser.id)
             .then((response) => {
                 console.log(response);
                 this.authUser.invisible = 0;
@@ -252,7 +252,7 @@ export default {
 
         userDeletion() {
             if(confirm("Etes vous sûr de vouloir supprimer votre compte ?")) {
-                axios.delete('http://localhost/Projet5/public/deleteMyprofile/' + this.authUser.id)
+                axios.delete('https://lecowee.astrid-perillat.fr/deleteMyprofile/' + this.authUser.id)
                 .then((response) => {
                     console.log(response);
                     window.location.replace(response.data.redirect);

@@ -21,8 +21,8 @@ class PaymentController extends Controller
     {
         $decPrice = $request->price *100;
 
-        // Stripe::setApiKey('sk_test_51HpeMXDt6vNlBQPrh7Gl56IQC9KR6cSLgHO9GWpMcn3Y4cyxstTSj3Z9jFqm084U0c8BbySO8oaoxOmGVcqLlD7M00Y3I6ZDCP');
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe::setApiKey('sk_test_51HpeMXDt6vNlBQPrh7Gl56IQC9KR6cSLgHO9GWpMcn3Y4cyxstTSj3Z9jFqm084U0c8BbySO8oaoxOmGVcqLlD7M00Y3I6ZDCP');
+        // Stripe::setApiKey(env('STRIPE_SECRET'));
 
         $intent = PaymentIntent::create([
             'amount' => $decPrice,

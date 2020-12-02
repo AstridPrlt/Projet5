@@ -2037,7 +2037,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('picture', this.event_picture);
       console.log(this.event_picture);
       console.log(formData);
-      axios.post('http://localhost/Projet5/public/eventCreation', formData).then(function (response) {
+      axios.post('https://lecowee.astrid-perillat.fr/eventCreation', formData).then(function (response) {
         _this2.$emit('event-created', response);
 
         _this2.cancelCreationEvent();
@@ -2102,7 +2102,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
     var _this = this;
 
     this.showSpinnerFuture = true;
-    axios.get('http://localhost/Projet5/public/futureEventsList').then(function (response) {
+    axios.get('https://lecowee.astrid-perillat.fr/futureEventsList').then(function (response) {
       _this.futureEvents = response.data;
       _this.showSpinnerFuture = false;
     })["catch"](function (error) {
@@ -2122,7 +2122,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 
       if (confirm("Etes vous sûr de vouloir supprimer cet évènement ?")) {
         this.showSpinnerFuture = true;
-        axios["delete"]('http://localhost/Projet5/public/futureEventsList/' + id).then(function (response) {
+        axios["delete"]('https://lecowee.astrid-perillat.fr/futureEventsList/' + id).then(function (response) {
           _this2.futureEvents = response.data;
           _this2.showSpinnerFuture = false;
         })["catch"](function (error) {
@@ -2180,7 +2180,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    axios.get('http://localhost/Projet5/public/events/list/' + this.eventId).then(function (response) {
+    axios.get('https://lecowee.astrid-perillat.fr/events/list/' + this.eventId).then(function (response) {
       return _this.listEvent = response.data;
     })["catch"](function (error) {
       return console.log(error);
@@ -2262,7 +2262,7 @@ __webpack_require__.r(__webpack_exports__);
     getContacts: function getContacts() {
       var _this = this;
 
-      axios.get('http://localhost/Projet5/public/usersList').then(function (response) {
+      axios.get('https://lecowee.astrid-perillat.fr/usersList').then(function (response) {
         _this.listOfUsers = response.data;
         _this.spinner = false;
       })["catch"](function (error) {
@@ -2276,7 +2276,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (confirm('Êtes-vous sûr de vouloir supprimer ce coweerker de la base de données ?')) {
         this.spinner = true;
-        axios["delete"]('http://localhost/Projet5/public/deleteUser/' + userId).then(function (response) {
+        axios["delete"]('https://lecowee.astrid-perillat.fr/deleteUser/' + userId).then(function (response) {
           console.log(response.data);
 
           _this2.getContacts();
@@ -2378,7 +2378,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    axios.get('http://localhost/Projet5/public/modifyEvent/' + this.eventIdToModify).then(function (response) {
+    axios.get('https://lecowee.astrid-perillat.fr/modifyEvent/' + this.eventIdToModify).then(function (response) {
       return _this.eventToModify = response.data;
     })["catch"](function (error) {
       return console.log(error);
@@ -2389,7 +2389,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.spinner = true;
-      axios.patch('http://localhost/Projet5/public/events/' + this.eventIdToModify, {
+      axios.patch('https://lecowee.astrid-perillat.fr/events/' + this.eventIdToModify, {
         category: this.eventToModify.category,
         title: this.eventToModify.title,
         event_date: this.eventToModify.event_date,
@@ -2460,7 +2460,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
     var _this = this;
 
     this.showSpinnerPast = true;
-    axios.get('http://localhost/Projet5/public/pastEventsList').then(function (response) {
+    axios.get('https://lecowee.astrid-perillat.fr/pastEventsList').then(function (response) {
       _this.pastEvents = response.data;
       _this.showSpinnerPast = false;
     })["catch"](function (error) {
@@ -2477,7 +2477,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 
       if (confirm("Etes vous sûr de vouloir supprimer cet évènement ?")) {
         this.showSpinnerPast = true;
-        axios["delete"]('http://localhost/Projet5/public/pastEventsList/' + id).then(function (response) {
+        axios["delete"]('https://lecowee.astrid-perillat.fr/pastEventsList/' + id).then(function (response) {
           _this2.pastEvents = response.data;
           _this2.showSpinnerPast = false;
         })["catch"](function (error) {
@@ -2501,7 +2501,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _PaymentComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PaymentComponent.vue */ "./resources/js/components/events/PaymentComponent.vue");
+/* harmony import */ var _PaymentComponent_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PaymentComponent.vue */ "./resources/js/components/events/PaymentComponent.vue");
 //
 //
 //
@@ -2545,7 +2545,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    PaymentComponent: _PaymentComponent_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    PaymentComponent: _PaymentComponent_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: ['eventSelected', 'booked'],
   data: function data() {
@@ -2573,7 +2573,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
 
       if (this.eventSelected.price == 0) {
         this.spinner = true;
-        axios.post('http://localhost/Projet5/public/eventBooking', {
+        axios.post('https://lecowee.astrid-perillat.fr/eventBooking', {
           eventId: eventSelected
         }).then(function (response) {
           _this.isBooked = 1;
@@ -2594,7 +2594,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
       console.log(payload);
       this.spinner = true;
       this.payment = false;
-      axios.post('http://localhost/Projet5/public/eventBooking', {
+      axios.post('https://lecowee.astrid-perillat.fr/eventBooking', {
         eventId: payload.eventId,
         pi: payload.pi
       }).then(function (response) {
@@ -2613,7 +2613,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
       this.spinner = true;
 
       if (confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
-        axios["delete"]('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id).then(function (response) {
+        axios["delete"]('https://lecowee.astrid-perillat.fr/eventBooking/' + this.eventSelected.id).then(function (response) {
           console.log(response);
           _this3.isBooked = 0;
           _this3.bookingCanceled = true;
@@ -2791,7 +2791,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.spinner = true;
-      axios.post('http://localhost/Projet5/public/inscription/' + this.eventToPay + '/paiement', {
+      axios.post('https://lecowee.astrid-perillat.fr/inscription/' + this.eventToPay + '/paiement', {
         price: this.priceToPay
       }) //retrieve the client_secret
       .then(function (response) {
@@ -2898,7 +2898,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.spinner = true;
-      axios.post('http://localhost/Projet5/public/addContact', {
+      axios.post('https://lecowee.astrid-perillat.fr/addContact', {
         userId: userId
       }).then(function (response) {
         console.log(response.data);
@@ -2914,7 +2914,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       this.spinner = true;
-      axios["delete"]('http://localhost/Projet5/public/removeContact/' + userId).then(function (response) {
+      axios["delete"]('https://lecowee.astrid-perillat.fr/removeContact/' + userId).then(function (response) {
         console.log(response.data);
 
         var userRemoved = function userRemoved(id) {
@@ -3014,7 +3014,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.spinnerContact = true;
-      axios.get('http://localhost/Projet5/public/myContacts').then(function (response) {
+      axios.get('https://lecowee.astrid-perillat.fr/myContacts').then(function (response) {
         _this.myContacts = response.data;
         _this.spinnerContact = false;
       })["catch"](function (error) {
@@ -3027,7 +3027,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')) {
         this.spinnerContact = true;
-        axios["delete"]('http://localhost/Projet5/public/removeContact/' + userId).then(function (response) {
+        axios["delete"]('https://lecowee.astrid-perillat.fr/removeContact/' + userId).then(function (response) {
           console.log(response.data);
 
           _this2.getContacts();
@@ -3109,7 +3109,7 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
   created: function created() {
     var _this = this;
 
-    axios.get('http://localhost/Projet5/public/myEvents').then(function (response) {
+    axios.get('https://lecowee.astrid-perillat.fr/myEvents').then(function (response) {
       return _this.myEvents = response.data;
     })["catch"](function (error) {
       return console.log(error);
@@ -3267,7 +3267,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.spinnerProfile = true;
     this.authUser.avatar = "avatars/defaultAvatar.png";
-    axios.get('http://localhost/Projet5/public/myProfile').then(function (response) {
+    axios.get('https://lecowee.astrid-perillat.fr/myProfile').then(function (response) {
       _this.authUser = response.data;
       _this.spinnerProfile = false;
     })["catch"](function (error) {
@@ -3305,7 +3305,7 @@ __webpack_require__.r(__webpack_exports__);
     updateProfile: function updateProfile() {
       var _this3 = this;
 
-      axios.patch('http://localhost/Projet5/public/myProfile/' + this.authUser.id, {
+      axios.patch('https://lecowee.astrid-perillat.fr/myProfile/' + this.authUser.id, {
         name: this.authUser.name,
         email: this.authUser.email,
         job: this.authUser.job,
@@ -3320,7 +3320,7 @@ __webpack_require__.r(__webpack_exports__);
     updateIds: function updateIds() {
       var _this4 = this;
 
-      axios.patch('http://localhost/Projet5/public/myProfileIds/' + this.authUser.id, {
+      axios.patch('https://lecowee.astrid-perillat.fr/myProfileIds/' + this.authUser.id, {
         email: this.authUser.email,
         password: document.getElementById('inputPassword').value,
         password_confirmation: document.getElementById('inputPassword2').value
@@ -3345,7 +3345,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var avatarData = new FormData();
       avatarData.append('avatar', this.avatarImage);
-      axios.post('http://localhost/Projet5/public/myProfile/avatar/' + this.authUser.id, avatarData).then(function (response) {
+      axios.post('https://lecowee.astrid-perillat.fr/myProfile/avatar/' + this.authUser.id, avatarData).then(function (response) {
         console.log(avatarData, response);
 
         _this5.refreshAvatar(response);
@@ -3360,7 +3360,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this6 = this;
 
       this.spinnerProfile = true;
-      axios.patch('http://localhost/Projet5/public/userInvisible/' + this.authUser.id).then(function (response) {
+      axios.patch('https://lecowee.astrid-perillat.fr/userInvisible/' + this.authUser.id).then(function (response) {
         console.log(response);
         _this6.authUser.invisible = 1;
         _this6.spinnerProfile = false;
@@ -3372,7 +3372,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this7 = this;
 
       this.spinnerProfile = true;
-      axios.patch('http://localhost/Projet5/public/userVisible/' + this.authUser.id).then(function (response) {
+      axios.patch('https://lecowee.astrid-perillat.fr/userVisible/' + this.authUser.id).then(function (response) {
         console.log(response);
         _this7.authUser.invisible = 0;
         _this7.spinnerProfile = false;
@@ -3382,7 +3382,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     userDeletion: function userDeletion() {
       if (confirm("Etes vous sûr de vouloir supprimer votre compte ?")) {
-        axios["delete"]('http://localhost/Projet5/public/deleteMyprofile/' + this.authUser.id).then(function (response) {
+        axios["delete"]('https://lecowee.astrid-perillat.fr/deleteMyprofile/' + this.authUser.id).then(function (response) {
           console.log(response);
           window.location.replace(response.data.redirect);
         })["catch"](function (error) {
@@ -61311,7 +61311,7 @@ var render = function() {
               staticClass: "card-img-top rounded-circle m-auto pt-2",
               staticStyle: { width: "7rem" },
               attrs: {
-                src: "./../public/storage/" + user.avatar,
+                src: "/storage/" + user.avatar,
                 alt: "Photo de profil de " + user.name
               }
             }),
@@ -62178,7 +62178,7 @@ var render = function() {
           staticClass: "d-none d-md-block w-25",
           staticStyle: { "object-fit": "contain" },
           attrs: {
-            src: "./../storage/" + _vm.eventSelected.event_picture,
+            src: "/storage/" + _vm.eventSelected.event_picture,
             alt: "" + _vm.eventSelected.title
           }
         }),
@@ -62424,7 +62424,7 @@ var render = function() {
             staticClass: "card-img-top",
             staticStyle: { height: "200px", "object-fit": "cover" },
             attrs: {
-              src: "./../public/storage/" + showFutureEvent.event_picture,
+              src: "/storage/" + showFutureEvent.event_picture,
               alt: "" + showFutureEvent.title
             }
           }),
@@ -62545,10 +62545,7 @@ var render = function() {
                   "a",
                   {
                     staticClass: "btn btn-perso",
-                    attrs: {
-                      type: "button",
-                      href: "inscription/" + showFutureEvent.id
-                    }
+                    attrs: { href: "inscription/" + showFutureEvent.id }
                   },
                   [_vm._v("Je m'inscris !")]
                 )
@@ -62807,7 +62804,7 @@ var render = function() {
               _c("img", {
                 staticClass: "card-img-top",
                 attrs: {
-                  src: "./../public/storage/" + people.avatar,
+                  src: "/storage/" + people.avatar,
                   alt: "Photo de profil de " + people.name
                 }
               }),
@@ -63039,7 +63036,7 @@ var render = function() {
         {
           staticClass: "btn btn-perso my-2 position-relative",
           staticStyle: { left: "50%", transform: "translateX(-50%)" },
-          attrs: { href: "coweerkers", type: "button" }
+          attrs: { href: "coweerkers" }
         },
         [_vm._v("Voir la liste des coweerkers")]
       ),
@@ -63062,7 +63059,7 @@ var render = function() {
                 staticClass: "card-img-top rounded-circle m-auto pt-2",
                 staticStyle: { width: "7rem" },
                 attrs: {
-                  src: "./../public/storage/" + myContact.avatar,
+                  src: "/storage/" + myContact.avatar,
                   alt: "Photo de profil de " + myContact.name
                 }
               }),
@@ -63088,9 +63085,8 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticStyle: { color: "teal" },
+                      staticStyle: { color: "teal", cursor: "pointer" },
                       attrs: {
-                        type: "button",
                         title: "Description",
                         "data-toggle": "modal",
                         "data-target": "#descriptionModal" + myContact.id
@@ -63127,9 +63123,8 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticStyle: { color: "teal" },
+                      staticStyle: { color: "teal", cursor: "pointer" },
                       attrs: {
-                        type: "button",
                         href: "contactUsers/" + myContact.id,
                         "data-toggle": "tooltip",
                         "data-placement": "top",
@@ -63172,9 +63167,8 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticStyle: { color: "red" },
+                      staticStyle: { color: "red", cursor: "pointer" },
                       attrs: {
-                        type: "button",
                         "data-toggle": "tooltip",
                         "data-placement": "top",
                         title: "Supprimer des favoris"
@@ -63485,7 +63479,7 @@ var render = function() {
                 "object-fit": "cover"
               },
               attrs: {
-                src: "./../public/storage/" + _vm.authUser.avatar,
+                src: "/storage/" + _vm.authUser.avatar,
                 alt: "Photo de profil de l'utilisateur"
               }
             }),
@@ -63526,8 +63520,7 @@ var render = function() {
                     expression: "readOnlyAvatar"
                   }
                 ],
-                staticStyle: { color: "teal" },
-                attrs: { type: "button" },
+                staticStyle: { color: "teal", cursor: "pointer" },
                 on: { click: _vm.makeUpdateAvatar }
               },
               [_vm._v("Modifier ma photo")]

@@ -52,7 +52,7 @@ export default {
         },
 
     created() {
-        axios.get('http://localhost/Projet5/public/myEvents')
+        axios.get('https://lecowee.astrid-perillat.fr/myEvents')
         .then(response => this.myEvents = response.data)
         .catch(error => console.log(error));
     },

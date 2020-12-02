@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex flex-wrap">
         <div v-for="showFutureEvent in showFutureEvents" :key="showFutureEvent.id" class="card" style="min-width: 280px; width: 22%; margin: 20px auto;">
-            <img :src="`./../public/storage/${showFutureEvent.event_picture}`" class="card-img-top" :alt="`${ showFutureEvent.title }`" style="height: 200px; object-fit: cover;">
+            <img :src="`/storage/${showFutureEvent.event_picture}`" class="card-img-top" :alt="`${ showFutureEvent.title }`" style="height: 200px; object-fit: cover;">
             <div class="card-body">
                 <h5 class="card-title font-weight-bold">{{ showFutureEvent.title }}</h5>
             </div>
@@ -20,7 +20,7 @@
                 </ul>
             <div v-if="!authEvents.includes(showFutureEvent.id)" class="card-body text-right">
                 <button type="button" class="btn btn-perso2" data-toggle="modal" :data-target="`#eventModal${ showFutureEvent.id }`">Détails</button>
-                <a type="button" class="btn btn-perso" :href="`inscription/${showFutureEvent.id}`">Je m'inscris !</a>
+                <a class="btn btn-perso" :href="`inscription/${showFutureEvent.id}`">Je m'inscris !</a>
             </div>
             <div v-else class="card-body text-right">
                 <button type="button" class="btn btn-perso2" data-toggle="modal" :data-target="`#eventModal${ showFutureEvent.id }`">Détails</button>

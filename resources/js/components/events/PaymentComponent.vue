@@ -73,7 +73,7 @@ export default {
 
         payment() {
             this.spinner = true;
-            axios.post('http://localhost/Projet5/public/inscription/' + this.eventToPay + '/paiement', {
+            axios.post('https://lecowee.astrid-perillat.fr/inscription/' + this.eventToPay + '/paiement', {
                 price: this.priceToPay }) //retrieve the client_secret
             .then((response) => {
                 console.log(response);

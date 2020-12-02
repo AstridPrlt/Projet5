@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="w-75 mx-auto my-4 d-flex flex-wrap">
-            <img :src="`./../storage/${eventSelected.event_picture}`" class="d-none d-md-block w-25" style="object-fit: contain;" :alt="`${ eventSelected.title }`">
+            <img :src="`/storage/${eventSelected.event_picture}`" class="d-none d-md-block w-25" style="object-fit: contain;" :alt="`${ eventSelected.title }`">
 
             <div class="w-75 m-auto text-center">
                 <h2>{{ eventSelected.title }}</h2>
@@ -73,7 +73,7 @@ export default {
             eventBooking(eventSelected) {
                 if (this.eventSelected.price == 0) {
                     this.spinner = true;
-                    axios.post('http://localhost/Projet5/public/eventBooking', {
+                    axios.post('https://lecowee.astrid-perillat.fr/eventBooking', {
                         eventId: eventSelected })
                     .then(response => {
                         this.isBooked = 1;
@@ -92,7 +92,7 @@ export default {
                 console.log(payload);
                 this.spinner = true;
                 this.payment = false;
-                axios.post('http://localhost/Projet5/public/eventBooking', {
+                axios.post('https://lecowee.astrid-perillat.fr/eventBooking', {
                     eventId: payload.eventId,
                     pi: payload.pi
                 })
@@ -111,7 +111,7 @@ export default {
             cancelBooking() {
                 this.spinner = true;
                 if(confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
-                axios.delete('http://localhost/Projet5/public/eventBooking/' + this.eventSelected.id)
+                axios.delete('https://lecowee.astrid-perillat.fr/eventBooking/' + this.eventSelected.id)
                 .then((response) => {
                     console.log(response);
                     this.isBooked = 0;

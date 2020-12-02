@@ -2,7 +2,7 @@
     <div>
         <div v-show="!spinner" class="card-deck d-flex flex-wrap justify-content-center my-3">
             <div v-for="user in listOfUsers" :key="user.id" class="card my-2" style="width: 9rem; min-width: 9rem; flex: 0;">
-                <img :src="`./../public/storage/${user.avatar}`" class="card-img-top rounded-circle m-auto pt-2" style="width: 7rem;" :alt="`Photo de profil de ${user.name}`">
+                <img :src="`/storage/${user.avatar}`" class="card-img-top rounded-circle m-auto pt-2" style="width: 7rem;" :alt="`Photo de profil de ${user.name}`">
                 <div class="card-body p-2">
                     <h5 class="card-title">{{ user.name }}</h5>
                     <p class="card-text" style="color: teal;">{{ user.email }}</p>
@@ -64,7 +64,7 @@ export default {
     methods: {
 
         getContacts(){
-            axios.get('http://localhost/Projet5/public/usersList')
+            axios.get('https://lecowee.astrid-perillat.fr/usersList')
             .then((response) => {
                 this.listOfUsers = response.data;
                 this.spinner = false
@@ -79,7 +79,7 @@ export default {
         deleteContact(userId) {
             if(confirm('Êtes-vous sûr de vouloir supprimer ce coweerker de la base de données ?')) {
             this.spinner = true;
-            axios.delete('http://localhost/Projet5/public/deleteUser/' + userId)
+            axios.delete('https://lecowee.astrid-perillat.fr/deleteUser/' + userId)
             .then((response) => {
                 console.log(response.data);
                 this.getContacts();

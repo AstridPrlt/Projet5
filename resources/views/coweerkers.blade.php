@@ -38,7 +38,7 @@
                 <p class="mt-3">Et si vous ne voulez pas être contacté, que ce soit de façon temporaire ou permanente, pas de problème !<br/>
                     Le bouton "Cape d'invisibilité" dans votre profil vous permet de ne pas apparaître dans la liste, et vous revenez dans la communauté quand vous le souhaitez.</p>
 
-                <a href="{{ url('register')}}" type="button" class="btn btn-perso">REJOIGNEZ-NOUS !</a>
+                <a href="{{ url('register')}}" class="btn btn-perso">REJOIGNEZ-NOUS !</a>
             </div>
 
         @endauth

@@ -128,7 +128,7 @@ export default {
             formData.append('picture', this.event_picture);
             console.log(this.event_picture);
             console.log(formData);
-            axios.post('http://localhost/Projet5/public/eventCreation', formData)
+            axios.post('https://lecowee.astrid-perillat.fr/eventCreation', formData)
             .then((response) => {
                 this.$emit('event-created', response);
                 this.cancelCreationEvent();

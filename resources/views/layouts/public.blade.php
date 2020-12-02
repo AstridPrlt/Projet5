@@ -26,7 +26,7 @@
         <div class="appVue d-flex flex-column justify-content-between min-vh-100">
             <nav id="mainNav" class="navbar navbar-expand-lg px-3 pt-2 fixed-top navbar-light bg-white shadow">
                 <div class="container">
-                    <a href="{{ url('/') }}"><img src="http://localhost/Projet5/public/images/logo2.png" alt=""></a>
+                    <a href="{{ url('/') }}"><img src="{{ asset('images/logo2.png') }}" alt="logo du Cowee"></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -34,18 +34,19 @@
                     <div class="collapse navbar-collapse h-100 pt-lg-0 bg-white" id="navbarSupportedContent">
                         <div class="d-flex w-100 h-100">
                         <ul class="navbar-nav w-100 h-100 pb-2 align-items-center flex-column flex-lg-row justify-content-end">
-                            <div class="d-flex h-100 align-items-center flex-column flex-lg-row">
+                            <li class="d-flex h-100 align-items-center flex-column flex-lg-row">
                                 <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'details' ? 'active-page' : '' }}">
-                                    <a href="details" class="text-uppercase mx-3 my-2">Le lieu</a>
+                                    <a href={{url('details')}} class="text-uppercase mx-3 my-2">Le lieu</a>
                                 </div>
                                 <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'events' ? 'active-page' : '' }}">
                                     <a href={{url('events')}} class="text-uppercase mx-3 my-2">Les évènements</a>
                                 </div>
                                 <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'coweerkers' ? 'active-page' : '' }}">
-                                    <a href={{url('coweerkers')}} class="text-uppercase mx-3 my-2">Les coweerkers</a></div>
-                            </div>
+                                    <a href={{url('coweerkers')}} class="text-uppercase mx-3 my-2">Les coweerkers</a>
+                                </div>
+                            </li>
 
-                            <div>
+                            <li>
                                 @if (Route::has('login'))
 
                                         @auth
@@ -58,7 +59,7 @@
                                             @endif
                                         @endauth
                                 @endif
-                            </div>
+                            </li>
                         </ul>
                         </div>
                     </div>

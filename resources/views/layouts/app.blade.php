@@ -28,13 +28,13 @@
 
         <nav class="navbar navbar-expand-lg px-3 pt-2 fixed-top navbar-light bg-white shadow">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}"><img src="./../public/images/logo2.png" alt=""></a>
+                <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ asset('images/logo2.png') }}" alt="logo du Cowee"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
                 <div class="collapse navbar-collapse h-100 pt-lg-0 bg-white" id="navbarSupportedContent">
                     <div class="d-flex w-100 h-100">
                         <ul class="navbar-nav w-100 h-100 pb-2 align-items-center flex-column flex-lg-row justify-content-end">
-                            <div class="d-flex h-100 align-items-center flex-column flex-lg-row">
+                            <li class="d-flex h-100 align-items-center flex-column flex-lg-row">
                                 <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'details' ? 'active-page' : '' }}">
                                     <a href="details" class="text-uppercase mx-3 my-2">Le lieu</a>
                                 </div>
@@ -44,9 +44,10 @@
                                 <div class="nav-hover d-flex h-100 align-items-center {{ Request::path() === 'coweerkers' ? 'active-page' : '' }}">
                                     <a href="coweerkers" class="text-uppercase mx-3 my-2">Les coweerkers</a>
                                 </div>
+                            </li>
 
                                 <!-- Right Side Of Navbar -->
-                                <div>
+                                <li>
                                     <!-- Authentication Links -->
                                     @guest
                                         <a class="btn btn-outline-perso" href="{{ route('login') }}">Connexion</a>
@@ -68,8 +69,8 @@
                                             </div>
                                         </li>
                                     @endguest
-                                </div>
-                            </div>
+                                </li>
+
                         </ul>
                     </div>
                 </div>

@@ -36,7 +36,7 @@
 
         created() {
             this.showSpinnerPast = true;
-            axios.get('http://localhost/Projet5/public/pastEventsList')
+            axios.get('https://lecowee.astrid-perillat.fr/pastEventsList')
             .then((response) => {
                 this.pastEvents = response.data;
                 this.showSpinnerPast = false;
@@ -55,7 +55,7 @@
             deleteEvent(id) {
                 if(confirm("Etes vous sûr de vouloir supprimer cet évènement ?")) {
                 this.showSpinnerPast = true;
-                axios.delete('http://localhost/Projet5/public/pastEventsList/' + id)
+                axios.delete('https://lecowee.astrid-perillat.fr/pastEventsList/' + id)
                 .then((response) => {
                     this.pastEvents = response.data;
                     this.showSpinnerPast = false;

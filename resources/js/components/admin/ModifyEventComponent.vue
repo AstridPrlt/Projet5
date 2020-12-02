@@ -76,7 +76,7 @@ export default {
     },
 
     created() {
-        axios.get('http://localhost/Projet5/public/modifyEvent/' + this.eventIdToModify)
+        axios.get('https://lecowee.astrid-perillat.fr/modifyEvent/' + this.eventIdToModify)
         .then(response => this.eventToModify = response.data)
         .catch(error => console.log(error));
         },
@@ -85,7 +85,7 @@ export default {
 
         updateEvents() {
             this.spinner = true;
-            axios.patch('http://localhost/Projet5/public/events/' + this.eventIdToModify, {
+            axios.patch('https://lecowee.astrid-perillat.fr/events/' + this.eventIdToModify, {
                 category: this.eventToModify.category,
                 title: this.eventToModify.title,
                 event_date: this.eventToModify.event_date,
