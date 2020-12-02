@@ -4,12 +4,12 @@
 Bonjour {{ $contactData['contactName'] }},
 
 Vous avez reçu un message de **{{ $contactData['senderName'] }}**<br>
-Spécialité : {{ $contactData['senderJob'] }}<br>
-Description : "{{ $contactData['senderDescription'] }}"
+*Spécialité* : {{ $contactData['senderJob'] }}<br>
+*Description* : "{{ $contactData['senderDescription'] }}"
 
 
 
-Message : <br>
+*Message* : <br>
 "{{str_replace("<br />", "  ", nl2br($contactData['message']))}}"
 
 

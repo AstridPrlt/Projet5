@@ -20,6 +20,7 @@ Route::view('/', 'welcome');
 
 Route::view('details', 'details');
 Route::view('mentions', 'mentions');
+Route::view('sitemap', 'sitemap');
 
 Route::get('contact', 'ContactController@showContactForm');
 Route::post('contact', 'ContactController@sendContactForm');

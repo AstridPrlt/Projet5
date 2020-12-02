@@ -78,13 +78,11 @@
                         <p>Le Cowee<br>10, rue de la fausse adresse<br>75022 Paris</p>
                         <p>Tèl : +33 1 00 00 00 00</p>
                     </div>
-                    <div class="col-6 align-center" style="border-left: 1px solid white;">
+                    <div class="col-6 d-flex flex-column justify-content-around" style="border-left: 1px solid white;">
                         <a href="{{ url('details') }}" class="d-block mb-1 text-light">Tarifs</a>
                         <a href="{{ url('contact') }}" class="d-block mb-1 text-light">Nous contacter</a>
                         <a href="{{ url('mentions') }}" class="d-block mb-1 text-light">Mentions légales</a>
-                        <a href="#" class="d-block mb-1 text-light">Conditions générales d'utilisation</a>
-                        <a href="#" class="d-block mb-1 text-light">Politique de Protection des données personnelles</a>
-                        <a href="#" class="d-block mb-1 text-light">Sitemap</a>
+                        <a href="{{ url('sitemap') }}" class="d-block mb-1 text-light">Sitemap</a>
                     </div>
                 </div>
 

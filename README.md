@@ -5,10 +5,11 @@ This app permits to handle events and a community of members.
 
 
 ## Tools and requirements
-Build with [Laravel 7](https://laravel.com/docs/7.x/), [Vue.js 2](https://vuejs.org/) and [Bootstrap](https://getbootstrap.com/)
+Built with [Laravel 7](https://laravel.com/docs/7.x/), [Vue.js 2](https://vuejs.org/) and [Bootstrap](https://getbootstrap.com/)
 
 Uses :
 [Stripe](https://stripe.com/) for payments
+
 Github and Google for login
 
 

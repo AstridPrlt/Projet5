@@ -52,7 +52,7 @@ class ContactController extends Controller
             'contactName' => 'required'
         ]);
 
-        Mail::to('webcreation@astrid-perillat.com')->send(new ContactUsersMail($contactData));
+        Mail::to($userToContact->email)->send(new ContactUsersMail($contactData));
 
         return redirect('contactUsers/'.$userToContact->id)->with('message', 'Votre message a été envoyé');
 
