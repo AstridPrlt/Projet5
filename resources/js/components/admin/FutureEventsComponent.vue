@@ -48,7 +48,8 @@
                 this.showSpinnerFuture = false
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
+                alert("Il y a eu un problème avec la récupération des évènements");
                 this.showSpinnerFuture = false;
             });
         },
@@ -72,7 +73,8 @@
                     this.showSpinnerFuture = false;
                 })
                 .catch((error) => {
-                console.log(error);
+                // console.log(error);
+                alert("Il y a eu un problème avec la suppression de cet évènement");
                 this.showSpinnerFuture = false;
                 });
             }

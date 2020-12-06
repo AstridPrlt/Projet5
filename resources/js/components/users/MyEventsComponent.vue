@@ -54,7 +54,10 @@ export default {
     created() {
         axios.get('https://lecowee.astrid-perillat.fr/myEvents')
         .then(response => this.myEvents = response.data)
-        .catch(error => console.log(error));
+        .catch((error) => {
+            // console.log(error);
+            alert("Il y a eu un problème avec la récupération des évènements");
+        })
     },
 
 }

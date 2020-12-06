@@ -7,10 +7,13 @@ This app permits to handle events and a community of members.
 ## Tools and requirements
 Built with [Laravel 7](https://laravel.com/docs/7.x/), [Vue.js 2](https://vuejs.org/) and [Bootstrap](https://getbootstrap.com/)
 
+
 Uses :
 [Stripe](https://stripe.com/) for payments
 
 Github and Google for login
+
+Create accounts and retrieve your credentials
 
 
 ## How to install it ?
@@ -18,7 +21,12 @@ Clone the repository
 
 Create a database
 
-Create a .env file with all information
+Create a .env file with all your information and credentials (you can use the .env.empty file of the repositoy as a basis)
+The APP_KEY is generated with :
+```sh
+php artisan key:generate
+
+```
 
 Install dependencies :
 ```sh

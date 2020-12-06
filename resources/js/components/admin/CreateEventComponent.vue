@@ -126,14 +126,17 @@ export default {
             formData.append('seats', this.seats);
             formData.append('price', this.price);
             formData.append('picture', this.event_picture);
-            console.log(this.event_picture);
-            console.log(formData);
+            // console.log(this.event_picture);
+            // console.log(formData);
             axios.post('https://lecowee.astrid-perillat.fr/eventCreation', formData)
             .then((response) => {
                 this.$emit('event-created', response);
                 this.cancelCreationEvent();
             })
-            .catch(error => console.log(error));
+            .catch((error) => {
+                // console.log(error);
+                alert("L'évènement n'a pas pu être créé");
+            });
         }
     },
 

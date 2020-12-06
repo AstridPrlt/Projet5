@@ -56,26 +56,32 @@ export default {
             axios.post('https://lecowee.astrid-perillat.fr/addContact', {
                 userId: userId })
             .then(response => {
-                console.log(response.data);
+                // console.log(response.data);
                 this.contacts.push(response.data);
                 this.spinner = false;
             })
-            .catch(error => console.log(error));
+            .catch((error) => {
+                // console.log(error);
+                alert("Il y a eu un problème avec cette opération");
+                this.spinner = false
+            })
         },
 
         removeContact(userId) {
             this.spinner = true;
             axios.delete('https://lecowee.astrid-perillat.fr/removeContact/' + userId)
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 let userRemoved = (id) => id == response.data;
-                console.log(this.contacts);
                 let indexToRemove = this.contacts.findIndex(userRemoved);
-                console.log(indexToRemove);
                 this.contacts.splice(indexToRemove, 1);
                 this.spinner = false;
             })
-            .catch(error => console.log(error));
+            .catch((error) => {
+                // console.log(error);
+                alert("Il y a eu un problème avec cette opération");
+                this.spinner = false
+            })
         }
     }
 

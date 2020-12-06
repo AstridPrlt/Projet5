@@ -73,9 +73,10 @@ export default {
                 this.spinnerContact = false
             })
             .catch((error) => {
-                console.log(error);
-                this.spinnerContact = false;
-            });
+                // console.log(error);
+                alert("Il y a eu un problème avec la récupération des contacts");
+                this.spinnerContact = false
+            })
         },
 
         removeContact(userId) {
@@ -83,14 +84,15 @@ export default {
             this.spinnerContact = true;
             axios.delete('https://lecowee.astrid-perillat.fr/removeContact/' + userId)
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 this.getContacts();
                 this.spinnerContact = false;
             })
             .catch((error) => {
-                console.log(error);
-                this.spinnerContact = false;
-            });
+                // console.log(error);
+                alert("Il y a eu un problème avec la suppression du contact");
+                this.spinnerContact = false
+            })
         }
         }
     }

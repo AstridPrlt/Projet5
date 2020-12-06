@@ -37,7 +37,10 @@ export default {
     created() {
         axios.get('https://lecowee.astrid-perillat.fr/events/list/' + this.eventId)
         .then(response => this.listEvent = response.data)
-        .catch(error => console.log(error));
+        .catch((error) => {
+            // console.log(error)
+            alert("La liste des participants n'a pas pu être récupérée");
+        });
     }
 
 }

@@ -19,7 +19,7 @@
             <payment-component v-show="payment" :event-to-pay="eventSelected.id" :price-to-pay="eventSelected.price" @payment-made="makeBooking"></payment-component>
 
             <div v-show="isBooked && !payment &&!bookingCanceled" id="payment-made">
-                <p class="text-bold" style="color: teal; font-size: 1rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !<br/>Retrouvez la liste de vos évènements dans <a :href="`home`"><u>votre profil</u></a></p>
+                <p class="text-bold" style="color: teal; font-size: 1rem;">Vous êtes inscrit à cet évènement, rendez-vous le {{ formatedDate(eventSelected.event_date) }} !<br/>Retrouvez la liste de vos évènements dans <a :href="`/home`"><u>votre profil</u></a></p>
 
                 <button v-if="eventSelected.price == 0 && !bookingCanceled" type="button" class="btn btn-outline-perso" @click="cancelBooking">Annuler mon inscription</button>
             </div>
@@ -89,7 +89,6 @@ export default {
             },
 
             makeBooking(payload) {
-                console.log(payload);
                 this.spinner = true;
                 this.payment = false;
                 axios.post('https://lecowee.astrid-perillat.fr/eventBooking', {
@@ -97,28 +96,32 @@ export default {
                     pi: payload.pi
                 })
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     this.spinner = false;
                     this.isBooked = 1;
                 })
                 .catch((error) => {
-                    console.log(error, payload);
-                    alert("Probleme avec l'inscription");
+                    // console.log(error, payload);
+                    alert("Il y a eu un problème avec l'inscription");
                     this.spinner = false
                 })
             },
 
             cancelBooking() {
-                this.spinner = true;
                 if(confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
-                axios.delete('https://lecowee.astrid-perillat.fr/eventBooking/' + this.eventSelected.id)
-                .then((response) => {
-                    console.log(response);
-                    this.isBooked = 0;
-                    this.bookingCanceled = true;
-                    this.spinner = false
+                    this.spinner = true;
+                    axios.delete('https://lecowee.astrid-perillat.fr/eventBooking/' + this.eventSelected.id)
+                    .then((response) => {
+                        // console.log(response);
+                        this.isBooked = 0;
+                        this.bookingCanceled = true;
+                        this.spinner = false
                     })
-                .catch(error => console.log(error));
+                    .catch((error) => {
+                        // console.log(error);
+                        alert("Il y a eu un problème avec l'annulation de l'inscription");
+                        this.spinner = false
+                    })
                 }
             },
         },

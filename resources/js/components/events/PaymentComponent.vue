@@ -76,16 +76,16 @@ export default {
             axios.post('https://lecowee.astrid-perillat.fr/inscription/' + this.eventToPay + '/paiement', {
                 price: this.priceToPay }) //retrieve the client_secret
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 this.stripe.confirmCardPayment(response.data, { //send the client_secret to Stripe with info
                     payment_method: {
                         card: this.card,
                     },
 
                 }).then((result) => {
-                    console.log(result);
+                    // console.log(result);
                     if (result.error) {// Show error to user (e.g., insufficient funds)
-                        console.log(result.error.message);
+                        // console.log(result.error.message);
                         document.getElementById('card-errors').classList.add('alert', 'alert-warning');
                         document.getElementById('card-errors').textContent = result.error.message;
                     } else {// The payment has been processed!
@@ -99,7 +99,7 @@ export default {
                 this.spinner = false
             })
             .catch((error) => {
-                console.log(error)
+                // console.log(error);
                 alert("Le paiement n'a pas pu être effectué");
                 this.spinner = false;
                 this.$emit('payment-error')

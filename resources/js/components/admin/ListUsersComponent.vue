@@ -70,7 +70,7 @@ export default {
                 this.spinner = false
                 })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 alert("Il y a eu un problème avec l'affichage de cet utilisateur");
                 this.spinner = false
             });
@@ -81,12 +81,12 @@ export default {
             this.spinner = true;
             axios.delete('https://lecowee.astrid-perillat.fr/deleteUser/' + userId)
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 this.getContacts();
                 this.spinner = false;
             })
             .catch(error => {
-                console.log(error);
+                // console.log(error);
                 alert("Il y a eu un problème avec la suppression de cet utilisateur");
                 this.spinner = false;
             });

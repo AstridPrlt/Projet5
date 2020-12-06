@@ -2034,15 +2034,16 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('event_description', this.event_description);
       formData.append('seats', this.seats);
       formData.append('price', this.price);
-      formData.append('picture', this.event_picture);
-      console.log(this.event_picture);
-      console.log(formData);
+      formData.append('picture', this.event_picture); // console.log(this.event_picture);
+      // console.log(formData);
+
       axios.post('https://lecowee.astrid-perillat.fr/eventCreation', formData).then(function (response) {
         _this2.$emit('event-created', response);
 
         _this2.cancelCreationEvent();
       })["catch"](function (error) {
-        return console.log(error);
+        // console.log(error);
+        alert("L'évènement n'a pas pu être créé");
       });
     }
   }
@@ -2106,7 +2107,8 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
       _this.futureEvents = response.data;
       _this.showSpinnerFuture = false;
     })["catch"](function (error) {
-      console.log(error);
+      // console.log(error);
+      alert("Il y a eu un problème avec la récupération des évènements");
       _this.showSpinnerFuture = false;
     });
   },
@@ -2126,7 +2128,8 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
           _this2.futureEvents = response.data;
           _this2.showSpinnerFuture = false;
         })["catch"](function (error) {
-          console.log(error);
+          // console.log(error);
+          alert("Il y a eu un problème avec la suppression de cet évènement");
           _this2.showSpinnerFuture = false;
         });
       }
@@ -2183,7 +2186,8 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('https://lecowee.astrid-perillat.fr/events/list/' + this.eventId).then(function (response) {
       return _this.listEvent = response.data;
     })["catch"](function (error) {
-      return console.log(error);
+      // console.log(error)
+      alert("La liste des participants n'a pas pu être récupérée");
     });
   }
 });
@@ -2266,7 +2270,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.listOfUsers = response.data;
         _this.spinner = false;
       })["catch"](function (error) {
-        console.log(error);
+        // console.log(error);
         alert("Il y a eu un problème avec l'affichage de cet utilisateur");
         _this.spinner = false;
       });
@@ -2277,13 +2281,12 @@ __webpack_require__.r(__webpack_exports__);
       if (confirm('Êtes-vous sûr de vouloir supprimer ce coweerker de la base de données ?')) {
         this.spinner = true;
         axios["delete"]('https://lecowee.astrid-perillat.fr/deleteUser/' + userId).then(function (response) {
-          console.log(response.data);
-
+          // console.log(response.data);
           _this2.getContacts();
 
           _this2.spinner = false;
         })["catch"](function (error) {
-          console.log(error);
+          // console.log(error);
           alert("Il y a eu un problème avec la suppression de cet utilisateur");
           _this2.spinner = false;
         });
@@ -2399,13 +2402,14 @@ __webpack_require__.r(__webpack_exports__);
         seats: this.eventToModify.seats,
         price: this.eventToModify.price
       }).then(function (response) {
-        console.log(response);
+        // console.log(response);
         _this2.spinner = false;
         alert("L'évènement a bien été modifié");
 
         _this2.$emit('event-updated', response);
       })["catch"](function (error) {
-        return console.log(error);
+        // console.log(error);
+        alert("Il y a eu un problème avec la modification de cet évènement");
       });
     }
   }
@@ -2464,7 +2468,8 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
       _this.pastEvents = response.data;
       _this.showSpinnerPast = false;
     })["catch"](function (error) {
-      console.log(error);
+      // console.log(error);
+      alert("Il y a eu un problème avec la récupération des évènements");
       _this.showSpinnerPast = false;
     });
   },
@@ -2481,7 +2486,9 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
           _this2.pastEvents = response.data;
           _this2.showSpinnerPast = false;
         })["catch"](function (error) {
-          return console.log(error);
+          // console.log(error)
+          alert("Il y a eu un problème avec la suppression de cet évènement");
+          _this2.showSpinnerPast = false;
         });
       }
     }
@@ -2591,35 +2598,35 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
     makeBooking: function makeBooking(payload) {
       var _this2 = this;
 
-      console.log(payload);
       this.spinner = true;
       this.payment = false;
       axios.post('https://lecowee.astrid-perillat.fr/eventBooking', {
         eventId: payload.eventId,
         pi: payload.pi
       }).then(function (response) {
-        console.log(response);
+        // console.log(response);
         _this2.spinner = false;
         _this2.isBooked = 1;
       })["catch"](function (error) {
-        console.log(error, payload);
-        alert("Probleme avec l'inscription");
+        // console.log(error, payload);
+        alert("Il y a eu un problème avec l'inscription");
         _this2.spinner = false;
       });
     },
     cancelBooking: function cancelBooking() {
       var _this3 = this;
 
-      this.spinner = true;
-
       if (confirm("Etes vous sûr de vouloir annuler votre inscription à cet évènement ?")) {
+        this.spinner = true;
         axios["delete"]('https://lecowee.astrid-perillat.fr/eventBooking/' + this.eventSelected.id).then(function (response) {
-          console.log(response);
+          // console.log(response);
           _this3.isBooked = 0;
           _this3.bookingCanceled = true;
           _this3.spinner = false;
         })["catch"](function (error) {
-          return console.log(error);
+          // console.log(error);
+          alert("Il y a eu un problème avec l'annulation de l'inscription");
+          _this3.spinner = false;
         });
       }
     }
@@ -2795,19 +2802,17 @@ __webpack_require__.r(__webpack_exports__);
         price: this.priceToPay
       }) //retrieve the client_secret
       .then(function (response) {
-        console.log(response);
-
+        // console.log(response);
         _this.stripe.confirmCardPayment(response.data, {
           //send the client_secret to Stripe with info
           payment_method: {
             card: _this.card
           }
         }).then(function (result) {
-          console.log(result);
-
+          // console.log(result);
           if (result.error) {
             // Show error to user (e.g., insufficient funds)
-            console.log(result.error.message);
+            // console.log(result.error.message);
             document.getElementById('card-errors').classList.add('alert', 'alert-warning');
             document.getElementById('card-errors').textContent = result.error.message;
           } else {
@@ -2825,7 +2830,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.spinner = false;
       })["catch"](function (error) {
-        console.log(error);
+        // console.log(error);
         alert("Le paiement n'a pas pu être effectué");
         _this.spinner = false;
 
@@ -2901,13 +2906,14 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('https://lecowee.astrid-perillat.fr/addContact', {
         userId: userId
       }).then(function (response) {
-        console.log(response.data);
-
+        // console.log(response.data);
         _this.contacts.push(response.data);
 
         _this.spinner = false;
       })["catch"](function (error) {
-        return console.log(error);
+        // console.log(error);
+        alert("Il y a eu un problème avec cette opération");
+        _this.spinner = false;
       });
     },
     removeContact: function removeContact(userId) {
@@ -2915,23 +2921,20 @@ __webpack_require__.r(__webpack_exports__);
 
       this.spinner = true;
       axios["delete"]('https://lecowee.astrid-perillat.fr/removeContact/' + userId).then(function (response) {
-        console.log(response.data);
-
+        // console.log(response.data);
         var userRemoved = function userRemoved(id) {
           return id == response.data;
         };
 
-        console.log(_this2.contacts);
-
         var indexToRemove = _this2.contacts.findIndex(userRemoved);
-
-        console.log(indexToRemove);
 
         _this2.contacts.splice(indexToRemove, 1);
 
         _this2.spinner = false;
       })["catch"](function (error) {
-        return console.log(error);
+        // console.log(error);
+        alert("Il y a eu un problème avec cette opération");
+        _this2.spinner = false;
       });
     }
   }
@@ -3018,7 +3021,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.myContacts = response.data;
         _this.spinnerContact = false;
       })["catch"](function (error) {
-        console.log(error);
+        // console.log(error);
+        alert("Il y a eu un problème avec la récupération des contacts");
         _this.spinnerContact = false;
       });
     },
@@ -3028,13 +3032,13 @@ __webpack_require__.r(__webpack_exports__);
       if (confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')) {
         this.spinnerContact = true;
         axios["delete"]('https://lecowee.astrid-perillat.fr/removeContact/' + userId).then(function (response) {
-          console.log(response.data);
-
+          // console.log(response.data);
           _this2.getContacts();
 
           _this2.spinnerContact = false;
         })["catch"](function (error) {
-          console.log(error);
+          // console.log(error);
+          alert("Il y a eu un problème avec la suppression du contact");
           _this2.spinnerContact = false;
         });
       }
@@ -3112,7 +3116,8 @@ moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('fr');
     axios.get('https://lecowee.astrid-perillat.fr/myEvents').then(function (response) {
       return _this.myEvents = response.data;
     })["catch"](function (error) {
-      return console.log(error);
+      // console.log(error);
+      alert("Il y a eu un problème avec la récupération des évènements");
     });
   }
 });
@@ -3271,7 +3276,9 @@ __webpack_require__.r(__webpack_exports__);
       _this.authUser = response.data;
       _this.spinnerProfile = false;
     })["catch"](function (error) {
-      return console.log(error);
+      // console.log(error);
+      alert("Il y a eu un problème avec la récupération du profil");
+      _this.spinnerProfile = false;
     });
   },
   methods: {
@@ -3311,10 +3318,11 @@ __webpack_require__.r(__webpack_exports__);
         job: this.authUser.job,
         user_description: this.authUser.user_description
       }).then(function (response) {
-        console.log(response);
+        // console.log(response);
         _this3.readOnlyInfo = true;
       })["catch"](function (error) {
-        return console.log(error);
+        // console.log(error);
+        alert("Il y a eu un problème avec la modification du profil");
       });
     },
     updateIds: function updateIds() {
@@ -3325,14 +3333,14 @@ __webpack_require__.r(__webpack_exports__);
         password: document.getElementById('inputPassword').value,
         password_confirmation: document.getElementById('inputPassword2').value
       }).then(function (response) {
-        console.log(response);
+        // console.log(response);
         _this4.readOnlyIds = true;
         _this4.error_email = '';
         _this4.error_password = '';
         document.getElementById('inputPassword').value = '';
         document.getElementById('inputPassword2').value = '';
       })["catch"](function (error) {
-        console.log(error);
+        // console.log(error);
         _this4.error_email = error.response.data.error.email;
         _this4.error_password = error.response.data.error.password;
       });
@@ -3346,14 +3354,14 @@ __webpack_require__.r(__webpack_exports__);
       var avatarData = new FormData();
       avatarData.append('avatar', this.avatarImage);
       axios.post('https://lecowee.astrid-perillat.fr/myProfile/avatar/' + this.authUser.id, avatarData).then(function (response) {
-        console.log(avatarData, response);
-
+        // console.log(avatarData, response);
         _this5.refreshAvatar(response);
 
         _this5.showAvatarPreview = false;
         _this5.readOnlyAvatar = true;
       })["catch"](function (error) {
-        return console.log(error);
+        // console.log(error);
+        alert("Il y a eu un problème avec la modification de la photo");
       });
     },
     makeInvisible: function makeInvisible() {
@@ -3361,11 +3369,13 @@ __webpack_require__.r(__webpack_exports__);
 
       this.spinnerProfile = true;
       axios.patch('https://lecowee.astrid-perillat.fr/userInvisible/' + this.authUser.id).then(function (response) {
-        console.log(response);
+        // console.log(response);
         _this6.authUser.invisible = 1;
         _this6.spinnerProfile = false;
       })["catch"](function (error) {
-        return console.log(error);
+        // console.log(error);
+        alert("Il y a eu un problème avec cette opération");
+        _this6.spinnerProfile = false;
       });
     },
     makeVisible: function makeVisible() {
@@ -3377,16 +3387,19 @@ __webpack_require__.r(__webpack_exports__);
         _this7.authUser.invisible = 0;
         _this7.spinnerProfile = false;
       })["catch"](function (error) {
-        return console.log(error);
+        // console.log(error);
+        alert("Il y a eu un problème avec cette opération");
+        _this7.spinnerProfile = false;
       });
     },
     userDeletion: function userDeletion() {
       if (confirm("Etes vous sûr de vouloir supprimer votre compte ?")) {
         axios["delete"]('https://lecowee.astrid-perillat.fr/deleteMyprofile/' + this.authUser.id).then(function (response) {
-          console.log(response);
+          // console.log(response);
           window.location.replace(response.data.redirect);
         })["catch"](function (error) {
-          return console.log(error);
+          // console.log(error);
+          alert("Il y a eu un problème avec la suppression du profil");
         });
       }
     }
@@ -62303,7 +62316,7 @@ var render = function() {
                 ),
                 _c("br"),
                 _vm._v("Retrouvez la liste de vos évènements dans "),
-                _c("a", { attrs: { href: "home" } }, [
+                _c("a", { attrs: { href: "/home" } }, [
                   _c("u", [_vm._v("votre profil")])
                 ])
               ]
@@ -62608,7 +62621,7 @@ var render = function() {
                     "modal-dialog modal-dialog-scrollable modal-dialog-centered h-75"
                 },
                 [
-                  _c("div", { staticClass: "modal-content h-75" }, [
+                  _c("div", { staticClass: "modal-content" }, [
                     _c("div", { staticClass: "modal-header" }, [
                       _c(
                         "h5",

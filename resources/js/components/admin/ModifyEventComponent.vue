@@ -96,12 +96,15 @@ export default {
                 price: this.eventToModify.price
             })
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 this.spinner = false;
                 alert("L'évènement a bien été modifié");
                 this.$emit('event-updated', response);
                 })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                // console.log(error);
+                alert("Il y a eu un problème avec la modification de cet évènement");
+            });
         }
 
     }

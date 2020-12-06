@@ -147,7 +147,11 @@ export default {
             this.authUser = response.data;
             this.spinnerProfile = false;
         })
-        .catch(error => console.log(error));
+        .catch((error) => {
+            // console.log(error);
+            alert("Il y a eu un problème avec la récupération du profil");
+            this.spinnerProfile = false
+        })
     },
 
     methods: {
@@ -185,10 +189,13 @@ export default {
                 user_description: this.authUser.user_description
             })
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 this.readOnlyInfo = true;
                 })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                // console.log(error);
+                alert("Il y a eu un problème avec la modification du profil");
+            })
         },
 
         updateIds() {
@@ -198,7 +205,7 @@ export default {
                 password_confirmation: document.getElementById('inputPassword2').value,
             })
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 this.readOnlyIds = true;
                 this.error_email = '';
                 this.error_password = '';
@@ -206,7 +213,7 @@ export default {
                 document.getElementById('inputPassword2').value = ''
                 })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 this.error_email = error.response.data.error.email;
                 this.error_password = error.response.data.error.password});
         },
@@ -220,23 +227,30 @@ export default {
             avatarData.append('avatar', this.avatarImage);
             axios.post('https://lecowee.astrid-perillat.fr/myProfile/avatar/' + this.authUser.id, avatarData)
             .then((response) => {
-                console.log(avatarData, response);
+                // console.log(avatarData, response);
                 this.refreshAvatar(response);
                 this.showAvatarPreview = false;
                 this.readOnlyAvatar = true;
                 })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                // console.log(error);
+                alert("Il y a eu un problème avec la modification de la photo");
+            })
         },
 
         makeInvisible() {
             this.spinnerProfile = true;
             axios.patch('https://lecowee.astrid-perillat.fr/userInvisible/' + this.authUser.id)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 this.authUser.invisible = 1;
                 this.spinnerProfile = false;
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                // console.log(error);
+                alert("Il y a eu un problème avec cette opération");
+                this.spinnerProfile = false
+            })
         },
 
         makeVisible() {
@@ -247,17 +261,24 @@ export default {
                 this.authUser.invisible = 0;
                 this.spinnerProfile = false
             })
-            .catch(error => console.log(error))
+            .catch((error) => {
+                // console.log(error);
+                alert("Il y a eu un problème avec cette opération");
+                this.spinnerProfile = false
+            })
         },
 
         userDeletion() {
             if(confirm("Etes vous sûr de vouloir supprimer votre compte ?")) {
                 axios.delete('https://lecowee.astrid-perillat.fr/deleteMyprofile/' + this.authUser.id)
                 .then((response) => {
-                    console.log(response);
+                    // console.log(response);
                     window.location.replace(response.data.redirect);
                     })
-                .catch(error => console.log(error));
+                .catch((error) => {
+                    // console.log(error);
+                    alert("Il y a eu un problème avec la suppression du profil");
+            })
             }
 
         }
